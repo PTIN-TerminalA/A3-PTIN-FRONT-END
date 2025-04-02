@@ -1,8 +1,7 @@
 function Home() {
     return (
       <div>
-        <h1>Página de inicio</h1>
-        <a href="/prueba">Ir a Prueba</a>
+        <h1>Pàgina d'inici</h1>
       </div>
     );
   }
