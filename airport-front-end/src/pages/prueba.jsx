@@ -1,5 +1,7 @@
+import Navbar from "../components/Navbar.jsx";
+
 function Prueba() {
-    return <button>Hola grupo A3</button>;
+    return <Navbar />;
   }
   
   export default Prueba;

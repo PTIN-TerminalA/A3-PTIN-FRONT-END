@@ -1,0 +1,75 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Asegura que el padding y el borde no afecten el tamaño total */
+}
+
+.navbar {
+    position: relative;/* Fija el Navbar en la parte superior */
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100px; /* Altura del Navbar */
+    background-color: #023047; /* Color de fondo */
+    color: white;
+    display: flex; /* Usa flexbox para alinear los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Espacia los elementos a los extremos */
+    padding: 0 10px; /* Espaciado interno */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+}
+
+.navbar-title {
+    font-family: 'Roboto', sans-serif; 
+
+    font-size: 40px; /* Tamaño del texto del título */
+    font-weight: bold;
+    color: #ffffff; /* Color del texto del título */
+    text-decoration: none;
+}
+
+.navbar-button {
+    font-family: 'Roboto', sans-serif; 
+
+    gap: 10px; /* Espaciado entre los botones */
+    margin-right: 20px;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #ffb703;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    transition: background-color 0.4s;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.navbar-title:hover {
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    color: #dadada;
+}
+
+.navbar-button:hover {
+    background-color: #fb8500;
+}
+
+.navbar-logo {
+    height: 80px; /* Ajusta la altura de la imagen */
+    width: auto; /* Mantén la proporción de la imagen */
+    margin-right: 10px; /* Espaciado entre la imagen y el título */
+}
+
+.navbar-logo:hover{
+    cursor: pointer;
+}
+
+.navbar-titlelogo{
+    display: flex;
+    align-items: center; /* Centra verticalmente la imagen y el texto */
+}
+
+.center-button{
+    margin-right: 100px;
+    flex: auto;
+    display: flex;
+    justify-content: center; /* Centra el botón horizontalmente */
+}

@@ -1,8 +1,10 @@
-
+import {Link} from 'react-router-dom';
 
 function Button({label, type, url}) {
     return (
-        <a className="button">{label}</a>
+        <Link to={url} className={type}>
+            {label}
+        </Link>
     );
   }
   
