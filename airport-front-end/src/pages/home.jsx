@@ -1,7 +1,11 @@
+import '../assets/home.css';
+
 function Home() {
     return (
-      <div>
-        <h1>Pàgina d'inici</h1>
+      <div className="container">
+        <h1>Pagina de inicio</h1>
+        <button className="button">Iniciar sesión</button>
+        <button className="button">Registrarse</button>
       </div>
     );
   }
