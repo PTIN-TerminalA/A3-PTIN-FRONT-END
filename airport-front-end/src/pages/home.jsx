@@ -1,12 +1,15 @@
-import '../assets/home.css';
+import Navbar from "../components/Navbar.jsx";
+
 
 function Home() {
     return (
+      <>
+      <Navbar />
       <div className="container">
-        <h1>Pagina de inicio</h1>
-        <button className="button">Iniciar sesión</button>
-        <button className="button">Registrarse</button>
+        
       </div>
+      </>
+
     );
   }
   
