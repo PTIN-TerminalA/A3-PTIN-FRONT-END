@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar.jsx";
 import Textbox from "../components/Textbox.jsx";
 
 const whoAreWe = `
-  Con Vilnova Intelligent Airport es más fácil que nunca aprovechar el tiempo en el aeropuerto. Con nuestra app, puedes disfrutar de una experiencia única. No volverás a perder un vuelo por estar
+  Con Vilanova Intelligent Airport es más fácil que nunca aprovechar el tiempo en el aeropuerto. Con nuestra app, puedes disfrutar de una experiencia única. No volverás a perder un vuelo por estar
   viendo tiendas dentro del aeropuerto o por querer ir a comer algo. 
   
 
