@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "./logo.png"; // Ruta al logo que guardaste en src/pages
+import logo from "/src/components/logo.png"; // Ruta al logo que guardaste en src/pages
 
 function PasswordRecovery() {
   const [formData, setFormData] = useState({

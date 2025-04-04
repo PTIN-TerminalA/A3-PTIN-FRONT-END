@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "./logo.png"; // Ruta al logo que guardaste en src/pages
+import logo from "/src/components/logo.png";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -13,17 +13,48 @@ function Register() {
     birthDate: "",
     password: "",
     confirmPassword: "",
-    prefix: "+34", // Prefijo de teléfono por defecto
+    prefix: "+34",
   });
 
   const [errors, setErrors] = useState({
     passwordMatch: true,
     isAdult: true,
     dniFormat: true,
+    requiredFields: true,
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const countryCodes = [
+    { name: "España", code: "+34" },
+    { name: "Andorra", code: "+376" },
+    { name: "Francia", code: "+33" },
+    { name: "Portugal", code: "+351" },
+    { name: "Alemania", code: "+49" },
+    { name: "Italia", code: "+39" },
+    { name: "Reino Unido", code: "+44" },
+    { name: "EEUU", code: "+1" },
+    { name: "México", code: "+52" },
+    { name: "Argentina", code: "+54" },
+    { name: "Colombia", code: "+57" },
+    { name: "Chile", code: "+56" },
+    { name: "Perú", code: "+51" },
+    { name: "Brasil", code: "+55" },
+    { name: "China", code: "+86" },
+    { name: "Japón", code: "+81" },
+    { name: "India", code: "+91" },
+    { name: "Rusia", code: "+7" },
+    { name: "Australia", code: "+61" },
+    { name: "Sudáfrica", code: "+27" },
+    { name: "Nigeria", code: "+234" },
+    { name: "Marruecos", code: "+212" },
+    { name: "Argelia", code: "+213" },
+    { name: "Egipto", code: "+20" },
+    { name: "Catar", code: "+974" },
+    { name: "Emiratos Árabes", code: "+971" },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,33 +66,66 @@ function Register() {
 
   const validateForm = () => {
     let valid = true;
-    let errors = {};
+    let newErrors = {
+      passwordMatch: true,
+      isAdult: true,
+      dniFormat: true,
+      requiredFields: true,
+    };
 
+    // Validar campos requeridos
+    const requiredFields = [
+      'firstName', 'lastName', 'secondLastName', 'dni',
+      'email', 'phoneNumber', 'gender', 'birthDate',
+      'password', 'confirmPassword'
+    ];
+    
+    const hasEmptyFields = requiredFields.some(field => !formData[field].trim());
+    if (hasEmptyFields) {
+      valid = false;
+      newErrors.requiredFields = false;
+    }
+
+    // Validar contraseñas
     if (formData.password !== formData.confirmPassword) {
       valid = false;
-      errors.passwordMatch = false;
+      newErrors.passwordMatch = false;
     }
 
-    const birthDate = new Date(formData.birthDate);
-    const age = new Date().getFullYear() - birthDate.getFullYear();
-    if (age < 18) {
-      valid = false;
-      errors.isAdult = false;
+    // Validar edad (4 de abril de 2025)
+    if (formData.birthDate) {
+      const cutoffDate = new Date('2025-04-04');
+      const birthDate = new Date(formData.birthDate);
+      let age = cutoffDate.getFullYear() - birthDate.getFullYear();
+      const monthDiff = cutoffDate.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && cutoffDate.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age < 18) {
+        valid = false;
+        newErrors.isAdult = false;
+      }
     }
 
+    // Validar DNI
     const dniPattern = /^\d{8}[A-Za-z]$/;
     if (!dniPattern.test(formData.dni)) {
       valid = false;
-      errors.dniFormat = false;
+      newErrors.dniFormat = false;
     }
 
-    setErrors(errors);
+    setErrors(newErrors);
     return valid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccessMessage("");
+    
     if (validateForm()) {
+      setSuccessMessage("Registre completat amb èxit!");
       console.log("Form submitted", formData);
     } else {
       console.log("Form validation failed");
@@ -78,12 +142,14 @@ function Register() {
 
   return (
     <div style={styles.container}>
-      {/* Logo aquí */}
-      <div style={styles.logoContainer}>
+      <div style={styles.header}>
         <img src={logo} alt="Logo" style={styles.logo} />
       </div>
 
-      <h2>Registre de Nou Usuari</h2>
+      <h2 style={styles.title}>Registre de Nou Usuari</h2>
+      
+      {successMessage && <div style={styles.successMessage}>{successMessage}</div>}
+
       <form onSubmit={handleSubmit} style={styles.form}>
         {/* Nombre */}
         <div style={styles.inputGroup}>
@@ -97,6 +163,9 @@ function Register() {
             placeholder="Ex: Joan"
             style={styles.input}
           />
+          {!errors.requiredFields && !formData.firstName.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* Primer apellido */}
@@ -111,6 +180,9 @@ function Register() {
             placeholder="Ex: Garcia"
             style={styles.input}
           />
+          {!errors.requiredFields && !formData.lastName.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* Segundo apellido */}
@@ -125,6 +197,9 @@ function Register() {
             placeholder="Ex: Lopez"
             style={styles.input}
           />
+          {!errors.requiredFields && !formData.secondLastName.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* DNI */}
@@ -142,6 +217,9 @@ function Register() {
           {!errors.dniFormat && (
             <span style={styles.error}>El DNI ha de tenir el format 8 números seguit d'una lletra</span>
           )}
+          {!errors.requiredFields && !formData.dni.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* Correu electrònic */}
@@ -156,20 +234,40 @@ function Register() {
             placeholder="Ex: joan@exemple.com"
             style={styles.input}
           />
+          {!errors.requiredFields && !formData.email.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
-        {/* Número de telèfon */}
+        {/* Telèfon */}
         <div style={styles.inputGroup}>
           <label htmlFor="phoneNumber" style={styles.label}>Número de telèfon</label>
-          <input
-            type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Ex: 123456789"
-            style={styles.input}
-          />
+          <div style={styles.phoneWrapper}>
+            <select
+              name="prefix"
+              value={formData.prefix}
+              onChange={handleChange}
+              style={styles.prefixSelect}
+            >
+              {countryCodes.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.code} ({country.name})
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="123456789"
+              style={{ ...styles.input, flex: 1 }}
+            />
+          </div>
+          {!errors.requiredFields && !formData.phoneNumber.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* Gènere */}
@@ -187,6 +285,9 @@ function Register() {
             <option value="female">Dona</option>
             <option value="other">Altres</option>
           </select>
+          {!errors.requiredFields && !formData.gender.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
         {/* Data de naixement */}
@@ -202,6 +303,9 @@ function Register() {
           />
           {!errors.isAdult && (
             <span style={styles.error}>Has de ser major d'edat per registrar-te</span>
+          )}
+          {!errors.requiredFields && !formData.birthDate.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
           )}
         </div>
 
@@ -221,9 +325,12 @@ function Register() {
               {showPassword ? "Amagar" : "Mostrar"}
             </button>
           </div>
+          {!errors.requiredFields && !formData.password.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
-        {/* Confirmació de la contrassenya */}
+        {/* Confirmació contrasenya */}
         <div style={styles.inputGroup}>
           <label htmlFor="confirmPassword" style={styles.label}>Confirmació de la contrassenya</label>
           <div style={styles.passwordWrapper}>
@@ -242,12 +349,12 @@ function Register() {
           {!errors.passwordMatch && (
             <span style={styles.error}>Les contrasenyes no coincideixen</span>
           )}
+          {!errors.requiredFields && !formData.confirmPassword.trim() && (
+            <span style={styles.error}>Aquest camp és obligatori</span>
+          )}
         </div>
 
-        {/* Botón Registrar */}
         <button type="submit" style={styles.button}>Registrar-se</button>
-
-        {/* Botón Tornar enrere */}
         <button type="button" onClick={() => window.history.back()} style={styles.button}>
           Tornar enrere
         </button>
@@ -265,19 +372,41 @@ const styles = {
     backgroundColor: "#f9f9f9",
     flexDirection: "column",
     fontFamily: "'Roboto', sans-serif",
+    position: "relative",
+    margin: 0,
+    padding: 0,
+    width: "100%",
+    overflowX: "hidden",
   },
-  logoContainer: {
-    marginBottom: "20px", // Espacio debajo del logo
+  header: {
+    width: "100vw",
+    height: "120px",
+    backgroundColor: "#023047",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingLeft: "30px",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    boxSizing: "border-box",
   },
   logo: {
-    width: "150px", // Ajusta el tamaño del logo según sea necesario
+    width: "120px",
     height: "auto",
+  },
+  title: {
+    marginTop: "150px",
+    fontSize: "24px",
+    color: "#023047",
   },
   form: {
     display: "flex",
     flexDirection: "column",
     gap: "15px",
     width: "300px",
+    marginTop: "40px",
   },
   inputGroup: {
     display: "flex",
@@ -318,6 +447,25 @@ const styles = {
   passwordWrapper: {
     display: "flex",
     alignItems: "center",
+  },
+  phoneWrapper: {
+    display: "flex",
+    gap: "10px",
+    alignItems: "center",
+  },
+  prefixSelect: {
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ddd",
+    backgroundColor: "white",
+    fontSize: "14px",
+    width: "140px",
+  },
+  successMessage: {
+    color: "#2ecc71",
+    fontSize: "16px",
+    marginBottom: "15px",
+    fontWeight: "bold",
   },
 };
 
