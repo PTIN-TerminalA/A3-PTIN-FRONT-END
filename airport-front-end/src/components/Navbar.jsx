@@ -18,8 +18,8 @@ function Navbar() {
           {/* Muestra los botones solo si estás en la página de inicio */}
           {location.pathname === "/" ? (
                 <div className="navbar-butons">
-                    <Button label="Iniciar Sesion" type="navbar-button" />
-                    <Button label="Registrarse" type="navbar-button" />
+                    <Button label="Iniciar Sessió" type="navbar-button" url="/register"/>
+                    <Button label="Registrar-se" type="navbar-button" url="login"/>
                 </div>
             ) : (
                 <div className="navbar-butons">
