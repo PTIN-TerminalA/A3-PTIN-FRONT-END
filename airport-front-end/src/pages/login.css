@@ -1,0 +1,117 @@
+/* Contenedor principal */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+    flex-direction: column;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Franja superior */
+  .header {
+    width: 100%;
+    height: 120px;
+    background-color: #023047;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  /* Logo */
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+  
+  /* Título */
+  .title {
+    margin-top: 150px;
+    font-size: 34px;
+    font-weight: bold;
+    color: #023047;
+  }
+  
+  /* Formulario */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    width: 400px;
+    padding: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background-color: #fff;
+  }
+  
+  /* Etiquetas y campos de entrada */
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputGroup label {
+    font-weight: bold;
+    color: #023047;
+    font-size: 20px;
+  }
+  
+  .inputGroup input {
+    padding: 16px;
+    font-size: 18px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón principal */
+  .button {
+    padding: 18px 30px;
+    background-color: #219EBC;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Mensaje */
+  .message {
+    margin-top: 30px;
+    padding: 18px;
+    background-color: #e0f7fa;
+    color: #00796b;
+    border-radius: 8px;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  /* Botones de "Has oblidat la teva contrasenya?" y "Registrar-se" */
+  .extra-options {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .link-button {
+    background: none;
+    border: none;
+    color: #023047;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: underline;
+  }
+  
+  .link-button:hover {
+    color: #219EBC;
+  }
+  
