@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "/src/components/logo.png";
+import logo from "/src/logo.jpeg";
 import "./login.css";
 import { useNavigate } from "react-router-dom"; // Para la navegación entre páginas
 

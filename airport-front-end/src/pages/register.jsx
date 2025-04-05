@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import logo from "/src/components/logo.png";
+import logo from "/src/logo.jpeg";
+import "./register.css";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -143,7 +144,7 @@ function Register() {
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <img src={logo} alt="Logo" style={styles.logo} />
+        <img src={logo} alt="Logo" className = "logo" />
       </div>
 
       <h2 style={styles.title}>Registre de Nou Usuari</h2>

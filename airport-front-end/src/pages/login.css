@@ -25,8 +25,9 @@
   
   /* Logo */
   .logo {
-    width: 120px;
-    height: auto;
+    height: 80px; /* Ajusta la altura de la imagen */
+    width: auto; /* Mantén la proporción de la imagen */
+    margin-right: 10px; /* Espaciado entre la imagen y el título */
   }
   
   /* Título */
