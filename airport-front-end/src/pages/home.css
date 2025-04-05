@@ -1,0 +1,44 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Oculta el desbordamiento horizontal */
+}
+
+/* Estilo para el contenedor principal */
+.home-container {
+    background-color: rgb(219, 248, 246); /* Fondo de la página */
+    min-height: 100vh; /* Asegura que cubra toda la pantalla */
+    margin: 0;
+    padding: 0;
+
+
+}
+
+
+
+/* Contenedor para el contenido debajo del Navbar */
+.content {
+    display: flex;
+    margin-left: 50px;
+}
+
+.photos {
+    flex: 1; /* Permite que las fotos ocupen el espacio disponible */
+    display: flex;
+    flex-direction: column; /* Las fotos se apilan verticalmente */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px; /* Espaciado entre fotos */
+    max-width: 45%; /* Limita el ancho máximo del contenedor de fotos */
+    overflow: hidden; /* Evita que las imágenes desborden el contenedor */
+}
+
+.photo {
+    width: 80%; /* Ajusta el ancho automáticamente */
+    height: auto; /* Mantén la proporción de las imágenes */
+    aspect-ratio: 16 / 9; /* Mantiene la proporción de aspecto 16:9 */
+    object-fit: cover; /* Cubre el área del contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}

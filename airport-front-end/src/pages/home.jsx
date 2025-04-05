@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar.jsx";
 import Textbox from "../components/Textbox.jsx";
+import "./home.css";
 
 const whoAreWe = `
   Amb Vilanova Intelligent Airport és més fàcil que mai aprofitar el temps a l'aeroport. Amb la nostra app, pots gaudir d'una experiència única. No tornaràs a perdre un vol per estar mirant botigues dins de l'aeroport o per voler anar a menjar alguna cosa.
@@ -13,13 +14,23 @@ const whoAreWe = `
   
   
   Pots registrar-te des d'aquesta mateixa pàgina web o descarregar-te la nostra aplicació per a smartphones que et permetrà reservar els vehicles així com accedir a tots els nostres serveis.
-`;
+
+  
+  Si et registres, rebràs informació sobre ofertes i events especials a l'aeroport, i podràs rebre informació del teu vol
+  directament des de la teva aerolinia.
+  `
 
 function Home() {
     return (
-    <div>
+    <div className = "home-container">
       <Navbar />
-      <Textbox title = "¿Qui som?" textin ={whoAreWe}/>
+      <div className="content">
+        <Textbox title = "¿Qui som?" textin ={whoAreWe}/>
+        <div className="photos">
+            <img src="/src/home1.jpg" className="photo"/>
+            <img src="/src/home2.jpg" className="photo"/>
+        </div>
+      </div>
     </div>
     );
   }

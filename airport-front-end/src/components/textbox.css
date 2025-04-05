@@ -2,16 +2,13 @@
 
 .text-container {
     background-color: #8ecae6; /* Fondo azul */
-    padding-bottom: 20px; /* Espaciado interno */
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px 20px; /* Espaciado interno */
     border-radius: 8px; /* Bordes redondeados */
-    width: 30%; /* Ancho de la caja */
-    margin: 40px auto; /* Centra horizontalmente */
+    width: 45%; /* Ancho de la caja */
+    margin: 20px auto; /* Margen superior, inferior y centrado horizontalmente */
     display: flex;
     flex-direction: column; /* Alinea los elementos verticalmente */
     align-items: center; /* Centra los elementos horizontalmente */
-    justify-content: center; /* Centra los elementos verticalmente */
     text-align: center; /* Centra el texto dentro de la caja */
 }
 
