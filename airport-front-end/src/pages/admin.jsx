@@ -49,5 +49,4 @@ function Admin() {
     </div>
   );
 }
-
 export default Admin;
