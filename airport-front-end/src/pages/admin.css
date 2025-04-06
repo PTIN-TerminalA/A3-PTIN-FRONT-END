@@ -1,0 +1,184 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: rgb(219, 248, 246);
+    overflow: hidden; /* Evita scroll */
+  }
+  /* Zona bajo el navbar */
+  .admin-layout {
+    flex: 1;
+    display: flex;
+    height: calc(100vh - 60px); /* Resta la altura del navbar */
+  }
+  
+  /* Sidebar */
+  .admin-sidebar {
+    width: 300px;
+    background-color: #023047;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    box-sizing: border-box;
+  }
+  
+  .admin-profile-pic {
+    width: 150px;
+    height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    background-color: gray;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .admin-name {
+    font-family: 'Roboto', sans-serif; 
+    font-size:25px;
+    margin-bottom: 40px;
+  }
+  
+  .admin-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 30px;
+    flex-grow: 1;
+  }
+  
+  .admin-btn {
+    font-family: 'Roboto', sans-serif; 
+    background-color: rgb(219, 248, 246);
+    color: #023047;
+    padding: 14px;
+    font-size: 22px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+  
+  .admin-btn:hover {
+    background-color: rgb(219, 248, 246);
+  }
+
+ 
+  .admin-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+
+  /* Mapa */
+  .admin-map-container {
+    flex: 1;
+    position: relative;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .admin-map-image {
+    position: absolute;
+    bottom: 55px;
+    right: 300px;
+    width: 1100px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Botón volver */
+  .back-btn {
+    font-family: 'Roboto', sans-serif; 
+    position: absolute;
+    font-size: 20px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #023047;
+    color: rgb(219, 248, 246);
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .back-btn:hover {
+    background-color: #023047;
+  }
+
+  body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Asegura que el padding y el borde no afecten el tamaño total */
+}
+
+.navbar {
+    position: relative;/* Fija el Navbar en la parte superior */
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100px; /* Altura del Navbar */
+    background-color: #023047; /* Color de fondo */
+    color: white;
+    display: flex; /* Usa flexbox para alinear los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Espacia los elementos a los extremos */
+    padding: 0 10px; /* Espaciado interno */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+}
+
+.navbar-title {
+    font-family: 'Roboto', sans-serif; 
+
+    font-size: 40px; /* Tamaño del texto del título */
+    font-weight: bold;
+    color: #ffffff; /* Color del texto del título */
+    text-decoration: none;
+}
+
+.navbar-button {
+    font-family: 'Roboto', sans-serif; 
+
+    gap: 10px; /* Espaciado entre los botones */
+    margin-right: 20px;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #023047;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    transition: background-color 0.4s;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.navbar-title:hover {
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    color: #dadada;
+}
+
+.navbar-button:hover {
+    background-color: #015580;
+}
+
+.navbar-logo {
+    height: 80px; /* Ajusta la altura de la imagen */
+    width: auto; /* Mantén la proporción de la imagen */
+    margin-right: 10px; /* Espaciado entre la imagen y el título */
+}
+
+.navbar-logo:hover{
+    cursor: pointer;
+}
+
+.navbar-titlelogo{
+    display: flex;
+    align-items: center; /* Centra verticalmente la imagen y el texto */
+}
+
