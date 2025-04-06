@@ -1,0 +1,90 @@
+.pag-treballador {
+  padding: 2rem;
+}
+
+.formulari-reserva {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+
+.formulari-reserva input,
+.formulari-reserva select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.formulari-reserva button {
+  padding: 0.6rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.formulari-reserva button:hover {
+  background-color: #0056b3;
+}
+
+.filtres {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filtres input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 200px;
+}
+
+.llista-reserves {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eef2f3;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+
+.logout-btn {
+  background-color: transparent;
+  border: none;
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.logout-btn:hover {
+  color: #c9302c;
+}
+
+.icons-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.icon:hover {
+  color: #000;
+}
