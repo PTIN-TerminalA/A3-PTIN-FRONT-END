@@ -1,6 +1,7 @@
 import React from 'react';
 import '../components/mainpage.css'; 
 import logo from '../components/logo.png'; 
+import mapaVirtual from '../components/mapavirtual.png';
 
 // ========== Barra Superior (Header) ==========
 function Header() {
@@ -34,9 +35,9 @@ function MapSection() {
   return (
     <section className="map-section">
       <h2>Mapa de l'Aeroport</h2>
-      <div className="map-placeholder">
-        <p>Map Placeholder</p>
-      </div>
+      <div className="map-image-container">
+      <img src={mapaVirtual} alt="Mapa Virtual de l'Aeroport" className="map-image" />
+    </div>
     </section>
   );
 }

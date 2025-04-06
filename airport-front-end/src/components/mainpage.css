@@ -165,3 +165,17 @@ button {
 button:hover {
   background-color: #1A365D;
 }
+
+
+.map-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
