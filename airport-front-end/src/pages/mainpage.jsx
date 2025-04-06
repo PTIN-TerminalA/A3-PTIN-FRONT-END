@@ -1,6 +1,6 @@
 import React from 'react';
-import '../components/mainpage.css'; // Assegura’t que la ruta sigui correcta
-import logo from '../components/logo.png'; // Importa el logo (ajusta la ruta si cal)
+import '../components/mainpage.css'; 
+import logo from '../components/logo.png'; 
 
 // ========== Barra Superior (Header) ==========
 function Header() {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import '../components/regAdmin.css'; //full d'estil
+import '../components/regAdmin.css';
+import logo from '../components/logo.png'; 
+
 
 function RegAdmin() {
-  // Per proves, defineix el rol actual; canvia'l a 'admin' per provar aquest cas
-  const currentUserRole = 'superadmin'; 
-  //const currentUserRole = 'admin'; 
-
+  const currentUserRole = 'superadmin'; // o 'admin'
+ //const currentUserRole = 'admin';
   const [selectedRole, setSelectedRole] = useState(
     currentUserRole === 'superadmin' ? "" : "treballador"
   );
@@ -19,6 +19,8 @@ function RegAdmin() {
     confirmContrasenya: '',
     aerolinea: ''
   });
+
+  const [mostrarContrasenya, setMostrarContrasenya] = useState(false);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -40,19 +42,24 @@ function RegAdmin() {
 
   return (
     <div className="regAdmin-container">
-      <h1 className="regAdmin-title">
-        Registrar{" "}
-        {currentUserRole === 'admin'
-          ? 'Treballador'
-          : (selectedRole
-              ? (selectedRole === 'admin' ? 'Admin' : 'Treballador')
-              : ''
-            )
-        }
-      </h1>
+      {/* Capçalera amb logo + títol */}
+      <div className="regAdmin-header">
+        <img src={logo} alt="Logo" className="regAdmin-logo" />
+        <h1 className="regAdmin-title">
+          Registrar{" "}
+          {currentUserRole === 'admin'
+            ? 'Treballador'
+            : (selectedRole
+                ? (selectedRole === 'admin' ? 'Admin' : 'Treballador')
+                : ''
+              )
+          }
+        </h1>
+      </div>
+
       <p className="regAdmin-info">* Tots els camps són obligatoris.</p>
+
       <form onSubmit={handleSubmit} className="regAdmin-form">
-        {/* Desplegable si superadmin */}
         {currentUserRole === 'superadmin' ? (
           <div>
             <label htmlFor="role">Selecciona el rol:</label>
@@ -63,86 +70,69 @@ function RegAdmin() {
             </select>
           </div>
         ) : (
-          <div>
-            <p className="regAdmin-fixedRole">
-              <strong>Rol:</strong> Treballador
-            </p>
-          </div>
+          <p className="regAdmin-fixedRole">
+            <strong>Rol:</strong> Treballador
+          </p>
         )}
 
         <div>
           <label htmlFor="nom">Nom:</label>
-          <input
-            type="text"
-            id="nom"
-            name="nom"
-            value={formData.nom}
-            onChange={handleInputChange}
-            required
-          />
+          <input type="text" id="nom" name="nom" value={formData.nom} onChange={handleInputChange} required placeholder="Ex: Maria" />
         </div>
 
         <div>
           <label htmlFor="cognoms">Cognoms:</label>
-          <input
-            type="text"
-            id="cognoms"
-            name="cognoms"
-            value={formData.cognoms}
-            onChange={handleInputChange}
-            required
-          />
+          <input type="text" id="cognoms" name="cognoms" value={formData.cognoms} onChange={handleInputChange} required placeholder="Ex: Costa Puig" />
         </div>
 
         <div>
           <label htmlFor="dni">DNI:</label>
-          <input
-            type="text"
-            id="dni"
-            name="dni"
-            value={formData.dni}
-            onChange={handleInputChange}
-            required
-          />
+          <input type="text" id="dni" name="dni" value={formData.dni} onChange={handleInputChange} required placeholder="Ex: 12345678A" />
         </div>
 
         <div>
           <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
+          <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} required placeholder="Ex: maria@gmail.com" />
         </div>
 
         <div>
           <label htmlFor="contrasenya">Contrasenya:</label>
           <input
-            type="password"
+            type={mostrarContrasenya ? "text" : "password"}
             id="contrasenya"
             name="contrasenya"
             value={formData.contrasenya}
             onChange={handleInputChange}
             required
+            placeholder="Crea una contrasenya"
           />
         </div>
 
         <div>
           <label htmlFor="confirmContrasenya">Confirmar Contrasenya:</label>
           <input
-            type="password"
+            type={mostrarContrasenya ? "text" : "password"}
             id="confirmContrasenya"
             name="confirmContrasenya"
             value={formData.confirmContrasenya}
             onChange={handleInputChange}
             required
+            placeholder="Repeteix la contrasenya"
           />
         </div>
 
-        {/* Només mostrem el camp d'aerolinea si rol = treballador */}
+        {/* Mostrar/Ocultar contrasenya */}
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={mostrarContrasenya}
+              onChange={(e) => setMostrarContrasenya(e.target.checked)}
+            />{" "}
+            Mostrar contrasenya 👁️
+          </label>
+        </div>
+
         {(currentUserRole === 'admin' || selectedRole === 'treballador') && (
           <div>
             <label htmlFor="aerolinea">Aerolínia:</label>
@@ -153,6 +143,7 @@ function RegAdmin() {
               value={formData.aerolinea}
               onChange={handleInputChange}
               required
+              placeholder="Ex: Vueling"
             />
           </div>
         )}

@@ -20,7 +20,6 @@ html, body, #root {
   align-items: center;
   /* Tot a l’esquerra */
   justify-content: start;
-  /* Per si tens una alçada forçada (el pots eliminar si no vols) */
   height: 80px;
   gap: 10px;
   background-color: #2C5282;
@@ -33,7 +32,6 @@ html, body, #root {
 .header-left {
   display: flex;
   align-items: center;
-  /* ❌ Traiem flex:1 i min-width */
   gap: 10px; /* Una mica d'espai entre logo i títol */
 }
 
@@ -53,17 +51,13 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: 10px;
-  /* Pots afegir un marge si vols separar-los més del títol */
   margin-left: 1000px; /* Ex. separació extra */
 }
 
 /* Botons */
 .header-right button {
-  margin-left: 0; /* Traiem el margin-left si no el vols */
+  margin-left: 0; /* Elimina el marge esquerre */
 }
-
-
-
 
 /* --- Secció del mapa --- */
 .map-section {

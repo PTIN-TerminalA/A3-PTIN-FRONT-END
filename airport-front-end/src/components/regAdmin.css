@@ -1,72 +1,87 @@
-/* regAdmin.css */
-
 /* Contenidor principal */
 .regAdmin-container {
-    max-width: 600px;               /* Amplada màxima */
-    margin: 40px auto;              /* Centra horitzontalment */
-    background-color: #E8F0FE;      /* Blau clar de fons */
-    border-radius: 8px;             /* Cantonades arrodonides */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* Títol */
-  .regAdmin-title {
-    text-align: center;
-    color: #2C5282; /* Blau fosc */
-    margin-bottom: 20px;
-  }
-  
-  /* Formulari */
-  .regAdmin-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* Labels */
-  .regAdmin-form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2C5282;  /* Blau fosc */
-  }
-  
-  /* Inputs i selects */
-  .regAdmin-form input,
-  .regAdmin-form select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Contenidor dels botons */
-  .regAdmin-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  
-  /* Botons */
-  .regAdmin-form button {
-    background-color: #2B6CB0; /* Blau */
-    color: #fff;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Hover botó */
-  .regAdmin-form button:hover {
-    background-color: #2C5282; /* Blau una mica més fosc */
-  }
-  
-  /* Opcional: estil del paràgraf fix de rol (quan l'usuari és admin) */
-  .regAdmin-fixedRole {
-    font-weight: bold;
-    color: #2C5282;
-  }
-  
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #E8F0FE;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Capçalera amb logo */
+.regAdmin-header {
+  display: flex;
+  align-items: center;
+  gap: 85px;
+  margin-bottom: 20px;
+}
+
+/* Imatge del logo */
+.regAdmin-logo {
+  width: 100px;
+  height: auto;
+}
+
+/* Títol */
+.regAdmin-title {
+  color: #2C5282;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+/* Informació de camps obligatoris */
+.regAdmin-info {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* Formulari */
+.regAdmin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Labels */
+.regAdmin-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #2C5282;
+}
+
+/* Inputs i selects */
+.regAdmin-form input,
+.regAdmin-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Botons */
+.regAdmin-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.regAdmin-form button {
+  background-color: #2B6CB0;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.regAdmin-form button:hover {
+  background-color: #2C5282;
+}
+
+/* Estil del rol fix quan ets admin */
+.regAdmin-fixedRole {
+  font-weight: bold;
+  color: #2C5282;
+}
