@@ -1,12 +1,14 @@
 import React from 'react';
 import '../components/mainpage.css'; // Assegura’t que la ruta sigui correcta
+import logo from '../components/logo.png'; // Importa el logo (ajusta la ruta si cal)
 
-/* ========== Barra Superior (Header) ========== */
+// ========== Barra Superior (Header) ==========
 function Header() {
   return (
     <header className="header">
       <div className="header-left">
-        <h1>Pàgina Principal</h1>
+        {/* Mostrem el logo i el títol */}
+        <img src={logo} alt="Logo Aeroport" className="logo" />
       </div>
       <div className="header-right">
         <NotificationsButton />
@@ -48,18 +50,23 @@ function ShopsLeisureExtended() {
       <div className="carousel">
         <img
           src="https://withfor.com/wp-content/uploads/2022/07/696c745675e78971ed170d16d26efdac-1536x1024.jpg"
+          alt="Comerços i Oci 1"
         />
         <img
           src="https://www.mundodeportivo.com/palco23/files/2021/17_clubes/fc-barcelona/fc-barcelona-tienda-980.jpg"
+          alt="Comerços i Oci 2"
         />
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-29Tbk47ytwtbRwuWTHmIQYk5eHJF1CQLw&s"
+          alt="Comerços i Oci 3"
         />
         <img
           src="https://i.blogs.es/c2a266/burn_50_21480104_294340901049484_1535366888954003456_n/650_1200.jpg"
+          alt="Comerços i Oci 4"
         />
         <img
           src="https://www.lavanguardia.com/files/og_thumbnail/files/fp/uploads/2024/01/31/65ba0b2f90c3a.r_d.567-490-11719.jpeg"
+          alt="Comerços i Oci 5"
         />
       </div>
       <button>Veure Més</button>
@@ -67,7 +74,7 @@ function ShopsLeisureExtended() {
   );
 }
 
-/* ========== Secció: Reserva d'automòbil (anirà dins la graella) ========== */
+/* ========== Secció: Reserva d'automòbil (graella) ========== */
 function CarReservation() {
   return (
     <section className="section car-reservation">
@@ -78,7 +85,7 @@ function CarReservation() {
   );
 }
 
-/* ========== Secció: Informació dels Vols (anirà dins la graella) ========== */
+/* ========== Secció: Informació dels Vols (graella) ========== */
 function FlightInfo() {
   return (
     <section className="section flight-info">

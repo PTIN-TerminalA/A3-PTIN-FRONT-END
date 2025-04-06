@@ -4,79 +4,76 @@ html, body, #root {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-/* El contenidor principal ha de fer servir tota l'amplada disponible */
-.mainpage-container {
-  width: 100%;
-  max-width: 100%;
-  padding: 0 10px;
-  box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
-}
-
-/* Fes que el map-section i shops-oci ocupin tota l’amplada disponible */
-.map-section,
-.shops-leisure-extended {
-  width: 100%;
-}
-
-/* Fes que les imatges del carrusel siguin adaptables */
-.carousel img {
-  flex-shrink: 0;
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-/* Fes que el header s’adapti */
-.header {
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.header-left, .header-right {
-  flex: 1;
-  min-width: 150px;
-}
-
-
-/* --- Barra superior (Header) --- */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2C5282; /* Blau fosc */
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 0 0 8px 8px; /* arrodoneix la part inferior */
-  margin-bottom: 20px;        /* separació amb el contingut */
-}
-
-.header-left h1 {
-  margin: 0;
-}
-
-.header-right button {
-  margin-left: 10px;
 }
 
 /* --- Contenidor principal --- */
 .mainpage-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Roboto', sans-serif; /* Assegura’t d’importar Roboto a index.html */
+  padding: 0 10px;
 }
 
-/* --- Secció del mapa (amplada completa) --- */
+.header {
+  display: flex;
+  align-items: center;
+  /* Tot a l’esquerra */
+  justify-content: start;
+  /* Per si tens una alçada forçada (el pots eliminar si no vols) */
+  height: 80px;
+  gap: 10px;
+  background-color: #2C5282;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 10px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  /* ❌ Traiem flex:1 i min-width */
+  gap: 10px; /* Una mica d'espai entre logo i títol */
+}
+
+/* Logo */
+.logo {
+  width: 40px;
+  height: auto;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* Ara els botons també a l'esquerra, just després del títol */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Pots afegir un marge si vols separar-los més del títol */
+  margin-left: 1000px; /* Ex. separació extra */
+}
+
+/* Botons */
+.header-right button {
+  margin-left: 0; /* Traiem el margin-left si no el vols */
+}
+
+
+
+
+/* --- Secció del mapa --- */
 .map-section {
   background-color: #fff;
   border-radius: 8px;
   padding: 15px;
+  margin-top: 120px;
   margin-bottom: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
 }
 
 .map-section h2 {
@@ -84,7 +81,6 @@ html, body, #root {
   margin-top: 0;
 }
 
-/* Placeholder del mapa */
 .map-placeholder {
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Hartsfield-Jackson_Atlanta_International_Airport_diagram.png/800px-Hartsfield-Jackson_Atlanta_International_Airport_diagram.png');
   background-size: cover;
@@ -97,13 +93,14 @@ html, body, #root {
   font-weight: bold;
 }
 
-/* --- Secció "Comerços i Oci" a amplada completa, sota el mapa --- */
+/* --- Comerços i Oci --- */
 .shops-leisure-extended {
   background-color: #fff;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
 }
 
 .shops-leisure-extended h2 {
@@ -116,23 +113,23 @@ html, body, #root {
   margin-bottom: 15px;
 }
 
-/* Carrusel senzill (scroll horitzontal) */
 .carousel {
   display: flex;
   gap: 10px;
-  overflow-x: auto; /* scroll horitzontal si supera l'ample */
+  overflow-x: auto;
   margin-bottom: 15px;
   scroll-behavior: smooth;
 }
 
 .carousel img {
+  flex-shrink: 0;
   width: 400px;
   height: 250px;
   object-fit: cover;
   border-radius: 4px;
 }
 
-/* --- Graella de seccions restants --- */
+/* --- Graella de seccions --- */
 .sections-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -140,7 +137,7 @@ html, body, #root {
   margin-bottom: 40px;
 }
 
-/* --- Seccions generals (Reserva, Vols, etc.) --- */
+/* --- Seccions generals --- */
 .section {
   background-color: #fff;
   border-radius: 8px;
@@ -159,9 +156,9 @@ html, body, #root {
   line-height: 1.4;
 }
 
-/* --- Botons generals --- */
+/* --- Botons --- */
 button {
-  background-color: #2C5282; /* Blau principal */
+  background-color: #2C5282;
   color: #fff;
   padding: 10px 16px;
   border: none;
@@ -172,12 +169,5 @@ button {
 }
 
 button:hover {
-  background-color: #1A365D; /* Blau més fosc */
+  background-color: #1A365D;
 }
-
-
-
-
-
-
-
