@@ -11,6 +11,7 @@
   }
   
   .profile-card {
+    position: relative;
     background: white;
     width: 100%;
     max-width: 420px;
@@ -192,5 +193,26 @@
   
   .hidden-file-input {
     display: none;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2.25rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 0.25rem;
+    z-index: 10;
+    font-weight: 300;
+    outline: none;
+  }
+  
+  .close-button:hover {
+    color: #ffffff;
+    transform: scale(1.1);
   }
   
