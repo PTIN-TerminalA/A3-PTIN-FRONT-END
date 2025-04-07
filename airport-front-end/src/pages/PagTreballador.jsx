@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PagTreballador.css';
+import './css/PagTreballador.css';
 import ReservaCard from '../components/ReservaCard';
 import { FaBell, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';

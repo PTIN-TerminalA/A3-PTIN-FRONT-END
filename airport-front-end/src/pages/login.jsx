@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from "/src/logo.jpeg";
-import "./login.css";
+import logo from "/src/pages/images/logo.jpeg";
+import "./css/login.css";
 import { useNavigate } from "react-router-dom"; // Para la navegación entre páginas
 
 function Login() {

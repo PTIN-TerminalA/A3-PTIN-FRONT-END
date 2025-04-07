@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EditProfileModal from '../components/EditProfileModal';
-import '../components/adminProfile.css';
+import '../components/assets/adminProfile.css';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({

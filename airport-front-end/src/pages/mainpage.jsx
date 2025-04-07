@@ -1,7 +1,7 @@
 import React from 'react';
-import '../components/mainpage.css'; 
-import logo from '../components/logo.png'; 
-import mapaVirtual from '../components/mapavirtual.png';
+import '../components/assets/mainpage.css'; 
+import logo from '../components/assets/logo.png'; 
+import mapaVirtual from '../components/assets/mapavirtual.png';
 
 // ========== Barra Superior (Header) ==========
 function Header() {

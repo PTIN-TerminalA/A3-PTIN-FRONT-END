@@ -1,4 +1,4 @@
-import "./textbox.css";
+import "./assets/textbox.css";
 
 function Textbox({title, textin}) {  
     return(

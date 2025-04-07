@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from "/src/logo.jpeg";
-import "./register.css";
+import logo from "/src/pages/images/logo.jpeg";
+import "./css/register.css";
 
 function Register() {
   const [formData, setFormData] = useState({

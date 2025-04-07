@@ -1,5 +1,5 @@
 import React from 'react';
-import './ReservaCard.css';
+import './assets/ReservaCard.css';
 
 const ReservaCard = ({ reserva }) => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../components/regAdmin.css';
-import logo from '../components/logo.png'; 
+import '../components/assets/regAdmin.css';
+import logo from '../components/assets/logo.png'; 
 
 
 function RegAdmin() {

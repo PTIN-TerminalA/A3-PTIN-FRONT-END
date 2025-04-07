@@ -1,4 +1,4 @@
-import "./admin.css";
+import "./css/admin.css";
 
 function Admin() {
   return (
@@ -7,7 +7,7 @@ function Admin() {
       <div className="navbar">
         {/* Logo + Título */}
         <div className="navbar-titlelogo">
-          <img src="/src/logo.jpeg" className="navbar-logo" alt="Logo" />
+          <img src="/src/pages/images/logo.jpeg" className="navbar-logo" alt="Logo" />
           <div className="navbar-title">Administrador</div>
         </div>
 
@@ -39,7 +39,7 @@ function Admin() {
         {/* Mapa */}
         <div className="admin-map-container">
           <img
-            src="/src/map.png"
+            src="/src/pages/images/map.png"
             alt="Mapa estàtic"
             className="admin-map-image"
           />

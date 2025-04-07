@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar.jsx";
 import Textbox from "../components/Textbox.jsx";
-import "./home.css";
+import "./css/home.css";
 
 const whoAreWe = `
   Amb Vilanova Intelligent Airport és més fàcil que mai aprofitar el temps a l'aeroport. Amb la nostra app, pots gaudir d'una experiència única. No tornaràs a perdre un vol per estar mirant botigues dins de l'aeroport o per voler anar a menjar alguna cosa.
@@ -27,8 +27,8 @@ function Home() {
       <div className="content">
         <Textbox title = "¿Qui som?" textin ={whoAreWe}/>
         <div className="photos">
-            <img src="/src/home1.jpg" className="photo"/>
-            <img src="/src/home2.jpg" className="photo"/>
+            <img src="/src/pages/images/home1.jpg" className="photo"/>
+            <img src="/src/pages/images/home2.jpg" className="photo"/>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import './navbar.css';
+import './assets/navbar.css';
 
 import Button from "./Button.jsx";
 
@@ -6,7 +6,7 @@ function Navbar() {
     return (
       <div className="navbar">
         <div className = "navbar-titlelogo">
-          <img src="/src/logo.jpeg" className="navbar-logo" />
+          <img src="/src/pages/images/logo.jpeg" className="navbar-logo" />
           <Button label="Vilanova Intelligent Airport" type="navbar-title" />
         </div>
 
