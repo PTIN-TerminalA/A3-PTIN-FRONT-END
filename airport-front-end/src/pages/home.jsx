@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import "./css/home.css";
-import logo from "../pages/images/Logo.png";
+import logo from "../pages/images/LogoBlanco.png";
 import aiIcon from "../pages/images/AI.png";
 import itIcon from "../pages/images/IT.png";
 import phoneIcon from "../pages/images/telefono.png";
@@ -19,7 +20,9 @@ const whoAreWe = `
   directament des de la teva aerolinia.
 `;
 
+
 function Home() {
+  const navigate = useNavigate();
   return (
     <div className="home-wrapper">
       <header className="navbar">
@@ -35,8 +38,8 @@ function Home() {
         </div>
 
         <div className="navbar-right">
-          <button className="btn btn-outline">Iniciar Sessió</button>
-          <button className="btn btn-filled">Registrar-se</button>
+          <button className="btn btn-outline" onClick={() => navigate('/login')}>Iniciar Sessió</button>
+          <button className="btn btn-filled" onClick={() => navigate('/register')}>Registrar-se</button>
         </div>
       </header>
 

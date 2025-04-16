@@ -27,7 +27,7 @@ html, body {
 }
 
 .navbar-logo {
-  width: 180px;
+  width: 160px;
   height: auto;
   display: block;
 }
@@ -283,7 +283,7 @@ html, body {
   }
 
   .navbar-logo {
-    width: 140px;
+    width: 120px;
   }
 
   .navbar-center {
