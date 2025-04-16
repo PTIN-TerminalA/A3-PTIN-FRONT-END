@@ -1,6 +1,6 @@
 import React from 'react';
 import '../components/assets/mainpage.css'; 
-import logo from '../components/assets/logo.png'; 
+import logo from "/src/pages/images/LogoBlanco.png";
 import mapaVirtual from '../components/assets/mapavirtual.png';
 
 // ========== Barra Superior (Header) ==========

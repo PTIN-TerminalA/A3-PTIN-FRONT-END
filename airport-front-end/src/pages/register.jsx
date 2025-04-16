@@ -177,6 +177,7 @@ function Register() {
             <option value="male">Home</option>
             <option value="female">Dona</option>
             <option value="other">Altres</option>
+            <option value="none">Prefereixo no dir-ho</option>
           </select>
         </div>
 

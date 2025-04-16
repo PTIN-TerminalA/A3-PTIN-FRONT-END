@@ -24,7 +24,7 @@
 }
 
 .register-logo {
-  height: 60px;
+  height: 80px;
   width: auto;
 }
 
@@ -51,7 +51,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem 2rem;
-  width: 100%;
   width: clamp(320px, 90%, 850px);
 }
 
@@ -177,6 +176,28 @@
     margin-top: 0.5rem;
     align-self: center;
     padding: 0;
+  }
+}
+
+/* MEDIANAS (tablets, 769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .register-form {
+    width: 95%;
+  }
+
+  .register-title {
+    font-size: 1.9rem;
+  }
+}
+
+/* GRANDES (pantallas de escritorio grandes) */
+@media (min-width: 1025px) {
+  .register-form {
+    width: clamp(600px, 80%, 850px);
+  }
+
+  .register-title {
+    font-size: 2.2rem;
   }
 }
 
