@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const TestApiPage = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function UserList() {
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/")
-      .then((response) => response.json())
+    fetch("http://localhost:8000/")
+      .then((res) => res.json())
       .then((data) => {
-        setData(data);
-        setLoading(false);
+        setUsers(data);
       })
-      .catch((error) => {
-        setError("Error al conectar con el backend.");
-        setLoading(false);
-      });
+      .catch((err) => console.error("Error:", err));
   }, []);
 
   return (
     <div>
-      <h1>Prueba de Conexión con FastAPI</h1>
-      {loading && <p>Cargando...</p>}
-      {error && <p>{error}</p>}
-      {data && <p>{data.message}</p>}
+      <h1>Lista de usuarios</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            ID: {user.id} Email:{user.email}
+            </li>
+        ))}
+      </ul>
     </div>
   );
-};
+}
 
-export default TestApiPage;
+export default UserList;
