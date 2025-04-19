@@ -1,0 +1,179 @@
+/* ========== Globals ========== */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+}
+
+/* ========== Container ========== */
+.regAdmin-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Header ========== */
+.regAdmin-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+}
+
+/* Mostrar solo el logo negro por defecto (modo claro) */
+.logo.dark-logo {
+  display: none;
+}
+
+.regAdmin-title {
+  font-size: 1.8rem;
+  color: #003049;
+  margin: 0;
+}
+
+/* ========== Info Text ========== */
+.regAdmin-info {
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+/* ========== Form ========== */
+.regAdmin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-right: 2rem;
+}
+
+.regAdmin-form label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #2C5282;
+}
+
+.regAdmin-form input,
+.regAdmin-form select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: #fefefe;
+}
+
+/* ========== Checkbox Show Password ========== */
+.regAdmin-form input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+/* ========== Buttons ========== */
+.regAdmin-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+.regAdmin-form button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.regAdmin-form button:hover {
+  background-color: #005f8a;
+  transform: translateY(-2px);
+}
+
+/* ========== Rol fijo cuando es admin ========== */
+.regAdmin-fixedRole {
+  font-weight: bold;
+  color: #2C5282;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .regAdmin-container {
+    max-width: fit-content;
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .regAdmin-form {
+    margin-right: 2rem;
+  }
+
+  .regAdmin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .regAdmin-logo {
+    height: 60px;
+  }
+
+  .regAdmin-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ========== Dark Mode ========== */
+@media (prefers-color-scheme: dark) {
+  html, body, #root {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  .regAdmin-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+  }
+
+  .regAdmin-form input,
+  .regAdmin-form select {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+    border-color: #444;
+  }
+
+  .regAdmin-form button {
+    background-color: #0096c7;
+    color: #fff;
+  }
+
+  .regAdmin-form button:hover {
+    background-color: #0077b6;
+  }
+
+  .regAdmin-form label,
+  .regAdmin-fixedRole,
+  .regAdmin-title {
+    color: #90cdf4;
+  }
+
+  .logo.light-logo {
+    display: none;
+  }
+  .logo.dark-logo {
+    display: block;
+  }
+}
