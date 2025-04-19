@@ -1,184 +1,245 @@
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: rgb(219, 248, 246);
-    overflow: hidden; /* Evita scroll */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+}
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* === NAVBAR === */
+.admin-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #003049;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #0077b6;
+}
+
+.admin-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-logo {
+  height: 80px;
+  width: auto;
+}
+
+.admin-logo.dark-mode {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  .admin-logo.light-mode {
+    display: none;
   }
-  /* Zona bajo el navbar */
-  .admin-layout {
-    flex: 1;
-    display: flex;
-    height: calc(100vh - 60px); /* Resta la altura del navbar */
+  .admin-logo.dark-mode {
+    display: block;
   }
-  
-  /* Sidebar */
+}
+
+.admin-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.admin-navbar-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-navbar-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-navbar-buttons img {
+  height: 32px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s;
+}
+
+.admin-navbar-buttons img:hover {
+  transform: scale(1.1);
+}
+
+/* === LAYOUT PRINCIPAL === */
+.admin-layout {
+  display: flex;
+  flex: 1;
+  height: 100%;
+}
+
+/* === SIDEBAR === */
+.admin-sidebar {
+  width: 280px;
+  background-color: #023047;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-profile-pic {
+  width: 120px;
+  height: 120px;
+  background-color: gray;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.admin-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.admin-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.admin-buttons button {
+  background-color: #e0f7fa;
+  color: #023047;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.admin-buttons button:hover {
+  background-color: #b2ebf2;
+}
+
+/* === MAPA === */
+.admin-map-container {
+  flex: 1;
+  position: relative;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-map-image {
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #003049;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #0077b6;
+}
+
+/* === MODO OSCURO === */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
   .admin-sidebar {
-    width: 300px;
-    background-color: #023047;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
-    box-sizing: border-box;
-  }
-  
-  .admin-profile-pic {
-    width: 150px;
-    height: 150px;
-    min-width: 150px;
-    min-height: 150px;
-    background-color: gray;
-    border-radius: 50%;
-    margin-bottom: 20px;
-  }
-  
-  .admin-name {
-    font-family: 'Roboto', sans-serif; 
-    font-size:25px;
-    margin-bottom: 40px;
-  }
-  
-  .admin-buttons {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 30px;
-    flex-grow: 1;
-  }
-  
-  .admin-btn {
-    font-family: 'Roboto', sans-serif; 
-    background-color: rgb(219, 248, 246);
-    color: #023047;
-    padding: 14px;
-    font-size: 22px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s;
-  }
-  
-  .admin-btn:hover {
-    background-color: rgb(219, 248, 246);
+    background-color: #001f33;
   }
 
- 
-  .admin-page {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  .admin-buttons button {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
   }
-  
 
-  /* Mapa */
+  .admin-buttons button:hover {
+    background-color: #2a2a2a;
+  }
+
   .admin-map-container {
-    flex: 1;
-    position: relative;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden;
+    background-color: #121212;
   }
-  
+
   .admin-map-image {
-    position: absolute;
-    bottom: 55px;
-    right: 300px;
-    width: 1100px;
-    height: auto;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 10px rgba(255, 255, 255, 0.05);
   }
-  
-  /* Botón volver */
+
   .back-btn {
-    font-family: 'Roboto', sans-serif; 
-    position: absolute;
-    font-size: 20px;
-    bottom: 30px;
-    right: 30px;
-    background-color: #023047;
-    color: rgb(219, 248, 246);
-    padding: 15px 25px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
+    background-color: #0077b6;
   }
-  
+
   .back-btn:hover {
-    background-color: #023047;
+    background-color: #005f8a;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+
+  .admin-layout {
+    max-width: fit-content;
   }
 
-  body, html {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* Asegura que el padding y el borde no afecten el tamaño total */
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-logo {
+    height: 60px;
+  }
+
+  .admin-title {
+    display: none;
+  }
+
+  .admin-navbar-buttons img {
+    height: 25px;
+  }
+
+  .admin-buttons {
+    max-width: fit-content;
+    margin-right: 2rem;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1rem;
+  }
+
+  .admin-profile-pic {
+    display: none;
+  }
+
+  .admin-map-container {
+    padding: 1rem;
+  }
 }
-
-.navbar {
-    position: relative;/* Fija el Navbar en la parte superior */
-    width: 100%; /* Ocupa todo el ancho */
-    height: 100px; /* Altura del Navbar */
-    background-color: #023047; /* Color de fondo */
-    color: white;
-    display: flex; /* Usa flexbox para alinear los elementos */
-    align-items: center; /* Centra verticalmente los elementos */
-    justify-content: space-between; /* Espacia los elementos a los extremos */
-    padding: 0 10px; /* Espaciado interno */
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Sombra opcional */
-}
-
-.navbar-title {
-    font-family: 'Roboto', sans-serif; 
-
-    font-size: 40px; /* Tamaño del texto del título */
-    font-weight: bold;
-    color: #ffffff; /* Color del texto del título */
-    text-decoration: none;
-}
-
-.navbar-button {
-    font-family: 'Roboto', sans-serif; 
-
-    gap: 10px; /* Espaciado entre los botones */
-    margin-right: 20px;
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #023047;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 30px;
-    transition: background-color 0.4s;
-    margin-right: 20px;
-    text-decoration: none;
-}
-
-.navbar-title:hover {
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    color: #dadada;
-}
-
-.navbar-button:hover {
-    background-color: #015580;
-}
-
-.navbar-logo {
-    height: 80px; /* Ajusta la altura de la imagen */
-    width: auto; /* Mantén la proporción de la imagen */
-    margin-right: 10px; /* Espaciado entre la imagen y el título */
-}
-
-.navbar-logo:hover{
-    cursor: pointer;
-}
-
-.navbar-titlelogo{
-    display: flex;
-    align-items: center; /* Centra verticalmente la imagen y el texto */
-}
-
