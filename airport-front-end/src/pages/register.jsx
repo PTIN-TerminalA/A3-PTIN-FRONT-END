@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/register.css";
 import Cookies from "js-cookie"
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -70,6 +71,7 @@ function Register() {
       isAdult: true,
       dniFormat: true,
       requiredFields: true,
+      passwordStrength: true,
     };
 
     const requiredFields = [
@@ -107,10 +109,17 @@ function Register() {
       newErrors.dniFormat = false;
     }
 
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;,.<>?/-]).{8,}$/;
+    if (!passwordPattern.test(formData.password)) {
+      valid = false;
+      newErrors.passwordStrength = false;
+    }
+
     setErrors(newErrors);
     return valid;
   };
-  
+
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage("");
@@ -142,13 +151,6 @@ function Register() {
 
         const registerData = await registerRes.json();
         const token = registerData.access_token;
-
-        Cookies.set("token", token,{
-          expires: 1,
-         //para https -> secure: true,
-          sameSite: "strict"
-        })
-
 
         let userId;
 
@@ -187,10 +189,15 @@ function Register() {
           throw new Error(errorData.detail || "Error al registrar regular")
         }
 
-        
+        Cookies.set("token", token,{
+          expires: 1,
+         //para https -> secure: true,
+          sameSite: "strict"
+        })
           
         setSuccessMessage("Registre completat amb èxit!");
 
+        navigate("/mainpage")
 
       } catch (error) {
         console.error("Error en el registro:", error.message);
@@ -277,6 +284,7 @@ function Register() {
               {showPassword ? "Amagar" : "Mostrar"}
             </button>
           </div>
+          {!errors.passwordStrength && <span className="error">La contrasenya ha de tenir mínim 8 caràcteres, una mayúscula, una minúscula, un número y un símbol</span>}
         </div>
 
         <div className="input-group full-width">
