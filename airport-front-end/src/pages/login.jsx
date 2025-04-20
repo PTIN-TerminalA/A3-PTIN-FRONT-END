@@ -1,23 +1,16 @@
 import React, { useState } from "react";
-import logo from "/src/pages/images/logo.jpeg";
+import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/login.css";
-import { useNavigate } from "react-router-dom"; // Para la navegación entre páginas
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -26,59 +19,44 @@ function Login() {
   };
 
   return (
-    <div className="container">
-      {/* Franja superior */}
-      <div className="header">
-        <img src={logo} alt="Logo" className="logo" />
-      </div>
+    <div className="login-wrapper">
+      <header className="login-header">
+        <img src={logo} alt="Logo" className="login-logo" />
+      </header>
 
-      {/* Título */}
-      <h2 className="title">Inici de Sessió</h2>
+      <main className="login-content">
+        <h1 className="login-title">Iniciar sessió</h1>
+        <p className="login-subtitle">
+          Introdueix el teu correu electrònic i contrasenya per iniciar sessió
+        </p>
 
-      {/* Formulario */}
-      <form onSubmit={handleSubmit} className="form">
-        <div className="inputGroup">
-          <label htmlFor="username">Nom d'usuari</label>
+        <form onSubmit={handleSubmit} className="login-form">
           <input
-            type="text"
-            id="username"
+            type="email"
             name="username"
+            placeholder="email@domain.com"
             value={formData.username}
             onChange={handleChange}
-            placeholder="Ex: joan123"
+            required
           />
-        </div>
-
-        <div className="inputGroup">
-          <label htmlFor="password">Contrasenya</label>
           <input
             type="password"
-            id="password"
             name="password"
+            placeholder="Contrasenya"
             value={formData.password}
             onChange={handleChange}
-            placeholder="********"
+            required
           />
+          <button type="submit" className="btn-primary">Iniciar sessió</button>
+        </form>
+
+        {message && <div className="login-message">{message}</div>}
+
+        <div className="login-links">
+          <a onClick={() => navigate("/psswdrecov")}>Has oblidat la teva contrasenya?</a>
+          <a onClick={() => navigate("/register")}>Crea un compte</a>
         </div>
-
-        <button type="submit" className="button">Iniciar sessió</button>
-      </form>
-
-      {message && <div className="message">{message}</div>}
-
-      {/* Enlaces adicionales */}
-      <div className="extra-options">
-        <button onClick={() => navigate("/psswdrecov")} className="link-button">
-          Has oblidat la teva contrasenya?
-        </button>
-        <button onClick={() => navigate("/register")} className="link-button">
-          Registrar-se
-        </button>
-      </div>
-
-      <button type="button" onClick={() => window.history.back()} className="button">
-        Tornar enrere
-      </button>
+      </main>
     </div>
   );
 }

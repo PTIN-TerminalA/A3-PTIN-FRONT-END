@@ -1,52 +1,53 @@
-import "./css/admin.css";
+import React from "react";
+import "/src/pages/css/admin.css"
+import logoBlanco from "/src/pages/images/LogoBlanco.png";
+import perfil from "/src/pages/images/perfil.png";
+import sortir from "/src/pages/images/apagar.png";
+import mapa from "/src/pages/images/Plano.png";
 
 function Admin() {
   return (
     <div className="admin-page">
-      {/* NAVBAR */}
-      <div className="navbar">
-        {/* Logo + Título */}
-        <div className="navbar-titlelogo">
-          <img src="/src/pages/images/logo.jpeg" className="navbar-logo" alt="Logo" />
-          <div className="navbar-title">Administrador</div>
+      <header className="admin-navbar">
+        <div className="admin-logo-section">
+          <img
+            src={logoBlanco}
+            alt="Logo"
+            className="admin-logo"
+          />
+          <span className="admin-title">Administrador</span>
         </div>
-
-        {/* Botones a la derecha del navbar */}
-        <div className="navbar-buttons">
-          <button className="navbar-button" onClick={() => window.location.href = "/perfil"}>
-            Perfil
+        <div className="admin-navbar-buttons">
+          <button onClick={() => window.location.href = "/perfil"}>
+            <img src={perfil} alt="Perfil" />
           </button>
-          <button className="navbar-button" onClick={() => window.location.href = "/"}>
-            Tancar sessió
+          <button onClick={() => window.location.href = "/"}>
+            <img src={sortir} alt="Sortir" />
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* CONTENIDO PRINCIPAL */}
       <div className="admin-layout">
-        {/* Sidebar izquierda */}
-        <div className="admin-sidebar">
+        {/* Sidebar */}
+        <aside className="admin-sidebar">
           <div className="admin-profile-pic" />
           <p className="admin-name">Nom Administrador</p>
 
           <div className="admin-buttons">
-            <button className="admin-btn" onClick={() => window.location.href = "/gestioUsuaris"}>Gestionar Usuaris</button>
-            <button className="admin-btn" onClick={() => window.location.href = "/gestioReserves"}>Gestionar Reserves</button>
-            <button className="admin-btn" onClick={() => window.location.href = "/gestioCotxes"}>Gestionar Cotxes</button>
+            <button onClick={() => window.location.href = "/gestioUsuaris"}>Gestionar Usuaris</button>
+            <button onClick={() => window.location.href = "/gestioReserves"}>Gestionar Reserves</button>
+            <button onClick={() => window.location.href = "/gestioCotxes"}>Gestionar Cotxes</button>
           </div>
-        </div>
+        </aside>
 
         {/* Mapa */}
-        <div className="admin-map-container">
-          <img
-            src="/src/pages/images/map.png"
-            alt="Mapa estàtic"
-            className="admin-map-image"
-          />
-          <button className="back-btn">⬅ Tornar</button>
-        </div>
+        <main className="admin-map-container">
+          <img src={mapa} alt="Mapa de l'aeroport" className="admin-map-image" />
+          <button className="back-btn" onClick={() => window.history.back()}>⬅ Tornar</button>
+        </main>
       </div>
     </div>
   );
 }
+
 export default Admin;

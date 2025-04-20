@@ -1,73 +1,252 @@
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f9f9f9;
+/* CONTENEDOR PRINCIPAL */
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: 'Roboto', sans-serif;
+  padding: 120px 1rem 2rem 1rem;
+}
+
+/* CABECERA */
+.register-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #023047;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.register-logo {
+  height: 80px;
+  width: auto;
+}
+
+/* TITULO */
+.register-title {
+  font-size: 2rem;
+  color: #023047;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* MENSAJE EXITO */
+.success-message {
+  color: #2ecc71;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* FORMULARIO */
+.register-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem 2rem;
+  width: clamp(320px, 90%, 850px);
+}
+
+/* Para que los campos amplios (email, contraseña...) ocupen 2 columnas */
+.register-form .full-width {
+  grid-column: 1 / -1;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #023047;
+}
+
+.input-group input,
+.input-group select {
+  padding: 0.9rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.phone-wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prefix-select {
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+/* BOTONES */
+.register-button {
+  padding: 0.9rem;
+  background-color: #219ebc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  transition: background-color 0.3s;
+  grid-column: 1 / -1;
+}
+
+.register-button:hover {
+  background-color: #126782;
+}
+
+/* CONTRASEÑA: mostrar/ocultar */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.show-hide-button {
+  margin-left: 0.5rem;
+  background: none;
+  border: none;
+  color: #219ebc;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* ERRORES */
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .register-form {
+    grid-template-columns: 1fr !important; /* fuerza una sola columna */
+    gap: 1rem;
+  }
+
+  .register-form .full-width {
+    grid-column: 1 / -1 !important;
+  }
+
+  .phone-wrapper {
     flex-direction: column;
-    font-family: 'Roboto', sans-serif;
+    gap: 0.5rem;
   }
-  
-  .logoContainer {
-    margin-bottom: 20px;
+
+  .prefix-select {
+    width: 100%;
   }
-  
-  .logo {
-    height: 80px; /* Ajusta la altura de la imagen */
-    width: auto; /* Mantén la proporción de la imagen */
-    margin-right: 10px; /* Espaciado entre la imagen y el título */
+
+  .register-button {
+    width: 100%;
+    grid-column: 1 / -1;
   }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 300px;
+
+  .password-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
   }
-  
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
+
+  .password-wrapper input {
+    width: 100%;
   }
-  
-  .label {
-    font-weight: bold;
+
+  .show-hide-button {
+    margin-left: 1;
+    margin-top: 0.5rem;
+    align-self: center;
+    padding: 0;
   }
-  
-  .input {
-    padding: 10px;
-    margin-top: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+}
+
+/* MEDIANAS (tablets, 769px a 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .register-form {
+    width: 95%;
   }
-  
-  .button {
-    padding: 10px 20px;
-    background-color: #219EBC;
+
+  .register-title {
+    font-size: 1.9rem;
+  }
+}
+
+/* GRANDES (pantallas de escritorio grandes) */
+@media (min-width: 1025px) {
+  .register-form {
+    width: clamp(600px, 80%, 850px);
+  }
+
+  .register-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* MODO OSCURO */
+@media (prefers-color-scheme: dark) {
+  .register-wrapper {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  .register-title {
+    color: #ffffff;
+  }
+
+  .input-group label {
+    color: #ffffff;
+  }
+
+  .input-group input,
+  .input-group select {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    border: 1px solid #444;
+  }
+
+  .prefix-select {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    border: 1px solid #444;
+  }
+
+  .register-button {
+    background-color: #219ebc;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
   }
-  
-  .showHideButton {
-    background: none;
-    border: none;
-    color: #219EBC;
-    cursor: pointer;
-    font-size: 14px;
-    margin-left: 5px;
+
+  .register-button:hover {
+    background-color: #0b7285;
   }
-  
+
+  .show-hide-button {
+    color: #90caf9;
+  }
+
+  .success-message {
+    color: #a7ffeb;
+  }
+
   .error {
-    color: red;
-    font-size: 12px;
+    color: #ff8a80;
   }
-  
-  .passwordWrapper {
-    display: flex;
-    align-items: center;
-  }
+}

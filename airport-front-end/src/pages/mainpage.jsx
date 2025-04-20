@@ -1,116 +1,148 @@
 import React from 'react';
-import '../components/assets/mainpage.css'; 
-import logo from '../components/assets/logo.png'; 
-import mapaVirtual from '../components/assets/mapavirtual.png';
+import '/src/pages/css/mainpage.css';
+import logo from "/src/pages/images/LogoBlanco.png";
+import coche from "/src/pages/images/coche.png";
+import avion from "/src/pages/images/avion.png";
+import perfil from "/src/pages/images/perfil.png";
+import sortir from "/src/pages/images/apagar.png";
+import campana from "/src/pages/images/campana.png";
+import mapaVirtual from "/src/pages/images/Plano.png";
 
-// ========== Barra Superior (Header) ==========
+// ===== Navbar/Header =====
 function Header() {
   return (
     <header className="header">
-      <div className="header-left">
-        {/* Mostrem el logo i el títol */}
-        <img src={logo} alt="Logo Aeroport" className="logo" />
+      <div className="logo-section">
+        <img src={logo} alt="Logo" className="logo" />
       </div>
-      <div className="header-right">
-        <NotificationsButton />
-        <ProfileButton />
-        <LogoutButton />
+      <div className="icon-section">
+        <button title="Notificacions">
+          <img src={campana} alt="Notificacions" />
+        </button>
+        <button title="Perfil">
+          <img src={perfil} alt="Perfil" />
+        </button>
+        <button title="Sortir">
+          <img src={sortir} alt="Sortir" />
+        </button>
       </div>
     </header>
   );
 }
 
-function NotificationsButton() {
-  return <button>🔔 Notificacions</button>;
-}
-function ProfileButton() {
-  return <button>Veure Perfil</button>;
-}
-function LogoutButton() {
-  return <button>Sortir</button>;
-}
-
-/* ========== Secció del mapa (amplada completa) ========== */
+// ===== Secció del Mapa =====
 function MapSection() {
   return (
     <section className="map-section">
       <h2>Mapa de l'Aeroport</h2>
       <div className="map-image-container">
-      <img src={mapaVirtual} alt="Mapa Virtual de l'Aeroport" className="map-image" />
-    </div>
+        <img src={mapaVirtual} alt="Mapa Virtual de l'Aeroport" className="map-image" />
+      </div>
     </section>
   );
 }
 
-/* ========== Secció Comerços i Oci (amplada completa, amb carrusel) ========== */
+// ===== Botó destacat: Reserva de cotxes =====
+function CarReservation() {
+  return (
+    <a href="/reserva-coxes" className="highlight-section car-reservation">
+      <div className="highlight-icon">
+        <img src={coche} alt="Reserva d'Automòbil" />
+      </div>
+      <div>
+        <h3>Reserva d'Automòbil</h3>
+        <p>Evita cues i viatja còmodament des del primer minut</p>
+      </div>
+    </a>
+  );
+}
+
+// ===== Botó destacat: Informació de vols =====
+function FlightInfo() {
+  return (
+    <a href="/vols" className="highlight-section flight-info">
+      <div className="highlight-icon">
+        <img src={avion} alt="Informació dels Vols" />
+      </div>
+      <div>
+        <h3>Informació dels Vols</h3>
+        <p>Consulta els teus vols i estats en temps real</p>
+      </div>
+    </a>
+  );
+}
+
+// ===== Secció Comerços i Oci =====
 function ShopsLeisureExtended() {
   return (
     <section className="shops-leisure-extended">
       <h2>Comerços i Oci</h2>
       <p>Consulta els comerços i oci de l'aeroport per descobrir ofertes i serveis.</p>
       <div className="carousel">
-        <img
-          src="https://withfor.com/wp-content/uploads/2022/07/696c745675e78971ed170d16d26efdac-1536x1024.jpg"
-          alt="Comerços i Oci 1"
-        />
-        <img
-          src="https://www.mundodeportivo.com/palco23/files/2021/17_clubes/fc-barcelona/fc-barcelona-tienda-980.jpg"
-          alt="Comerços i Oci 2"
-        />
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU-29Tbk47ytwtbRwuWTHmIQYk5eHJF1CQLw&s"
-          alt="Comerços i Oci 3"
-        />
-        <img
-          src="https://i.blogs.es/c2a266/burn_50_21480104_294340901049484_1535366888954003456_n/650_1200.jpg"
-          alt="Comerços i Oci 4"
-        />
-        <img
-          src="https://www.lavanguardia.com/files/og_thumbnail/files/fp/uploads/2024/01/31/65ba0b2f90c3a.r_d.567-490-11719.jpeg"
-          alt="Comerços i Oci 5"
-        />
+        <div className="shop-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png"
+            alt="McDonald's"
+          />
+          <h4>McDonald's</h4>
+          <p>Clàssics menús de menjar ràpid per a tots els gustos.</p>
+        </div>
+        <div className="shop-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png"
+            alt="Starbucks"
+          />
+          <h4>Starbucks</h4>
+          <p>Cafès i begudes artesanals en un ambient acollidor.</p>
+        </div>
+        <div className="shop-card">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScwvX8md4fxiyl71dgKvLZAhOK_K3T1y3FJQ&s"
+            alt="FCB Store"
+          />
+          <h4>FCB Store</h4>
+          <p>Botiga oficial del FC Barcelona amb productes exclusius.</p>
+        </div>
+        <div className="shop-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png"
+            alt="H&M"
+          />
+          <h4>H&M</h4>
+          <p>Moda actual per a tota la família a preus assequibles.</p>
+        </div>
+        <div className="shop-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/95/Logo_oficial_cafe.png"
+            alt="Cafè Britt"
+          />
+          <h4>Cafè Britt</h4>
+          <p>Especialitats de cafè gourmet en un entorn relaxant.</p>
+        </div>
+        <div className="shop-card">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Levis-logo-quer.svg/1280px-Levis-logo-quer.svg.png"
+            alt="Levi's"
+          />
+          <h4>Levi's</h4>
+          <p>Roba texana icònica amb estil i qualitat reconeguda.</p>
+        </div>
       </div>
-      <button>Veure Més</button>
     </section>
+
+
   );
 }
 
-/* ========== Secció: Reserva d'automòbil (graella) ========== */
-function CarReservation() {
-  return (
-    <section className="section car-reservation">
-      <h3>Reserva d'Automòbil</h3>
-      <p>Fes la teva reserva d'un automòbil per moure't amb comoditat.</p>
-      <button>Reserva d'Automòbil</button>
-    </section>
-  );
-}
-
-/* ========== Secció: Informació dels Vols (graella) ========== */
-function FlightInfo() {
-  return (
-    <section className="section flight-info">
-      <h3>Informació dels Vols</h3>
-      <p>Consulta la informació dels teus vols i estats en temps real.</p>
-      <button>Informació dels Vols</button>
-    </section>
-  );
-}
-
-/* ========== Component Principal que agrupa tot ========== */
+// ===== Componente Principal =====
 function MainPage() {
   return (
     <div className="mainpage-container">
       <Header />
-      {/* 1) Mapa a dalt */}
       <MapSection />
-      {/* 2) Comerços i Oci a amplada completa sota el mapa */}
+      <CarReservation />
       <ShopsLeisureExtended />
-      {/* 3) Graella per a la resta de seccions */}
-      <div className="sections-grid">
-        <CarReservation />
-        <FlightInfo />
-      </div>
+      <FlightInfo />
     </div>
   );
 }
