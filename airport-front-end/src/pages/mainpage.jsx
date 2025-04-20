@@ -7,6 +7,7 @@ import perfil from "/src/pages/images/perfil.png";
 import sortir from "/src/pages/images/apagar.png";
 import campana from "/src/pages/images/campana.png";
 import mapaVirtual from "/src/pages/images/Plano.png";
+import LogOutButton from "/src/components/LogOutButton.jsx"
 
 // ===== Navbar/Header =====
 function Header() {
@@ -25,6 +26,9 @@ function Header() {
         <button title="Sortir">
           <img src={sortir} alt="Sortir" />
         </button>
+
+        {/* Botón de logout funcional */}
+        <LogOutButton />
       </div>
     </header>
   );
