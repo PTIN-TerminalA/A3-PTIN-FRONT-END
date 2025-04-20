@@ -1,5 +1,8 @@
+// src/pages/reservacotxe.jsx
+
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import "./css/reservacotxe.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
@@ -13,27 +16,39 @@ function ReservaCotxe() {
   const [hora, setHora] = useState("");
 
   const ubicacions = [
-    "Porta A3", "Pàrquing", "McDonald's", "Starbucks", "Porta A2",
-    "Serveis 1", "FCB Store", "Farmàcia", "Porta A1", "Punt Info. 2",
-    "H&M", "Cafè", "Serveis 2", "Porta A4", "VIP A4",
-    "Reclamació equipatge", "Control Seguretat", "Punt Info. 1",
-    "Zona Check-in", "Levi's", "Parada Taxi"
+    "Porta A3",
+    "Pàrquing",
+    "McDonald's",
+    "Starbucks",
+    "Porta A2",
+    "Serveis 1",
+    "FCB Store",
+    "Farmàcia",
+    "Porta A1",
+    "Punt Info. 2",
+    "H&M",
+    "Cafè",
+    "Serveis 2",
+    "Porta A4",
+    "VIP A4",
+    "Reclamació equipatge",
+    "Control Seguretat",
+    "Punt Info. 1",
+    "Zona Check-in",
+    "Levi's",
+    "Parada Taxi"
   ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // calculamos fecha/hora
+    const token = Cookies.get("token");
     const now = new Date().toISOString();
-    const scheduled = tipusReserva === "programada"
-      ? `${data}T${hora}`
-      : now;
+    const scheduled = tipusReserva === "programada" ? `${data}T${hora}` : now;
 
     const reserva = {
       start_location: puntRecollida,
       end_location: destinacio,
       vehicle_id: "c1",    // placeholder
-      user_id: "u1",       // placeholder
       scheduled_time: scheduled,
       state: tipusReserva === "programada" ? "Programada" : "En curs"
     };
@@ -41,7 +56,10 @@ function ReservaCotxe() {
     try {
       const res = await fetch("http://localhost:8000/reserves/programada", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(reserva)
       });
 
@@ -76,6 +94,7 @@ function ReservaCotxe() {
 
       <div className="main-content-container">
         <div className="background-image-layer"></div>
+        
         <div className="reserva-main-container">
           <div className="reserva-form-container">
             <div className="reserva-section">
@@ -168,8 +187,32 @@ function ReservaCotxe() {
         </div>
       </div>
 
-      <footer className="main-footer lowered-footer">
-        {/* ... pie de página ... */}
+      <footer className="main-footer lowered-footer"> 
+        <div className="footer-columns">
+          <div className="footer-col">
+            <h4>Serveis</h4>
+            <ul>
+              <li>Informació de vols</li>
+              <li>Botigues i restauració</li>
+              <li>Transport</li>
+              <li>Accessibilitat</li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4>Xarxes Socials</h4>
+            <div className="social-icons">
+              <span className="icon-placeholder">F</span>
+              <span className="icon-placeholder">G+</span>
+              <span className="icon-placeholder">T</span>
+              <span className="icon-placeholder">Y</span>
+            </div>
+          </div>
+          <div className="footer-col">
+            <h4>Contacte</h4>
+            <p>Necessites ajuda? Truca'ns ara</p>
+            <p className="footer-phone">+34 600 000 000</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
