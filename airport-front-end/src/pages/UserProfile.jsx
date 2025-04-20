@@ -20,7 +20,7 @@ const UserProfile = () => {
   return (
     <div className="profile-container">
       <div className="profile-card">
-        <button className="close-button" onClick={() => navigate('/paguser')}>×</button>
+        <button className="close-button" onClick={() => navigate('/mainpage')}>×</button>
         <img src={avatarSrc} alt="avatar" className="profile-avatar" />
         <h1 className="profile-name">{userData.nom} {userData.cognom}</h1>
         <p className="profile-role">{userData.rol}</p>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/register.css";
+import Cookies from "js-cookie"
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -69,6 +71,7 @@ function Register() {
       isAdult: true,
       dniFormat: true,
       requiredFields: true,
+      passwordStrength: true,
     };
 
     const requiredFields = [
@@ -106,19 +109,106 @@ function Register() {
       newErrors.dniFormat = false;
     }
 
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;,.<>?/-]).{8,}$/;
+    if (!passwordPattern.test(formData.password)) {
+      valid = false;
+      newErrors.passwordStrength = false;
+    }
+
     setErrors(newErrors);
     return valid;
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage("");
     if (validateForm()) {
-      setSuccessMessage("Registre completat amb èxit!");
+  
+      try {
+
+        const fullName = `${formData.firstName} ${formData.lastName} ${formData.secondLastName}`;
+
+        const registerRes = await fetch("http://localhost:8000/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: fullName,
+            dni: formData.dni,
+            email: formData.email,
+            password: formData.password,
+            usertype: 1
+          }),
+        });
+        
+
+        if (!registerRes.ok) {
+          const responseData = await registerRes.json();
+          throw new Error(responseData.detail || "Error en el registro");
+        }
+
+        const registerData = await registerRes.json();
+        const token = registerData.access_token;
+
+        let userId;
+
+        try {
+
+          const userIdRes = await fetch(`http://localhost:8000/api/get_user_id?token=${token}`);
+      
+          if (!userIdRes.ok) {
+            const errorData = await userIdRes.json();
+            throw new Error(errorData.detail || "Error al obtener el user_id");
+          }
+
+          const userIdData = await userIdRes.json();
+          userId = userIdData.user_id; 
+      
+        } catch (error) {
+          console.error("Error al obtener el user_id:", error.message);
+          alert("Error: " + error.message);
+        }
+
+        const regularRes = await fetch("http://localhost:8000/api/register-regular", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: userId,
+            birth_date: formData.birthDate,
+            phone_num: formData.phoneNumber,
+            identity: formData.gender,
+          }),
+        });
+
+        if (!regularRes.ok){
+          const errorData = await regularRes.json();
+          throw new Error(errorData.detail || "Error al registrar regular")
+        }
+
+        Cookies.set("token", token,{
+          expires: 1,
+         //para https -> secure: true,
+          sameSite: "strict"
+        })
+          
+        setSuccessMessage("Registre completat amb èxit!");
+
+        navigate("/mainpage")
+
+      } catch (error) {
+        console.error("Error en el registro:", error.message);
+        setSuccessMessage(error.message)
+      }
+      
       console.log("Form submitted", formData);
     }
   };
-
+  
+  
   return (
     <div className="register-wrapper">
       <header className="register-header">
@@ -177,7 +267,7 @@ function Register() {
             <option value="male">Home</option>
             <option value="female">Dona</option>
             <option value="other">Altres</option>
-            <option value="none">Prefereixo no dir-ho</option>
+            <option value="rather_not_to_say">Prefereixo no dir-ho</option>
           </select>
         </div>
 
@@ -194,6 +284,7 @@ function Register() {
               {showPassword ? "Amagar" : "Mostrar"}
             </button>
           </div>
+          {!errors.passwordStrength && <span className="error">La contrasenya ha de tenir mínim 8 caràcteres, una mayúscula, una minúscula, un número y un símbol</span>}
         </div>
 
         <div className="input-group full-width">
