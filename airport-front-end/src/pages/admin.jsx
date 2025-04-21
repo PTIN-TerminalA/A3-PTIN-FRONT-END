@@ -1,18 +1,9 @@
 import React from "react";
-<<<<<<< HEAD
-import "/src/pages/css/admin.css"
-import LogOutButton from "/src/components/LogOutButton.jsx";
-import logoBlanco from "/src/pages/images/LogoBlanco.png";
-import perfil from "/src/pages/images/perfil.png";
-import mapa from "/src/pages/images/Plano.png";
-import adminPhoto from "/src/pages/images/lewandowski.png";
-=======
 import { useNavigate } from 'react-router-dom';
 import "./css/admin.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapaAdmin from "../pages/images/Plano.png";
 import adminPhoto from "../pages/images/lewandowski.png";
->>>>>>> develop_reserva
 
 function Admin() {
   const navigate = useNavigate();
@@ -20,22 +11,8 @@ function Admin() {
   return (
     <div className="admin-wrapper">
       <header className="admin-navbar">
-<<<<<<< HEAD
-        <div className="admin-logo-section">
-          <img
-            src={logoBlanco}
-            alt="Logo"
-            className="admin-logo"
-          />
-        </div>
-        <div className="admin-navbar-center">
-          <a href="#dashboard">Dashboard</a>
-          <a href="#estadistiques">Estadístiques</a>
-          <a href="#registres">Registres</a>
-=======
         <div className="admin-navbar-left">
           <img src={logo} alt="Logo" className="admin-navbar-logo" />
->>>>>>> develop_reserva
         </div>
         <div className="admin-navbar-center">
           <a href="#dashboard">Dashboard</a>
@@ -46,13 +23,9 @@ function Admin() {
           <button className="btn btn-outline" onClick={() => navigate('/perfil')}>
             Perfil
           </button>
-<<<<<<< HEAD
-          <LogOutButton></LogOutButton>
-=======
           <button className="btn btn-filled" onClick={() => navigate('/')}>
             Logout
           </button>
->>>>>>> develop_reserva
         </div>
       </header>
 
@@ -61,14 +34,6 @@ function Admin() {
           <div className="admin-profile">
             <img src={adminPhoto} alt="Admin" className="admin-photo" />
             <h2 className="admin-name">Nom Admin</h2>
-<<<<<<< HEAD
-          </div>
-          <div className="admin-buttons">
-            <button onClick={() => window.location.href = "/gestioUsuaris"}>Gestionar Usuaris</button>
-            <button onClick={() => window.location.href = "/gestioReserves"}>Gestionar Reserves</button>
-            <button onClick={() => window.location.href = "/gestioCotxes"}>Gestionar Cotxes</button>
-=======
->>>>>>> develop_reserva
           </div>
           <nav className="admin-menu">
             <button className="admin-menu-btn">Gestionar Usuaris</button>
