@@ -1,8 +1,8 @@
 import React from "react";
 import "/src/pages/css/admin.css"
+import LogOutButton from "/src/components/LogOutButton.jsx";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
-import sortir from "/src/pages/images/apagar.png";
 import mapa from "/src/pages/images/Plano.png";
 import adminPhoto from "/src/pages/images/lewandowski.png";
 
@@ -26,9 +26,7 @@ function Admin() {
           <button onClick={() => window.location.href = "/perfil"}>
             <img src={perfil} alt="Perfil" />
           </button>
-          <button onClick={() => window.location.href = "/"}>
-            <img src={sortir} alt="Sortir" />
-          </button>
+          <LogOutButton></LogOutButton>
         </div>
       </header>
 
