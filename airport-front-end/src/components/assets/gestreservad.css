@@ -1,0 +1,171 @@
+/* Estils per a gestioreserva */
+
+.gestio-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #E8F0FE;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.gestio-title {
+  text-align: center;
+  color: #2C5282;
+  margin-bottom: 20px;
+}
+
+.gestio-search-container {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.gestio-search-container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+  width: 250px;
+}
+
+.gestio-missatge {
+  text-align: center;
+  color: #38A169; /* verd confirmació */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.gestio-content {
+  display: flex;
+  gap: 20px;
+}
+
+.gestio-taula-container {
+  flex: 1;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.gestio-taula {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.gestio-taula th,
+.gestio-taula td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.gestio-taula th {
+  background-color: #003049;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+.gestio-taula tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.gestio-taula tr:hover {
+  background-color: #dce6f2;
+}
+
+.gestio-taula button {
+  background-color: #003049;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: background-color 0.3s ease;
+}
+
+.gestio-taula button:hover {
+  background-color: #2C5282;
+}
+
+.gestio-form-column {
+  flex: 1;
+}
+
+.gestio-empty {
+  padding: 20px;
+  font-style: italic;
+  color: #666;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+}
+
+.gestio-formulari {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.gestio-formulari h2 {
+  margin-bottom: 15px;
+  color: #2C5282;
+}
+
+.gestio-formulari label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #2C5282;
+}
+
+.gestio-formulari input,
+.gestio-formulari select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.gestio-botons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.gestio-botons button {
+  background-color: #2B6CB0;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.gestio-botons button:hover {
+  background-color: #2C5282;
+}
+
+/* Colors segons estat */
+.estat-pendent {
+  color: #D69E2E;
+  font-weight: bold;
+}
+
+.estat-confirmada {
+  color: #38A169;
+  font-weight: bold;
+}
+
+.estat-cancelada {
+  color: #E53E3E;
+  font-weight: bold;
+}
