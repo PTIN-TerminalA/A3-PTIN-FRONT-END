@@ -1,0 +1,21 @@
+.btn-secondary {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary img {
+    height: 32px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s;
+}
+
+.btn-secondary img:hover {
+    transform: scale(1.1);
+} 
+
+@media (max-width: 768px) {
+    .btn-secondary img {
+        height: 25px;
+    }
+}
