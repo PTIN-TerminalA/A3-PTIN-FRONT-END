@@ -1,0 +1,150 @@
+/* createUser.css */
+.create-user-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .create-user-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .create-user-logo {
+    max-width: 200px;
+  }
+  
+  .create-user-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .create-user-form {
+    width: 100%;
+    max-width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .input-group input,
+  .input-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .input-group input:focus,
+  .input-group select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .input-group .phone-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group .phone-wrapper select {
+    flex: 0 0 80px;
+  }
+  
+  .input-group .phone-wrapper input {
+    flex: 1;
+  }
+  
+  .input-group .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+  
+  .create-user-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+  }
+  
+  .create-user-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .show-hide-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-left: 10px;
+  }
+  
+  .show-hide-button:hover {
+    text-decoration: underline;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .success-message {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  .create-user-form .input-group.full-width {
+    width: 100%;
+  }
+  
+  .create-user-form .input-group.full-width input {
+    width: calc(100% - 20px);
+  }
+  
+  @media (max-width: 768px) {
+    .create-user-wrapper {
+      padding: 15px;
+    }
+  
+    .create-user-form {
+      width: 100%;
+      padding: 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .create-user-logo {
+      max-width: 150px;
+    }
+  }
+  
