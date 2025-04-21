@@ -43,7 +43,7 @@ function MapSection() {
 // ===== Botó destacat: Reserva de cotxes =====
 function CarReservation() {
   return (
-    <a href="/reserva-coxes" className="highlight-section car-reservation">
+    <a href="/reservacotxe" className="highlight-section car-reservation">
       <div className="highlight-icon">
         <img src={coche} alt="Reserva d'Automòbil" />
       </div>
