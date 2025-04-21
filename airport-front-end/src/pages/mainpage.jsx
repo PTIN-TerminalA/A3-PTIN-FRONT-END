@@ -1,5 +1,6 @@
 import React from 'react';
 import '/src/pages/css/mainpage.css';
+import LogOutButton from "/src/components/LogOutButton.jsx";
 import logo from "/src/pages/images/LogoBlanco.png";
 import coche from "/src/pages/images/coche.png";
 import avion from "/src/pages/images/avion.png";
@@ -22,9 +23,7 @@ function Header() {
         <button title="Perfil">
           <img src={perfil} alt="Perfil" />
         </button>
-        <button title="Sortir">
-          <img src={sortir} alt="Sortir" />
-        </button>
+        <LogOutButton></LogOutButton>
       </div>
     </header>
   );
