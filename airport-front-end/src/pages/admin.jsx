@@ -4,6 +4,7 @@ import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
 import sortir from "/src/pages/images/apagar.png";
 import mapa from "/src/pages/images/Plano.png";
+import adminPhoto from "/src/pages/images/lewandowski.png";
 
 function Admin() {
   return (
@@ -15,7 +16,11 @@ function Admin() {
             alt="Logo"
             className="admin-logo"
           />
-          <span className="admin-title">Administrador</span>
+        </div>
+        <div className="admin-navbar-center">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#estadistiques">Estadístiques</a>
+          <a href="#registres">Registres</a>
         </div>
         <div className="admin-navbar-buttons">
           <button onClick={() => window.location.href = "/perfil"}>
@@ -30,9 +35,10 @@ function Admin() {
       <div className="admin-layout">
         {/* Sidebar */}
         <aside className="admin-sidebar">
-          <div className="admin-profile-pic" />
-          <p className="admin-name">Nom Administrador</p>
-
+          <div className="admin-profile">
+            <img src={adminPhoto} alt="Admin" className="admin-photo" />
+            <h2 className="admin-name">Nom Admin</h2>
+          </div>
           <div className="admin-buttons">
             <button onClick={() => window.location.href = "/gestioUsuaris"}>Gestionar Usuaris</button>
             <button onClick={() => window.location.href = "/gestioReserves"}>Gestionar Reserves</button>

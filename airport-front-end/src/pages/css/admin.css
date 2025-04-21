@@ -19,7 +19,6 @@ html, body {
   align-items: center;
   background-color: #003049;
   padding: 1rem 2rem;
-  border-bottom: 2px solid #0077b6;
 }
 
 .admin-logo-section {
@@ -36,6 +35,22 @@ html, body {
 .admin-logo.dark-mode {
   display: none;
 }
+
+.admin-navbar-center {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.admin-navbar-center a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.admin-navbar-center a:hover {
+  color: #ffb703;
+}
+
 @media (prefers-color-scheme: dark) {
   .admin-logo.light-mode {
     display: none;
@@ -82,25 +97,34 @@ html, body {
 /* === SIDEBAR === */
 .admin-sidebar {
   width: 280px;
-  background-color: #023047;
-  color: white;
+  /*background-color: #023047;*/
+  background-color: white;
+  color: black;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.admin-profile-pic {
+.admin-profile {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-photo {
   width: 120px;
   height: 120px;
-  background-color: gray;
   border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #005187;
   margin-bottom: 1rem;
 }
 
 .admin-name {
   font-size: 1.2rem;
   font-weight: bold;
+  margin-top: 0rem;
   margin-bottom: 2rem;
 }
 
@@ -112,8 +136,8 @@ html, body {
 }
 
 .admin-buttons button {
-  background-color: #e0f7fa;
-  color: #023047;
+  background-color: #003049;
+  color: white;
   padding: 0.8rem;
   border: none;
   border-radius: 6px;
@@ -124,7 +148,7 @@ html, body {
 }
 
 .admin-buttons button:hover {
-  background-color: #b2ebf2;
+  background-color: #0077b6;
 }
 
 /* === MAPA === */
@@ -171,7 +195,9 @@ html, body {
   }
 
   .admin-sidebar {
-    background-color: #001f33;
+    background-color: #003049;
+    box-shadow: 0px -2px 10px rgba(255, 255, 255, 0.2);
+    color: white;
   }
 
   .admin-buttons button {
@@ -223,19 +249,22 @@ html, body {
     height: 25px;
   }
 
-  .admin-buttons {
-    max-width: fit-content;
-    margin-right: 2rem;
-  }
-
   .admin-sidebar {
     width: 100%;
     flex-direction: row;
     justify-content: space-around;
     padding: 1rem;
+    padding-bottom: 0rem;
   }
 
-  .admin-profile-pic {
+  .admin-buttons {
+    max-width: fit-content;
+    margin-right: 2rem;
+    margin-top: -4rem;
+  }
+
+
+  .admin-navbar-center {
     display: none;
   }
 
