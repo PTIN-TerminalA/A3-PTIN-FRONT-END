@@ -5,10 +5,8 @@ import logo from "/src/pages/images/LogoBlanco.png";
 import coche from "/src/pages/images/coche.png";
 import avion from "/src/pages/images/avion.png";
 import perfil from "/src/pages/images/perfil.png";
-import sortir from "/src/pages/images/apagar.png";
 import campana from "/src/pages/images/campana.png";
 import mapaVirtual from "/src/pages/images/Plano.png";
-import LogOutButton from "/src/components/LogOutButton.jsx"
 
 // ===== Navbar/Header =====
 function Header() {
