@@ -22,7 +22,7 @@
   }
   
   .reservacotxe-wrapper .navbar-logo {
-    width: 160px;
+    width: 80px;
     height: auto;
     display: block;
   }
@@ -76,12 +76,22 @@
   }
   
   .reservacotxe-wrapper .btn-filled {
-    background-color: #ffb703;
-    color: #003049;
+    padding: 0.8rem 1.8rem;
+    border: 2px solid #005187;
+    background-color: white;
+    color: #005187;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 2rem;
   }
   
   .reservacotxe-wrapper .btn-filled:hover {
-    background-color: #ffa500;
+    background-color: #005187;
+    color: white;
+    transform: translateY(-2px);
   }
   
   /* FONDO CON IMAGEN */
@@ -138,7 +148,7 @@
     line-height: 1.2;
   }
   
-  .section-description {
+  .section-description-reserva {
     font-size: 1.3rem;
     color: #4b5563;
     margin-bottom: 3rem;
@@ -226,6 +236,12 @@
     transition: all 0.3s;
   }
   
+  .active:hover {
+    background-color: #216da0;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
   .reservar-btn:hover {
     background-color: #003d66;
     transform: translateY(-2px);
@@ -365,7 +381,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 50%;    border-radius: 50%;
+
     transition: all 0.3s;
     font-weight: bold;
   }
@@ -375,6 +392,26 @@
     transform: translateY(-3px);
   }
   
+  .navbar-right-reservas img {
+    height: 32px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s;
+  }
+
+  .reservas-perfil-button {
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  .navbar-right-reservas img:hover {
+    transform: scale(1.1);
+  }
+
+  .navbar-right-reservas {
+    background-color: transparent;
+  }
+
+
   /* RESPONSIVE */
   @media (max-width: 1600px) {
     .reserva-main-container {
@@ -409,7 +446,7 @@
   
   @media (max-width: 768px) {
     .reservacotxe-wrapper .navbar {
-      flex-direction: column;
+      flex-direction: row;
       gap: 1rem;
       padding: 1rem;
     }
@@ -417,6 +454,7 @@
     .reservacotxe-wrapper .navbar-center {
       flex-wrap: wrap;
       justify-content: center;
+      display: none;
     }
     
     .reserva-main-container {
@@ -445,6 +483,7 @@
     .footer-col {
       min-width: 100%;
     }
+
   }
   
   @media (max-width: 480px) {
@@ -462,7 +501,7 @@
     }
     
     .reservacotxe-wrapper .btn {
-      width: 45%;
+      width: 75%;
       text-align: center;
     }
   }

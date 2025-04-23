@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import LogOutButton from "/src/components/LogOutButton.jsx";
+import perfil from "/src/pages/images/perfil.png";
 import "./css/reservacotxe.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
@@ -86,9 +88,11 @@ function ReservaCotxe() {
           <a href="#serveis">Serveis</a>
           <a href="#contacte">Contacte</a>
         </div>
-        <div className="navbar-right">
-          <button className="btn btn-outline" onClick={() => navigate('/perfil')}>Perfil</button>
-          <button className="btn btn-filled" onClick={() => navigate('/')}>Logout</button>
+        <div className="navbar-right-reservas">
+          <button class="reservas-perfil-button" onClick={() => window.location.href = "/AdminProfile"}>
+            <img src={perfil} alt="Perfil" />
+          </button>
+          <LogOutButton></LogOutButton>
         </div>
       </header>
 
@@ -99,7 +103,7 @@ function ReservaCotxe() {
           <div className="reserva-form-container">
             <div className="reserva-section">
               <h1 className="section-title">Reserva de Vehicle</h1>
-              <p className="section-description">
+              <p className="section-description-reserva">
                 Selecciona el tipus de reserva i introdueix la informació necessària per fer la teva sol·licitud.
               </p>
 

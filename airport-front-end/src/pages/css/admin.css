@@ -1,28 +1,39 @@
-/* -----------------------------------------------
-   Estils exclusius per a la pàgina Admin
------------------------------------------------ */
-
-/* Wrapper general */
-.admin-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
 }
 
-/* Navbar pròpia d'Admin (igual de gran que ReservaCotxe) */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* === NAVBAR === */
 .admin-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;       /* Com a ReservaCotxe */
-  background-color: #005187;
-  color: white;
-  z-index: 1000;
+  background-color: #003049;
+  padding: 1rem 2rem;
 }
 
-.admin-navbar-logo {
-  width: 160px;
-  height: auto;
+.admin-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-logo {
+  height: 80px;
+  width: auto;
+}
+
+.admin-logo.dark-mode {
+  display: none;
 }
 
 .admin-navbar-center {
@@ -40,56 +51,56 @@
   color: #ffb703;
 }
 
-.admin-navbar-right {
-  display: flex;
-  gap: 0.5rem;
+@media (prefers-color-scheme: dark) {
+  .admin-logo.light-mode {
+    display: none;
+  }
+  .admin-logo.dark-mode {
+    display: block;
+  }
 }
 
-/* Botons */
-.btn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+.admin-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.admin-navbar-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-navbar-buttons button {
+  background: none;
   border: none;
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s;
-  font-size: 0.9rem;
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1px solid #ffb703;
-  color: #ffb703;
+.admin-navbar-buttons img {
+  height: 32px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s;
 }
 
-.btn-outline:hover {
-  background-color: #ffb703;
-  color: #003049;
+.admin-navbar-buttons img:hover {
+  transform: scale(1.1);
 }
 
-.btn-filled {
-  background-color: #ffb703;
-  color: #003049;
-}
-
-.btn-filled:hover {
-  background-color: #ffa500;
-}
-
-/* Layout principal */
-.admin-main-container {
+/* === LAYOUT PRINCIPAL === */
+.admin-layout {
   display: flex;
   flex: 1;
-  background-color: #f8fafc;
-  height: calc(100vh - 3rem); /* Dedueix l'alçada aproximada de la navbar amb padding */
+  height: 100%;
 }
 
-/* Sidebar */
+/* === SIDEBAR === */
 .admin-sidebar {
   width: 280px;
+  /*background-color: #023047;*/
   background-color: white;
-  padding: 2rem 1.5rem;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+  color: black;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -111,83 +122,153 @@
 }
 
 .admin-name {
-  color: #1e293b;
-  font-size: 1.5rem;
-  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
 }
 
-/* Menú */
-.admin-menu {
-  width: 100%;
+.admin-buttons {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 1rem;
 }
 
-.admin-menu-btn {
-  background: #005187;
+.admin-buttons button {
+  background-color: #003049;
   color: white;
+  padding: 0.8rem;
   border: none;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s;
-  width: 100%;
-  text-align: left;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-.admin-menu-btn:hover {
-  background: #003d66;
-  transform: translateX(5px);
+.admin-buttons button:hover {
+  background-color: #0077b6;
 }
 
-/* Contingut del mapa */
-/* Mida una mica més gran */
-.admin-content {
+/* === MAPA === */
+.admin-map-container {
   flex: 1;
+  position: relative;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-}
-
-.admin-map-container {
-  width: 250%;               /* De 80% a 85% per fer-lo més gran */
-  max-width: 1400px;         /* De 700px a 750px */
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
 }
 
 .admin-map-image {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  max-width: auto;
+  border-radius: 12px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
+.back-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #003049;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #0077b6;
+}
+
+/* === MODO OSCURO === */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
   .admin-sidebar {
-    width: 240px;
+    background-color: #003049;
+    box-shadow: 0px -2px 10px rgba(255, 255, 255, 0.2);
+    color: white;
   }
+
+  .admin-buttons button {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .admin-buttons button:hover {
+    background-color: #2a2a2a;
+  }
+
   .admin-map-container {
-    max-width: 90%;
+    background-color: #121212;
+  }
+
+  .admin-map-image {
+    box-shadow: 0px 2px 10px rgba(255, 255, 255, 0.05);
+  }
+
+  .back-btn {
+    background-color: #0077b6;
+  }
+
+  .back-btn:hover {
+    background-color: #005f8a;
   }
 }
 
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
-  .admin-main-container {
-    flex-direction: column;
-    height: auto;
+
+  .admin-layout {
+    max-width: fit-content;
   }
+
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-logo {
+    height: 60px;
+  }
+
+  .admin-title {
+    display: none;
+  }
+
+  .admin-navbar-buttons img {
+    height: 25px;
+  }
+
   .admin-sidebar {
     width: 100%;
-    box-shadow: none;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1rem;
+    padding-bottom: 0rem;
   }
+
+  .admin-buttons {
+    max-width: fit-content;
+    margin-right: 2rem;
+    margin-top: -4rem;
+  }
+
+
+  .admin-navbar-center {
+    display: none;
+  }
+
   .admin-map-container {
-    max-width: 100%;
-    margin-top: 1rem;
+    padding: 1rem;
   }
 }

@@ -1,56 +1,54 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import "./css/admin.css";
-import logo from "../pages/images/LogoBlanco.png";
-import mapaAdmin from "../pages/images/Plano.png";
-import adminPhoto from "../pages/images/lewandowski.png";
+import "/src/pages/css/admin.css"
+import LogOutButton from "/src/components/LogOutButton.jsx";
+import logoBlanco from "/src/pages/images/LogoBlanco.png";
+import perfil from "/src/pages/images/perfil.png";
+import mapa from "/src/pages/images/Plano.png";
+import adminPhoto from "/src/pages/images/lewandowski.png";
 
 function Admin() {
-  const navigate = useNavigate();
-
   return (
-    <div className="admin-wrapper">
+    <div className="admin-page">
       <header className="admin-navbar">
-        <div className="admin-navbar-left">
-          <img src={logo} alt="Logo" className="admin-navbar-logo" />
+        <div className="admin-logo-section">
+          <img
+            src={logoBlanco}
+            alt="Logo"
+            className="admin-logo"
+          />
         </div>
         <div className="admin-navbar-center">
           <a href="#dashboard">Dashboard</a>
           <a href="#estadistiques">Estadístiques</a>
           <a href="#registres">Registres</a>
         </div>
-        <div className="admin-navbar-right">
-          <button className="btn btn-outline" onClick={() => navigate('/perfil')}>
-            Perfil
+        <div className="admin-navbar-buttons">
+          <button onClick={() => window.location.href = "/AdminProfile"}>
+            <img src={perfil} alt="Perfil" />
           </button>
-          <button className="btn btn-filled" onClick={() => navigate('/')}>
-            Logout
-          </button>
+          <LogOutButton></LogOutButton>
         </div>
       </header>
 
-      <div className="admin-main-container">
+      <div className="admin-layout">
+        {/* Sidebar */}
         <aside className="admin-sidebar">
           <div className="admin-profile">
             <img src={adminPhoto} alt="Admin" className="admin-photo" />
             <h2 className="admin-name">Nom Admin</h2>
           </div>
-          <nav className="admin-menu">
-            <button className="admin-menu-btn">Gestionar Usuaris</button>
-            <button className="admin-menu-btn">Gestionar Reserves</button>
-            <button className="admin-menu-btn">Gestionar Cotxes</button>
-          </nav>
+          <div className="admin-buttons">
+            <button onClick={() => window.location.href = "/gestioUsuaris"}>Gestionar Usuaris</button>
+            <button onClick={() => window.location.href = "/gestioReserves"}>Gestionar Reserves</button>
+            <button onClick={() => window.location.href = "/gestioCotxes"}>Gestionar Cotxes</button>
+          </div>
         </aside>
 
-        <section className="admin-content">
-          <div className="admin-map-container">
-            <img
-              src={mapaAdmin}
-              alt="Mapa administratiu de l'aeroport"
-              className="admin-map-image"
-            />
-          </div>
-        </section>
+        {/* Mapa */}
+        <main className="admin-map-container">
+          <img src={mapa} alt="Mapa de l'aeroport" className="admin-map-image" />
+          <button className="back-btn" onClick={() => window.history.back()}>⬅ Tornar</button>
+        </main>
       </div>
     </div>
   );

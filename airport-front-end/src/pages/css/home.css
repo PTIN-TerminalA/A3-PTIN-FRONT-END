@@ -155,6 +155,21 @@ html, body {
   background-color: #f9fafb;
 }
 
+@media (prefers-color-scheme: dark) {
+  .features-section {
+    background-color: black;
+  }
+
+  .feature-item {
+    color: black;
+    background: black;
+  }
+
+  .feature-icon {
+    background-color: black;
+  }
+}
+
 .features-title {
   font-size: 2rem;
   font-weight: 600;
