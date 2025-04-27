@@ -152,32 +152,13 @@ function Register() {
         const registerData = await registerRes.json();
         const token = registerData.access_token;
 
-        let userId;
-
-        try {
-
-          const userIdRes = await fetch(`http://localhost:8000/api/get_user_id?token=${token}`);
-      
-          if (!userIdRes.ok) {
-            const errorData = await userIdRes.json();
-            throw new Error(errorData.detail || "Error al obtener el user_id");
-          }
-
-          const userIdData = await userIdRes.json();
-          userId = userIdData.user_id; 
-      
-        } catch (error) {
-          console.error("Error al obtener el user_id:", error.message);
-          alert("Error: " + error.message);
-        }
-
         const regularRes = await fetch("http://localhost:8000/api/register-regular", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            user_id: userId,
+            token: token,
             birth_date: formData.birthDate,
             phone_num: formData.phoneNumber,
             identity: formData.gender,
