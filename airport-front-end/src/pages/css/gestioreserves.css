@@ -1,35 +1,49 @@
-.gestio-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+/* === NAVBAR (clonada de admin) === */
 .gestio-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: #005187;
+  background-color: #003049;
+  padding: 1rem 2rem;
   color: white;
+  position: sticky;
+  top: 0;
   z-index: 1000;
 }
-.gestio-navbar-logo {
-  width: 160px;
-  height: auto;
+
+.gestio-navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
+
+.gestio-navbar-logo {
+  height: 80px;
+  width: auto;
+}
+
 .gestio-navbar-center {
   display: flex;
   gap: 1.5rem;
 }
+
 .gestio-navbar-center a {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
-.gestio-navbar-center a:hover { color: #ffb703; }
+
+.gestio-navbar-center a:hover {
+  color: #ffb703;
+}
+
 .gestio-navbar-right {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
 }
+
+/* === BOTONES (ya definidos) === */
 .btn {
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
@@ -55,18 +69,22 @@
 .btn-filled:hover {
   background-color: #ffa500;
 }
-.small {
-  padding: 0.2rem 0.5rem;
-  font-size: 0.8rem;
+
+/* === LAYOUT PRINCIPAL === */
+.gestio-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
-/* Layout principal */
 .gestio-main-container {
   display: flex;
   flex: 1;
   background-color: #f8fafc;
-  height: calc(100vh - 3rem);
+  overflow: hidden;
 }
-/* Sidebar */
+
+/* === SIDEBAR === */
 .gestio-sidebar {
   width: 280px;
   background-color: white;
@@ -108,7 +126,6 @@
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s;
-  width: 100%;
   text-align: left;
 }
 .gestio-menu-btn:hover {
@@ -119,7 +136,8 @@
   background: #ffb703;
   color: #003049;
 }
-/* Contingut i filtres */
+
+/* === CONTINGUT === */
 .gestio-content {
   flex: 1;
   padding: 2rem;
@@ -130,32 +148,58 @@
   color: #1e293b;
   font-size: 1.75rem;
 }
+
+/* === NOVA RESERVA === */
+.nova-reserva {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.nova-reserva h2 {
+  color: #005187;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1rem;
+  align-items: center;
+}
+.large-input, .large-select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+.large-input:focus, .large-select:focus {
+  outline: none;
+  border-color: #005187;
+  box-shadow: 0 0 0 2px rgba(0,81,135,0.1);
+}
+.large-btn {
+  padding: 0.8rem;
+  font-size: 1rem;
+  grid-column: 1 / -1;
+}
+
+/* === FILTRES === */
 .gestio-filters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
   gap: 1rem;
   margin: 2rem 0;
 }
-.filter-group {
-  display: flex;
-  flex-direction: column;
-}
-.filter-group label {
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-  color: #334155;
-}
-.filter-group input,
-.filter-group select {
-  padding: 0.5rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-}
 .filter-btn {
-  align-self: end;
   grid-column: 1 / -1;
+  justify-self: end;
 }
-/* Taula de reserves */
+
+/* === TAULA === */
 .gestio-table-container {
   overflow-x: auto;
 }
@@ -167,8 +211,7 @@
   border-radius: 8px;
   overflow: hidden;
 }
-.gestio-table th,
-.gestio-table td {
+.gestio-table th, .gestio-table td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
@@ -180,73 +223,19 @@
 .gestio-table tr:hover {
   background-color: #f1f5f9;
 }
-
-/* Nueva sección de reserva */
-.nova-reserva {
-  margin-bottom: 30px;
-  padding: 25px;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.nova-reserva h2 {
-  color: #005187;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  align-items: center;
-}
-
-.large-input,
-.large-select {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  transition: border-color 0.3s;
-}
-
-.large-input:focus,
-.large-select:focus {
-  outline: none;
-  border-color: #005187;
-  box-shadow: 0 0 0 2px rgba(0, 81, 135, 0.1);
-}
-
-.large-btn {
-  padding: 12px 20px;
-  font-size: 1rem;
-  grid-column: 1 / -1;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .gestio-main-container {
-    flex-direction: column;
-  }
-  
-  .gestio-sidebar {
-    width: 100%;
-    padding: 1rem;
-  }
-  
-  .gestio-content {
-    padding: 1rem;
-  }
-}
-
 .gestio-table td {
   color: #000;
+}
+.btn.small {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .gestio-navbar-center { display: none; }
+  .gestio-sidebar { width: 100%; padding: 1rem; }
+  .gestio-main-container { flex-direction: column; }
+  .gestio-content { padding: 1rem; }
+  .form-row { grid-template-columns: 1fr; }
 }

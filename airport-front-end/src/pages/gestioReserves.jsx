@@ -1,283 +1,282 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useNavigate }         from 'react-router-dom';
+import Cookies                 from 'js-cookie';
 import "./css/gestioreserves.css";
-import logo from "../pages/images/LogoBlanco.png";
-import adminPhoto from "../pages/images/lewandowski.png";
+import logo                    from "../pages/images/LogoBlanco.png";
+import adminPhoto              from "../pages/images/lewandowski.png";
+import LogOutButton            from "/src/components/LogOutButton.jsx";
+import perfil                  from "/src/pages/images/perfil.png";
 
-function GestioReserves() {
+export default function GestioReserves() {
   const navigate = useNavigate();
 
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startPoint, setStartPoint] = useState("");
-  const [endPoint, setEndPoint] = useState("");
-  const [email, setEmail] = useState("");
-  const [stateFilter, setStateFilter] = useState("");
+  // filtros de lectura
+  const [filters, setFilters] = useState({
+    user_email: "",
+    start_location: "",
+    end_location: "",
+    state: "",
+    start_date: "",
+    end_date: ""
+  });
+
+  // array de reservas
   const [reserves, setReserves] = useState([]);
-  const [newReserveType, setNewReserveType] = useState("programada");
-  const [newReserveEmail, setNewReserveEmail] = useState("");
-  const [newReserveStart, setNewReserveStart] = useState("");
-  const [newReserveEnd, setNewReserveEnd] = useState("");
-  const [newReserveDate, setNewReserveDate] = useState("");
 
-  const ubicacions = [
-    "Porta A3", "Pàrquing", "McDonald's", "Starbucks", "Porta A2",
-    "Serveis 1", "FCB Store", "Farmàcia", "Porta A1", "Punt Info. 2",
-    "H&M", "Cafè", "Serveis 2", "Porta A4", "VIP A4",
-    "Reclamació equipatge", "Control Seguretat", "Punt Info. 1",
-    "Zona Check-in", "Levi's", "Parada Taxi"
-  ];
+  // nueva reserva (admin crea para cualquier correo)
+  const [newRes, setNewRes] = useState({
+    user_email: "",
+    start_location: "",
+    end_location: "",
+    scheduled_time: "",
+    state: "Programada"
+  });
 
-  const estados = ["Programada", "En curs", "Finalitzada"];
+  // cargar reservas
+  useEffect(fetchReserves, []);
 
-  const fetchReserves = async (filters = {}) => {
-    try {
-      const token = Cookies.get('token');
-      const params = new URLSearchParams();
-      Object.entries(filters).forEach(([k, v]) => v && params.append(k, v));
-      const url = `http://localhost:8000/reserves?${params.toString()}`;
-      const res = await fetch(url, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error(`Error ${res.status}`);
-      const data = await res.json();
-      setReserves(data.reserves);
-    } catch (err) {
-      console.error(err);
-      setReserves([]);
-    }
-  };
+  function fetchReserves() {
+    const token = Cookies.get("token");
+    const qs = new URLSearchParams(filters).toString();
+    fetch(`http://localhost:8000/reserves?${qs}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(r => r.json())
+      .then(data => setReserves(data.reserves || []))
+      .catch(console.error);
+  }
 
-  useEffect(() => {
-    fetchReserves();
-  }, []);
+  function handleFilterChange(e) {
+    setFilters(f => ({ ...f, [e.target.name]: e.target.value }));
+  }
 
-  const handleFilter = (e) => {
+  function handleNewChange(e) {
+    setNewRes(r => ({ ...r, [e.target.name]: e.target.value }));
+  }
+
+  function handleFilterSubmit(e) {
     e.preventDefault();
-    fetchReserves({
-      start_date: startDate,
-      end_date: endDate,
-      start_location: startPoint,
-      end_location: endPoint,
-      user_email: email,
-      state: stateFilter
-    });
-  };
+    fetchReserves();
+  }
 
-  const handleCancel = async (id) => {
-    const token = Cookies.get('token');
-    if (!window.confirm("Segur que vols cancel·lar aquesta reserva?")) return;
+  function handleCreate() {
+    const token = Cookies.get("token");
+    fetch("http://localhost:8000/reserves/programada", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(newRes)
+    })
+      .then(r => {
+        if (!r.ok) throw new Error();
+        fetchReserves();
+        setNewRes({
+          user_email: "",
+          start_location: "",
+          end_location: "",
+          scheduled_time: "",
+          state: "Programada"
+        });
+      })
+      .catch(console.error);
+  }
 
-    try {
-      const res = await fetch(`http://localhost:8000/reserves/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+  function handleDelete(id) {
+    if (!window.confirm("Segur?")) return;
+    const token = Cookies.get("token");
+    fetch(`http://localhost:8000/reserves/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(() => fetchReserves())
+      .catch(console.error);
+  }
 
-      if (!res.ok) throw new Error("No s'ha pogut cancel·lar la reserva");
+  function handleUpdate(id) {
+    // Abrimos prompt para cada campo editable
+    const newStart = prompt("Nova ubicació origen:", "");
+    const newEnd   = prompt("Nova ubicació destí:", "");
+    const newTime  = prompt("Nova data (YYYY-MM-DDTHH:mm):", "");
+    const newState = prompt("Nou estat:", "");
+    const update = {};
+    if (newStart) update.start_location = newStart;
+    if (newEnd)   update.end_location   = newEnd;
+    if (newTime)  update.scheduled_time = newTime;
+    if (newState) update.state          = newState;
 
-      alert("Reserva cancel·lada correctament.");
-      fetchReserves();
-    } catch (err) {
-      console.error(err);
-      alert("Error al cancel·lar la reserva.");
-    }
-  };
+    if (Object.keys(update).length === 0) return;
 
-  const handleNewReserve = async () => {
-    if (!newReserveEmail || !newReserveStart || !newReserveEnd || (newReserveType === "programada" && !newReserveDate)) {
-      alert("Tots els camps són obligatoris.");
-      return;
-    }
-
-    try {
-      // Paso 1: Comprovar si l'usuari existeix a MySQL
-      const token = Cookies.get('token');
-      const userRes = await fetch(`http://localhost:8000/check-user?email=${encodeURIComponent(newReserveEmail)}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      if (!userRes.ok) {
-        alert("Aquest correu no existeix a la base de dades.");
-        return;
-      }
-
-      const userData = await userRes.json();
-      const userId = userData.id;
-
-      // Paso 2: Enviar la reserva a MongoDB
-      const reservaPayload = {
-        start_location: newReserveStart,
-        end_location: newReserveEnd,
-        scheduled_time: newReserveDate,
-        state: newReserveType === "programada" ? "Programada" : "En curs"
-      };
-
-      const res = await fetch("http://localhost:8000/reserves/programada", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(reservaPayload)
-      });
-
-      if (!res.ok) throw new Error("Error al crear la reserva");
-
-      alert("Reserva creada correctament!");
-      fetchReserves();
-
-      // Netejar formulari
-      setNewReserveEmail("");
-      setNewReserveStart("");
-      setNewReserveEnd("");
-      setNewReserveDate("");
-
-    } catch (err) {
-      console.error(err);
-      alert("Error al afegir la reserva.");
-    }
-  };
+    const token = Cookies.get("token");
+    fetch(`http://localhost:8000/reserves/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(update)
+    })
+      .then(r => {
+        if (!r.ok) throw new Error();
+        fetchReserves();
+      })
+      .catch(console.error);
+  }
 
   return (
     <div className="gestio-wrapper">
-      <header className="gestio-navbar">
-        <div className="gestio-navbar-left">
-          <img src={logo} alt="Logo" className="gestio-navbar-logo" />
+      <header className="admin-navbar">
+        <div className="admin-logo-section">
+          <img src={logo} alt="Logo" className="admin-logo" />
         </div>
-        <div className="gestio-navbar-center">
+        <div className="admin-navbar-center">
           <a href="#dashboard">Dashboard</a>
           <a href="#estadistiques">Estadístiques</a>
           <a href="#registres">Registres</a>
         </div>
-        <div className="gestio-navbar-right">
-          <button className="btn btn-outline" onClick={() => navigate('/perfil')}>
-            Perfil
+        <div className="admin-navbar-buttons">
+          <button onClick={() => navigate("/AdminProfile")}>
+            <img src={perfil} alt="Perfil" />
           </button>
-          <button className="btn btn-filled" onClick={() => navigate('/')}>
-            Logout
-          </button>
+          <LogOutButton />
         </div>
       </header>
 
-      <div className="gestio-main-container">
-        <aside className="gestio-sidebar">
-          <div className="gestio-profile">
-            <img src={adminPhoto} alt="Admin" className="gestio-photo" />
-            <h2 className="gestio-name">Nom Admin</h2>
-          </div>
-          <nav className="gestio-menu">
-            <button className="gestio-menu-btn" onClick={() => navigate('/admin/users')}>
-              Gestionar Usuaris
-            </button>
-            <button className="gestio-menu-btn active">
-              Gestionar Reserves
-            </button>
-            <button className="gestio-menu-btn" onClick={() => navigate('/admin/cars')}>
-              Gestionar Cotxes
-            </button>
-          </nav>
-        </aside>
+      <h1 className="page-title">Gestió de Reserves</h1>
 
-        <section className="gestio-content">
-          <h1 className="gestio-title">Gestió de Reserves</h1>
+      {/* Crear reserva */}
+      <section className="nova-reserva-section">
+        <h2>Nova Reserva</h2>
+        <div className="nova-reserva-form">
+          <input
+            name="user_email"
+            placeholder="Correu del usuari"
+            value={newRes.user_email}
+            onChange={handleNewChange}
+          />
+          <input
+            name="start_location"
+            placeholder="Origen"
+            value={newRes.start_location}
+            onChange={handleNewChange}
+          />
+          <input
+            name="end_location"
+            placeholder="Destí"
+            value={newRes.end_location}
+            onChange={handleNewChange}
+          />
+          <input
+            name="scheduled_time"
+            type="datetime-local"
+            value={newRes.scheduled_time}
+            onChange={handleNewChange}
+          />
+          <select
+            name="state"
+            value={newRes.state}
+            onChange={handleNewChange}
+          >
+            <option>Programada</option>
+            <option>En curs</option>
+            <option>Finalitzada</option>
+          </select>
+          <button className="btn btn-filled" onClick={handleCreate}>
+            Afegir Reserva
+          </button>
+        </div>
+      </section>
 
-          {/* Nova reserva */}
-          <div className="nova-reserva">
-            <h2>Nova Reserva</h2>
-            <div className="form-row">
-              <input
-                type="email"
-                placeholder="Correu de l'usuari"
-                value={newReserveEmail}
-                onChange={(e) => setNewReserveEmail(e.target.value)}
-                className="large-input"
-              />
-              <select
-                value={newReserveType}
-                onChange={(e) => setNewReserveType(e.target.value)}
-                className="large-select"
-              >
-                <option value="programada">Programada</option>
-                <option value="instantania" disabled>Instantània</option>
-              </select>
-              <select
-                value={newReserveStart}
-                onChange={(e) => setNewReserveStart(e.target.value)}
-                className="large-select"
-              >
-                <option value="">Origen</option>
-                {ubicacions.map((loc, index) => (
-                  <option key={index} value={loc}>{loc}</option>
-                ))}
-              </select>
-              <select
-                value={newReserveEnd}
-                onChange={(e) => setNewReserveEnd(e.target.value)}
-                className="large-select"
-              >
-                <option value="">Destí</option>
-                {ubicacions.map((loc, index) => (
-                  <option key={index} value={loc}>{loc}</option>
-                ))}
-              </select>
-              {newReserveType === "programada" && (
-                <input
-                  type="datetime-local"
-                  value={newReserveDate}
-                  onChange={(e) => setNewReserveDate(e.target.value)}
-                  className="large-input"
-                />
-              )}
-              <button onClick={handleNewReserve} className="btn btn-filled large-btn">
-                Afegir Reserva
-              </button>
-            </div>
-          </div>
+      {/* Filtros */}
+      <section className="filters-bar">
+        <form className="filters-form" onSubmit={handleFilterSubmit}>
+          <input
+            name="user_email"
+            placeholder="Filtrar per email"
+            value={filters.user_email}
+            onChange={handleFilterChange}
+          />
+          <input
+            name="start_location"
+            placeholder="Origen"
+            value={filters.start_location}
+            onChange={handleFilterChange}
+          />
+          <input
+            name="end_location"
+            placeholder="Destí"
+            value={filters.end_location}
+            onChange={handleFilterChange}
+          />
+          <select
+            name="state"
+            value={filters.state}
+            onChange={handleFilterChange}
+          >
+            <option value="">Tots estats</option>
+            <option>Programada</option>
+            <option>En curs</option>
+            <option>Finalitzada</option>
+          </select>
+          <input
+            name="start_date"
+            type="date"
+            value={filters.start_date}
+            onChange={handleFilterChange}
+          />
+          <input
+            name="end_date"
+            type="date"
+            value={filters.end_date}
+            onChange={handleFilterChange}
+          />
+          <button type="submit" className="btn btn-filled">
+            Filtrar
+          </button>
+        </form>
+      </section>
 
-          {/* Filtres */}
-          <form className="gestio-filters" onSubmit={handleFilter}>
-            <button type="submit" className="btn btn-filled filter-btn">
-              Filtrar
-            </button>
-          </form>
-
-          <div className="gestio-table-container">
-            <table className="gestio-table">
-              <thead>
-                <tr>
-                  <th>Usuari</th>
-                  <th>Origen</th>
-                  <th>Destí</th>
-                  <th>Data Inici</th>
-                  <th>Estat</th>
-                  <th>Accions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {reserves.map((r, i) => (
-                  <tr key={i}>
-                    <td>{r.user_email || r.user_id}</td>
-                    <td>{r.start_location}</td>
-                    <td>{r.end_location}</td>
-                    <td>{new Date(r.scheduled_time).toLocaleString()}</td>
-                    <td>{r.state}</td>
-                    <td>
-                      <button className="btn btn-outline small">Veure</button>
-                      <button className="btn btn-filled small" onClick={() => handleCancel(r._id)}>Cancelar</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+      {/* Tabla */}
+      <section className="reserves-section">
+        <table className="gestio-table">
+          <thead>
+            <tr>
+              <th>Email Usuari</th>
+              <th>Origen</th>
+              <th>Destí</th>
+              <th>Data Inici</th>
+              <th>Estat</th>
+              <th>Accions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {reserves.map(r => (
+              <tr key={r._id}>
+                <td>{r.user_email}</td>
+                <td>{r.start_location}</td>
+                <td>{r.end_location}</td>
+                <td>{new Date(r.scheduled_time).toLocaleString()}</td>
+                <td>{r.state}</td>
+                <td>
+                  <button
+                    className="btn btn-outline small"
+                    onClick={() => handleUpdate(r._id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-filled small"
+                    onClick={() => handleDelete(r._id)}
+                  >
+                    Cancel·lar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
-
-export default GestioReserves;

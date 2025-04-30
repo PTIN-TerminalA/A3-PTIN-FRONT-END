@@ -162,7 +162,7 @@ html, body {
 }
 
 .admin-map-image {
-  width: 100%;
+  width: 50%;
   max-width: auto;
   border-radius: 12px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);

@@ -4,6 +4,8 @@ import Cookies from 'js-cookie';
 import "./css/gestioreserves.css";
 import logo from "../pages/images/LogoBlanco.png";
 import adminPhoto from "../pages/images/lewandowski.png";
+import LogOutButton from "/src/components/LogOutButton.jsx";
+import perfil from "/src/pages/images/perfil.png";
 
 function GestioReserves() {
   const navigate = useNavigate();
@@ -36,11 +38,11 @@ function GestioReserves() {
       const token = Cookies.get('token');
       const params = new URLSearchParams();
       Object.entries(filters).forEach(([k, v]) => v && params.append(k, v));
-      const url = http://localhost:8000/reserves?${params.toString()};
+      const url = `http://localhost:8000/reserves?${params.toString()}`;
       const res = await fetch(url, {
-        headers: { Authorization: Bearer ${token} }
+        headers: { Authorization: `Bearer ${token}` }
       });
-      if (!res.ok) throw new Error(Error ${res.status});
+      if (!res.ok) throw new Error(`Error ${res.status}`);
       const data = await res.json();
       setReserves(data.reserves);
     } catch (err) {
@@ -70,10 +72,10 @@ function GestioReserves() {
     if (!window.confirm("Segur que vols cancel·lar aquesta reserva?")) return;
 
     try {
-      const res = await fetch(http://localhost:8000/reserves/${id}, {
+      const res = await fetch(`http://localhost:8000/reserves/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: Bearer ${token}
+          Authorization: `Bearer ${token}`
         }
       });
 
@@ -94,10 +96,9 @@ function GestioReserves() {
     }
 
     try {
-      // Paso 1: Comprovar si l'usuari existeix a MySQL
       const token = Cookies.get('token');
-      const userRes = await fetch(http://localhost:8000/check-user?email=${encodeURIComponent(newReserveEmail)}, {
-        headers: { Authorization: Bearer ${token} }
+      const userRes = await fetch(`http://localhost:8000/check-user?email=${encodeURIComponent(newReserveEmail)}`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
 
       if (!userRes.ok) {
@@ -108,7 +109,6 @@ function GestioReserves() {
       const userData = await userRes.json();
       const userId = userData.id;
 
-      // Paso 2: Enviar la reserva a MongoDB
       const reservaPayload = {
         start_location: newReserveStart,
         end_location: newReserveEnd,
@@ -120,7 +120,7 @@ function GestioReserves() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: Bearer ${token}
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(reservaPayload)
       });
@@ -130,7 +130,6 @@ function GestioReserves() {
       alert("Reserva creada correctament!");
       fetchReserves();
 
-      // Netejar formulari
       setNewReserveEmail("");
       setNewReserveStart("");
       setNewReserveEnd("");
@@ -146,20 +145,18 @@ function GestioReserves() {
     <div className="gestio-wrapper">
       <header className="gestio-navbar">
         <div className="gestio-navbar-left">
-          <img src={logo} alt="Logo" className="gestio-navbar-logo" />
+          <img src={logo} alt="Logo" className="gestio-logo" />
         </div>
         <div className="gestio-navbar-center">
           <a href="#dashboard">Dashboard</a>
           <a href="#estadistiques">Estadístiques</a>
           <a href="#registres">Registres</a>
         </div>
-        <div className="gestio-navbar-right">
-          <button className="btn btn-outline" onClick={() => navigate('/perfil')}>
-            Perfil
+        <div className="gestio-navbar-buttons">
+          <button onClick={() => navigate('/AdminProfile')}>
+            <img src={perfil} alt="Perfil" />
           </button>
-          <button className="btn btn-filled" onClick={() => navigate('/')}>
-            Logout
-          </button>
+          <LogOutButton />
         </div>
       </header>
 
@@ -170,13 +167,19 @@ function GestioReserves() {
             <h2 className="gestio-name">Nom Admin</h2>
           </div>
           <nav className="gestio-menu">
-            <button className="gestio-menu-btn" onClick={() => navigate('/admin/users')}>
+            <button 
+              className="gestio-menu-btn" 
+              onClick={() => navigate('/gestioUsuaris')}
+            >
               Gestionar Usuaris
             </button>
             <button className="gestio-menu-btn active">
               Gestionar Reserves
             </button>
-            <button className="gestio-menu-btn" onClick={() => navigate('/admin/cars')}>
+            <button 
+              className="gestio-menu-btn" 
+              onClick={() => navigate('/gestioCotxes')}
+            >
               Gestionar Cotxes
             </button>
           </nav>
@@ -185,7 +188,6 @@ function GestioReserves() {
         <section className="gestio-content">
           <h1 className="gestio-title">Gestió de Reserves</h1>
 
-          {/* Nova reserva */}
           <div className="nova-reserva">
             <h2>Nova Reserva</h2>
             <div className="form-row">
@@ -232,14 +234,77 @@ function GestioReserves() {
                   className="large-input"
                 />
               )}
-              <button onClick={handleNewReserve} className="btn btn-filled large-btn">
+              <button 
+                onClick={handleNewReserve} 
+                className="btn btn-filled large-btn"
+              >
                 Afegir Reserva
               </button>
             </div>
           </div>
 
-          {/* Filtres */}
           <form className="gestio-filters" onSubmit={handleFilter}>
+            <div className="filter-group">
+              <label>Data Inici</label>
+              <input 
+                type="date" 
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+            <div className="filter-group">
+              <label>Data Fi</label>
+              <input 
+                type="date" 
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
+            <div className="filter-group">
+              <label>Origen</label>
+              <select
+                value={startPoint}
+                onChange={(e) => setStartPoint(e.target.value)}
+              >
+                <option value="">Tots</option>
+                {ubicacions.map((loc, index) => (
+                  <option key={index} value={loc}>{loc}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Destí</label>
+              <select
+                value={endPoint}
+                onChange={(e) => setEndPoint(e.target.value)}
+              >
+                <option value="">Tots</option>
+                {ubicacions.map((loc, index) => (
+                  <option key={index} value={loc}>{loc}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Correu</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Filtrar per email"
+              />
+            </div>
+            <div className="filter-group">
+              <label>Estat</label>
+              <select
+                value={stateFilter}
+                onChange={(e) => setStateFilter(e.target.value)}
+              >
+                <option value="">Tots</option>
+                {estados.map((estado, index) => (
+                  <option key={index} value={estado}>{estado}</option>
+                ))}
+              </select>
+            </div>
             <button type="submit" className="btn btn-filled filter-btn">
               Filtrar
             </button>
@@ -267,7 +332,12 @@ function GestioReserves() {
                     <td>{r.state}</td>
                     <td>
                       <button className="btn btn-outline small">Veure</button>
-                      <button className="btn btn-filled small" onClick={() => handleCancel(r._id)}>Cancelar</button>
+                      <button 
+                        className="btn btn-filled small" 
+                        onClick={() => handleCancel(r._id)}
+                      >
+                        Cancel·lar
+                      </button>
                     </td>
                   </tr>
                 ))}

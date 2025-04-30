@@ -56,7 +56,7 @@ function ReservaCotxe() {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/reserves/programada", {
+      const res = await fetch("http://localhost:8000/reserves/usuari", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

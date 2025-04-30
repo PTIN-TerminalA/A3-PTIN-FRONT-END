@@ -1,0 +1,239 @@
+.user-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* NAVBAR ACTUALIZADA */
+.user-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #005187;
+}
+
+.user-logo {
+    width: 80px;
+    height: auto;
+}
+
+.user-navbar-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.user-navbar-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.user-navbar-buttons img {
+    height: 32px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s;
+}
+
+.user-navbar-buttons img:hover {
+    transform: scale(1.1);
+}
+
+/* CONTENIDO PRINCIPAL */
+.user-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 1rem;
+}
+
+.user-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+.user-photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #005187;
+    margin: 0 auto 2rem;
+    display: block;
+}
+
+.user-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.user-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #003049;
+}
+
+.user-field input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.user-field input:disabled {
+    background-color: #e9ecef;
+}
+
+.user-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.reserves-button {
+    background: linear-gradient(to right, #0077b6, #00b4d8);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+}
+
+.delete-account {
+    background-color: #d90429;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* FOOTER IDÉNTICO A RESERVACOTXE */
+.user-main-footer {
+    background-color: #005187;
+    color: white;
+    padding: 4rem 2rem;
+    margin-top: auto;
+}
+
+.lowered-footer {
+    margin-top: 6rem;
+}
+
+.user-footer-columns {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.user-footer-col {
+    flex: 1;
+    min-width: 250px;
+}
+
+.user-footer-col h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.user-footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-footer-col li {
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.user-footer-col li:hover {
+    transform: translateX(5px);
+}
+
+.user-footer-phone {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    display: block;
+}
+
+.user-social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.user-icon-placeholder {
+    background: rgba(255, 255, 255, 0.15);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.user-icon-placeholder:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .user-info {
+        grid-template-columns: 1fr;
+    }
+
+    .user-buttons {
+        flex-direction: column;
+    }
+
+    .user-footer-columns {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .user-footer-col {
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .user-social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-navbar {
+        flex-direction: row;
+        padding: 1rem;
+    }
+
+    .user-card {
+        padding: 1.5rem;
+    }
+}
