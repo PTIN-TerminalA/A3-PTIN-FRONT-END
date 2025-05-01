@@ -6,6 +6,8 @@ import aiIcon from "../pages/images/AI.png";
 import itIcon from "../pages/images/IT.png";
 import phoneIcon from "../pages/images/telefono.png";
 
+
+
 const whoAreWe = `
   Amb Vilanova Intelligent Airport és més fàcil que mai aprofitar el temps a l'aeroport. Amb la nostra app, pots gaudir d'una experiència única. No tornaràs a perdre un vol per estar mirant botigues dins de l'aeroport o per voler anar a menjar alguna cosa.
 

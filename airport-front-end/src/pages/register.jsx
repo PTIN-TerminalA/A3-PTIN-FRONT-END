@@ -3,6 +3,10 @@ import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/register.css";
 import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import GoogleLoginButton from "../components/GoogleLoginButton.jsx";
+
+const clientId = "257457125197-vdhlk02vm9paftu08f5im87uch4lb1ac.apps.googleusercontent.com";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -281,7 +285,11 @@ function Register() {
         <button type="submit" className="register-button">Registrar-se</button>
         <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
       </form>
+      <GoogleOAuthProvider clientId={clientId}>
+    <GoogleLoginButton />
+  </GoogleOAuthProvider>
     </div>
+    
   );
 }
 
