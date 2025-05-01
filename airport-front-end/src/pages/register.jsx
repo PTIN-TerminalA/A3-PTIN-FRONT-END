@@ -3,6 +3,8 @@ import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/register.css";
 import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode" 
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -189,7 +191,78 @@ function Register() {
     }
   };
   
-  
+
+
+
+
+
+  const handleGoogleLogin = async (credentialResponse) => {
+      try{
+          const userData = jwtDecode(credentialResponse.credential)
+          console.log(userData)
+
+          const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: userData.name,
+              dni: "00000000X",
+              email: userData.email,
+              password: generateRandomPassword(),
+              usertype: 1
+            }),
+          });
+
+          if (!registerRes.ok) {
+            const responseData = await registerRes.json();
+            throw new Error(responseData.detail || "Error en el registro");
+          }
+
+          const registerData = await registerRes.json();
+
+
+          console.log(registerData.access_token)
+          console.log(registerData.token_type)
+          console.log(registerData.needs_regular)
+
+
+
+          Cookies.set("token", registerData.access_token,{
+            expires: 1,
+          //para https -> secure: true,
+            sameSite: "strict"
+          })
+
+          if (registerData.needs_regular){
+            navigate("/login")
+          }
+          else{
+            navigate("/mainpage")
+          }
+      } 
+      
+      catch(err) {
+        console.error("Error amb el login de Google", err.message)
+      }
+  }
+      
+
+
+
+
+
+  // Función para generar una contraseña aleatoria
+  function generateRandomPassword() {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+    let password = "";
+    for (let i = 0; i < 12; i++) {
+      password += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return password;
+  }
+
   return (
     <div className="register-wrapper">
       <header className="register-header">
@@ -281,6 +354,23 @@ function Register() {
         <button type="submit" className="register-button">Registrar-se</button>
         <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
       </form>
+
+      <div>
+        <GoogleLogin 
+        onSuccess={(credentialResponse) => {
+          console.log(credentialResponse)
+          
+
+          //registrar o loggear usuario
+          handleGoogleLogin(credentialResponse)
+
+          
+        }}
+        onError={() => console.log("Login failed")}
+        />   
+      </div>        
+
+
     </div>
   );
 }
