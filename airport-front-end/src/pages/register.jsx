@@ -199,7 +199,6 @@ function Register() {
   const handleGoogleLogin = async (credentialResponse) => {
       try{
           const userData = jwtDecode(credentialResponse.credential)
-          console.log(userData)
 
           const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
             method: "POST",
@@ -221,14 +220,6 @@ function Register() {
           }
 
           const registerData = await registerRes.json();
-
-
-          console.log(registerData.access_token)
-          console.log(registerData.token_type)
-          console.log(registerData.needs_regular)
-
-
-
           Cookies.set("token", registerData.access_token,{
             expires: 1,
           //para https -> secure: true,
@@ -236,7 +227,7 @@ function Register() {
           })
 
           if (registerData.needs_regular){
-            navigate("/login")
+            navigate("/regularInfoForm")
           }
           else{
             navigate("/mainpage")
@@ -358,13 +349,8 @@ function Register() {
       <div>
         <GoogleLogin 
         onSuccess={(credentialResponse) => {
-          console.log(credentialResponse)
-          
-
           //registrar o loggear usuario
-          handleGoogleLogin(credentialResponse)
-
-          
+          handleGoogleLogin(credentialResponse)       
         }}
         onError={() => console.log("Login failed")}
         />   
