@@ -71,7 +71,7 @@ html, body, #root {
   transform: scale(1.15);
 }
 
-/* --- Secció del mapa --- */
+/* --- Secció del mapa amb Leaflet --- */
 .map-section {
   background-color: white;
   border-radius: 12px;
@@ -89,17 +89,17 @@ html, body, #root {
   margin-bottom: 1rem;
 }
 
-.map-image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.map-container {
+  width: 100%;
+  height: 600px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.map-image {
-  max-width: 100%;
-  height: auto;
+.leaflet-container {
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Seccions destacades --- */
@@ -146,7 +146,7 @@ html, body, #root {
   background-color: #ffffff;
   border-radius: 12px;
   padding: 1.2rem;
-  margin: 1.5rem 1rem 0;
+  margin: 1.5rem 1rem 5rem;
   width: 100%;
   max-width: 1500px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -194,6 +194,10 @@ html, body, #root {
     max-width: fit-content;
   }
 
+  .map-container {
+    height: 400px;
+  }
+
   .highlight-section {
     max-width: fit-content;
     flex-direction: column;
@@ -219,14 +223,12 @@ html, body, #root {
   .icon-section img {
     height: 18px;
     width: 18px;
-    transition: transform 0.3s;
   }
   
   .icon-section img[alt="Notificacions"] {
     height: 24px;
     width: 24px;
   }
-
 }
 
 /* --- Mode fosc --- */
@@ -249,14 +251,7 @@ html, body, #root {
     box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
   }
 
-  .html, body, #root {
-    background-color: #121212;
-  }
-
-  .map-section h2 {
-    color: white;
-  }
-
+  .map-section h2,
   .shops-leisure-extended h2 {
     color: white;
   }
@@ -269,3 +264,4 @@ html, body, #root {
     background-color: #006494;
   }
 }
+
