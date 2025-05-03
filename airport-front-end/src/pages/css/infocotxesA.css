@@ -1,0 +1,205 @@
+.cotxes-container {
+    background-color: white;
+    color: #003049;
+    padding: 2rem;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #003049;
+    font-size: 2rem;
+  }
+  
+  .cotxes-taula {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 48, 73, 0.1);
+  }
+  
+  .cotxes-taula th,
+  .cotxes-taula td {
+    border: 1px solid #003049;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  
+  .cotxes-taula th {
+    background-color: #014f86;
+    color: white;
+  }
+  
+  .cotxes-taula tr:nth-child(even) {
+    background-color: #e0f0ff;
+  }
+  
+  .cotxes-taula select {
+    padding: 0.4rem;
+    border-radius: 5px;
+    border: 1px solid #014f86;
+    background-color: #f0f8ff;
+    color: #003049;
+  }
+  
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 48, 73, 0.3);
+}
+
+.modal p {
+  margin-bottom: 1.5rem;
+  color: #003049;
+  font-size: 1.1rem;
+}
+
+.modal-buttons button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+  background-color: #014f86;
+  color: white;
+}
+
+.modal-buttons button:last-child {
+  background-color: #ccc;
+  color: #003049;
+}
+
+
+
+
+
+
+
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 48, 73, 0.3);
+  }
+  
+  .modal p {
+    margin-bottom: 1.5rem;
+    color: #003049;
+    font-size: 1.1rem;
+  }
+  
+  .modal-buttons button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .modal-buttons button:first-child {
+    background-color: #014f86;
+    color: white;
+  }
+  
+  .modal-buttons button:last-child {
+    background-color: #ccc;
+    color: #003049;
+  }
+  
+
+
+
+
+
+
+
+
+
+  .cotxes-informacio {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  
+  .stats-card, .avisos-card {
+    background-color: #e9f5ff;
+    border: 1px solid #cce0f5;
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 48, 73, 0.1);
+    color: #003049;
+  }
+  
+  .stats-card h3, .avisos-card h3 {
+    margin-bottom: 1rem;
+    color: #014f86;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .stats-card ul, .avisos-card ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .stats-card li, .avisos-card li {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .stats-icon {
+    font-size: 1.3rem;
+    color: #0077b6;
+  }
+  
+  .warn-icon {
+    font-size: 1.3rem;
+    color: #e63946;
+  }
+  
+  
