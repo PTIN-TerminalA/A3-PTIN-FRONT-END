@@ -9,7 +9,7 @@ COPY airport-front-end/package*.json ./airport-front-end/
 RUN cd airport-front-end && npm install --prefix ../
 
 # Ensure binaries in node_modules are available in PATH
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH /app/airport-front-end/node_modules/.bin:$PATH
 
 # Copy the full project
 COPY . .
