@@ -3,6 +3,8 @@ import logo from "/src/pages/images/LogoBlanco.png";
 import "./css/login.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode" 
 
 function Login() {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/login", {
+      const response = await fetch("http://192.168.10.10:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,6 +53,60 @@ function Login() {
       setErrorMessage("Hubo un problema con la conexión al servidor");
     }
   };
+
+    const handleGoogleLogin = async (credentialResponse) => {
+        try{
+            const userData = jwtDecode(credentialResponse.credential)
+  
+            const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: userData.name,
+                dni: "00000000X",
+                email: userData.email,
+                password: generateRandomPassword(),
+                usertype: 1
+              }),
+            });
+  
+            if (!registerRes.ok) {
+              const responseData = await registerRes.json();
+              throw new Error(responseData.detail || "Error en el registro");
+            }
+  
+            const registerData = await registerRes.json();
+            Cookies.set("token", registerData.access_token,{
+              expires: 1,
+            //para https -> secure: true,
+              sameSite: "strict"
+            })
+  
+            if (registerData.needs_regular){
+              navigate("/regularInfoForm")
+            }
+            else{
+              navigate("/mainpage")
+            }
+        } 
+        
+        catch(err) {
+          console.error("Error amb el login de Google", err.message)
+        }
+    }
+        
+  
+    // Función para generar una contraseña aleatoria
+    function generateRandomPassword() {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?";
+      let password = "";
+      for (let i = 0; i < 12; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return password;
+    }
 
   return (
     <div className="login-wrapper">
@@ -92,6 +148,16 @@ function Login() {
           <a onClick={() => navigate("/register")}>Crea un compte</a>
         </div>
       </main>
+      <div>
+        <GoogleLogin 
+        onSuccess={(credentialResponse) => {
+          //registrar o loggear usuario
+          handleGoogleLogin(credentialResponse)       
+        }}
+        onError={() => console.log("Login failed")}
+        />   
+      </div>        
+
     </div>
   );
 }

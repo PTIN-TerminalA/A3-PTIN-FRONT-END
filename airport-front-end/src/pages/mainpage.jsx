@@ -76,6 +76,7 @@ function ChatWindow({ onClose }) {
     </div>
   );
 }
+import IndoorMap from "/src/components/MapaLeaflet.jsx"; // 👈 Importamos tu componente Leaflet
 
 // ===== Navbar/Header =====
 function Header() {
@@ -96,7 +97,7 @@ function Header() {
         <button title="Perfil">
           <img src={perfil} alt="Perfil" />
         </button>
-        <LogOutButton></LogOutButton>
+        <LogOutButton />
       </div>
       {isChatOpen && <ChatWindow onClose={() => setIsChatOpen(false)} />}
     </header>
@@ -108,8 +109,8 @@ function MapSection() {
   return (
     <section className="map-section">
       <h2>Mapa de l'Aeroport</h2>
-      <div className="map-image-container">
-        <img src={mapaVirtual} alt="Mapa Virtual de l'Aeroport" className="map-image" />
+      <div className="map-container" style={{ height: '600px', width: '100%' }}>
+        <IndoorMap />
       </div>
     </section>
   );
@@ -152,6 +153,7 @@ function ShopsLeisureExtended() {
       <h2>Comerços i Oci</h2>
       <p>Consulta els comerços i oci de l'aeroport per descobrir ofertes i serveis.</p>
       <div className="carousel">
+        {/* Aquí mantienes las cards como ya las tenías */}
         <div className="shop-card">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png"
@@ -202,8 +204,6 @@ function ShopsLeisureExtended() {
         </div>
       </div>
     </section>
-
-
   );
 }
 
@@ -221,3 +221,4 @@ function MainPage() {
 }
 
 export default MainPage;
+
