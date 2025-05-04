@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '/src/pages/css/mainpage.css';
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import logo from "/src/pages/images/LogoBlanco.png";
@@ -7,15 +7,89 @@ import avion from "/src/pages/images/avion.png";
 import perfil from "/src/pages/images/perfil.png";
 import campana from "/src/pages/images/campana.png";
 import mapaVirtual from "/src/pages/images/Plano.png";
+import chatbotIcon from "/src/pages/images/chatboticon.png";
+
+// ===== Componente ChatWindow =====
+function ChatWindow({ onClose }) {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  // Simular respuestas automáticas
+  useEffect(() => {
+    if (messages.length > 0 && messages[messages.length - 1].sender === 'user') {
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          text: messages[messages.length - 1].text,
+          sender: 'bot'
+        }]);
+      }, 500);
+    }
+  }, [messages]);
+
+  const handleSendMessage = () => {
+    if (newMessage.trim()) {
+      setMessages([...messages, { text: newMessage, sender: 'user' }]);
+      setNewMessage('');
+    }
+  };
+
+  return (
+    <div className={`chat-window ${isMinimized ? 'minimized' : ''}`}>
+      <div className="chat-header">
+        <div className="chat-title">
+          <img src={chatbotIcon} alt="Chatbot" className="chatbot-icon-header" />
+          Asistente Virtual
+        </div>
+        <div className="chat-controls">
+          <button className="minimize-btn" onClick={() => setIsMinimized(!isMinimized)}>
+            {isMinimized ? '🗖' : '🗕'}
+          </button>
+          <button className="close-btn" onClick={onClose}>✕</button>
+        </div>
+      </div>
+      
+      {!isMinimized && (
+        <>
+          <div className="chat-messages">
+            {messages.map((message, index) => (
+              <div key={index} className={`message ${message.sender}`}>
+                {message.sender === 'bot' && (
+                  <img src={chatbotIcon} alt="Bot" className="message-icon" />
+                )}
+                <div className="message-bubble">{message.text}</div>
+              </div>
+            ))}
+          </div>
+          <div className="chat-input">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Escribe tu mensaje..."
+              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            />
+            <button onClick={handleSendMessage}>➤</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 // ===== Navbar/Header =====
 function Header() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <header className="header">
       <div className="logo-section">
         <img src={logo} alt="Logo" className="logo" />
       </div>
       <div className="icon-section">
+        <button title="Chatbot" onClick={() => setIsChatOpen(!isChatOpen)}>
+          <img src={chatbotIcon} alt="Chatbot" />
+        </button>
         <button title="Notificacions">
           <img src={campana} alt="Notificacions" />
         </button>
@@ -24,6 +98,7 @@ function Header() {
         </button>
         <LogOutButton></LogOutButton>
       </div>
+      {isChatOpen && <ChatWindow onClose={() => setIsChatOpen(false)} />}
     </header>
   );
 }

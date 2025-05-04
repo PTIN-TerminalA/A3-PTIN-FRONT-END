@@ -159,7 +159,7 @@
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
   .login-wrapper {
-    background-color: #121212;
+    background-color: black;
     color: #e0e0e0;
   }
 

@@ -125,10 +125,11 @@ export default function GestioReserves() {
   }
 
   return (
-    <div className="gestio-wrapper">
+    <div className="admin-page">
       <header className="admin-navbar">
         <div className="admin-logo-section">
-          <img src={logo} alt="Logo" className="admin-logo" />
+          <img src={logo} alt="Logo" className="admin-logo light-mode" />
+          <img src={logo} alt="Logo" className="admin-logo dark-mode" />
         </div>
         <div className="admin-navbar-center">
           <a href="#dashboard">Dashboard</a>
@@ -143,140 +144,154 @@ export default function GestioReserves() {
         </div>
       </header>
 
-      <h1 className="page-title">Gestió de Reserves</h1>
+      <div className="admin-layout">
+        <aside className="admin-sidebar">
+          <div className="admin-profile">
+            <img src={adminPhoto} alt="Admin" className="admin-photo" />
+            <h2 className="admin-name">Nom Admin</h2>
+          </div>
+          <div className="admin-buttons">
+            <button onClick={() => navigate("/gestioUsuaris")}>Gestionar Usuaris</button>
+            <button onClick={() => navigate("/gestioReserves")}>Gestionar Reserves</button>
+            <button onClick={() => navigate("/gestioCotxes")}>Gestionar Cotxes</button>
+          </div>
+        </aside>
 
-      {/* Crear reserva */}
-      <section className="nova-reserva-section">
-        <h2>Nova Reserva</h2>
-        <div className="nova-reserva-form">
-          <input
-            name="user_email"
-            placeholder="Correu del usuari"
-            value={newRes.user_email}
-            onChange={handleNewChange}
-          />
-          <input
-            name="start_location"
-            placeholder="Origen"
-            value={newRes.start_location}
-            onChange={handleNewChange}
-          />
-          <input
-            name="end_location"
-            placeholder="Destí"
-            value={newRes.end_location}
-            onChange={handleNewChange}
-          />
-          <input
-            name="scheduled_time"
-            type="datetime-local"
-            value={newRes.scheduled_time}
-            onChange={handleNewChange}
-          />
-          <select
-            name="state"
-            value={newRes.state}
-            onChange={handleNewChange}
-          >
-            <option>Programada</option>
-            <option>En curs</option>
-            <option>Finalitzada</option>
-          </select>
-          <button className="btn btn-filled" onClick={handleCreate}>
-            Afegir Reserva
-          </button>
+        <div className="full-width-content">
+          <h1 className="section-title">Gestió de reserves FlySy</h1>
+
+          <div className="horizontal-section nova-reserva-container">
+            <h2>Crear nova reserva</h2>
+            <div className="nova-reserva-form">
+              <input
+                name="user_email"
+                placeholder="Correu del usuari"
+                value={newRes.user_email}
+                onChange={handleNewChange}
+              />
+              <input
+                name="start_location"
+                placeholder="Origen"
+                value={newRes.start_location}
+                onChange={handleNewChange}
+              />
+              <input
+                name="end_location"
+                placeholder="Destí"
+                value={newRes.end_location}
+                onChange={handleNewChange}
+              />
+              <input
+                name="scheduled_time"
+                type="datetime-local"
+                value={newRes.scheduled_time}
+                onChange={handleNewChange}
+              />
+              <select
+                name="state"
+                value={newRes.state}
+                onChange={handleNewChange}
+              >
+                <option>Programada</option>
+                <option>En curs</option>
+                <option>Finalitzada</option>
+              </select>
+              <button className="btn btn-filled" onClick={handleCreate}>
+                Afegir Reserva
+              </button>
+            </div>
+          </div>
+
+          <div className="horizontal-section filter-container">
+            <h2>Filtrar Reserva</h2>
+            <form className="filters-form" onSubmit={handleFilterSubmit}>
+              <input
+                name="user_email"
+                placeholder="Filtrar per email"
+                value={filters.user_email}
+                onChange={handleFilterChange}
+              />
+              <input
+                name="start_location"
+                placeholder="Origen"
+                value={filters.start_location}
+                onChange={handleFilterChange}
+              />
+              <input
+                name="end_location"
+                placeholder="Destí"
+                value={filters.end_location}
+                onChange={handleFilterChange}
+              />
+              <select
+                name="state"
+                value={filters.state}
+                onChange={handleFilterChange}
+              >
+                <option value="">Tots estats</option>
+                <option>Programada</option>
+                <option>En curs</option>
+                <option>Finalitzada</option>
+              </select>
+              <input
+                name="start_date"
+                type="date"
+                value={filters.start_date}
+                onChange={handleFilterChange}
+              />
+              <input
+                name="end_date"
+                type="date"
+                value={filters.end_date}
+                onChange={handleFilterChange}
+              />
+              <button type="submit" className="btn btn-filled">
+                Filtrar
+              </button>
+            </form>
+          </div>
+
+          <div className="horizontal-section table-container">
+            <table className="gestio-table">
+              <thead>
+                <tr>
+                  <th>Email Usuari</th>
+                  <th>Origen</th>
+                  <th>Destí</th>
+                  <th>Data Inici</th>
+                  <th>Estat</th>
+                  <th>Accions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reserves.map(r => (
+                  <tr key={r._id}>
+                    <td>{r.user_email}</td>
+                    <td>{r.start_location}</td>
+                    <td>{r.end_location}</td>
+                    <td>{new Date(r.scheduled_time).toLocaleString()}</td>
+                    <td>{r.state}</td>
+                    <td>
+                      <button
+                        className="btn btn-outline small"
+                        onClick={() => handleUpdate(r._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-filled small"
+                        onClick={() => handleDelete(r._id)}
+                      >
+                        Cancel·lar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
-
-      {/* Filtros */}
-      <section className="filters-bar">
-        <form className="filters-form" onSubmit={handleFilterSubmit}>
-          <input
-            name="user_email"
-            placeholder="Filtrar per email"
-            value={filters.user_email}
-            onChange={handleFilterChange}
-          />
-          <input
-            name="start_location"
-            placeholder="Origen"
-            value={filters.start_location}
-            onChange={handleFilterChange}
-          />
-          <input
-            name="end_location"
-            placeholder="Destí"
-            value={filters.end_location}
-            onChange={handleFilterChange}
-          />
-          <select
-            name="state"
-            value={filters.state}
-            onChange={handleFilterChange}
-          >
-            <option value="">Tots estats</option>
-            <option>Programada</option>
-            <option>En curs</option>
-            <option>Finalitzada</option>
-          </select>
-          <input
-            name="start_date"
-            type="date"
-            value={filters.start_date}
-            onChange={handleFilterChange}
-          />
-          <input
-            name="end_date"
-            type="date"
-            value={filters.end_date}
-            onChange={handleFilterChange}
-          />
-          <button type="submit" className="btn btn-filled">
-            Filtrar
-          </button>
-        </form>
-      </section>
-
-      {/* Tabla */}
-      <section className="reserves-section">
-        <table className="gestio-table">
-          <thead>
-            <tr>
-              <th>Email Usuari</th>
-              <th>Origen</th>
-              <th>Destí</th>
-              <th>Data Inici</th>
-              <th>Estat</th>
-              <th>Accions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reserves.map(r => (
-              <tr key={r._id}>
-                <td>{r.user_email}</td>
-                <td>{r.start_location}</td>
-                <td>{r.end_location}</td>
-                <td>{new Date(r.scheduled_time).toLocaleString()}</td>
-                <td>{r.state}</td>
-                <td>
-                  <button
-                    className="btn btn-outline small"
-                    onClick={() => handleUpdate(r._id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-filled small"
-                    onClick={() => handleDelete(r._id)}
-                  >
-                    Cancel·lar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+      </div>
     </div>
   );
 }

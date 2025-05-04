@@ -269,3 +269,167 @@ html, body, #root {
     background-color: #006494;
   }
 }
+
+
+/* Estilos del Chatbot */
+.icon-section img[alt="Chatbot"] {
+  height: 50px;
+  width: 50px;
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  height: 450px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  transition: height 0.3s ease;
+}
+
+.chat-window.minimized {
+  height: 40px;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #0077b6;
+  color: white;
+  border-radius: 15px 15px 0 0;
+}
+
+.chat-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.chatbot-icon-header {
+  height: 25px;
+  width: 25px;
+}
+
+.chat-controls button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0 5px;
+  font-size: 1.1em;
+}
+
+.chat-controls button:hover {
+  opacity: 0.8;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  max-width: 85%;
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-icon {
+  height: 30px;
+  width: 30px;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.message-bubble {
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.message.user .message-bubble {
+  background-color: #0077b6;
+  color: white;
+}
+
+.message.bot .message-bubble {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  outline: none;
+  font-size: 0.95em;
+}
+
+.chat-input button {
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+  background-color: #005f8a;
+}
+
+/* Modo oscuro para el chat */
+@media (prefers-color-scheme: dark) {
+  .chat-window {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+  }
+  
+  .message.bot .message-bubble {
+    background-color: #404040;
+    color: #e0e0e0;
+  }
+  
+  .chat-input {
+    border-color: #404040;
+  }
+  
+  .chat-input input {
+    background-color: #404040;
+    border-color: #505050;
+    color: white;
+  }
+  
+  .chat-header {
+    background-color: #005f8a;
+  }
+}
+
