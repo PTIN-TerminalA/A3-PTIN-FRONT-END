@@ -1,21 +1,17 @@
 import React from "react";
-import "/src/pages/css/admin.css"
+import "/src/pages/css/admin.css";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
-import mapa from "/src/pages/images/Plano.png";
 import adminPhoto from "/src/pages/images/lewandowski.png";
+import MapaLeaflet from "/src/components/MapaLeafletAdmin.jsx";
 
 function Admin() {
   return (
     <div className="admin-page">
       <header className="admin-navbar">
         <div className="admin-logo-section">
-          <img
-            src={logoBlanco}
-            alt="Logo"
-            className="admin-logo"
-          />
+          <img src={logoBlanco} alt="Logo" className="admin-logo" />
         </div>
         <div className="admin-navbar-center">
           <a href="#dashboard">Dashboard</a>
@@ -26,7 +22,7 @@ function Admin() {
           <button onClick={() => window.location.href = "/AdminProfile"}>
             <img src={perfil} alt="Perfil" />
           </button>
-          <LogOutButton></LogOutButton>
+          <LogOutButton />
         </div>
       </header>
 
@@ -46,8 +42,10 @@ function Admin() {
 
         {/* Mapa */}
         <main className="admin-map-container">
-          <img src={mapa} alt="Mapa de l'aeroport" className="admin-map-image" />
-          <button className="back-btn" onClick={() => window.history.back()}>⬅ Tornar</button>
+          <MapaLeaflet />
+          <button className="back-btn" onClick={() => window.history.back()}>
+            ⬅ Tornar
+          </button>
         </main>
       </div>
     </div>
@@ -55,3 +53,4 @@ function Admin() {
 }
 
 export default Admin;
+

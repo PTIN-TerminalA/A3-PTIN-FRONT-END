@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, ImageOverlay, Polygon, Popup, Tooltip, Marker, useMap } from 'react-leaflet';
-import * as L from 'leaflet';
+import { MapContainer, ImageOverlay, Marker, Popup, Polygon, Tooltip } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import plano from '/src/components/assets/planol.png';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-// Fix icon
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
 
 const imageWidth = 995;
 const imageHeight = 630;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
+const NUM_CARS = 10;
+const NUM_USERS = 5;
 const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
+const offsetY = 100;
+const offsetX = 150;
+
+// Icono cuadrado para coches
+const customCarIcon = (color = 'red') =>
+  L.divIcon({
+    className: 'custom-car-marker',
+    html: `<div style="
+      width: 20px;
+      height: 20px;
+      background-color: ${color};
+      border: 1px solid white;
+      border-radius: 2px;
+    "></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  });
+
+// Icono redondo y brillante para usuarios
+const customUserIcon = () =>
+  L.divIcon({
+    className: 'custom-user-marker',
+    html: `<div style="
+      width: 25px;
+      height: 25px;
+      background-color: yellow;
+      border: 2px solid black;
+      border-radius: 50%;
+    "></div>`,
+    iconSize: [25, 25],
+    iconAnchor: [12, 12],
+  });
 
 const getColorByType = (type) => {
   switch (type) {
@@ -31,13 +54,6 @@ const getColorByType = (type) => {
   }
 };
 
-const CenterMapOnUser = ({ position }) => {
-  const map = useMap();
-  useEffect(() => {
-    map.setView(position);
-  }, [position, map]);
-  return null;
-};
 
 // Zonas con Polygon
 const zones = [
@@ -616,59 +632,59 @@ const zones = [
   
 ];
 
-const IndoorMap = () => {
-  const [userPosition, setUserPosition] = useState([baseY, baseX]);
-  const [simulated, setSimulated] = useState(true);
+const MapaLeafletAdmin = () => {
+  const colors = ['red', 'blue', 'green', 'orange', 'purple', 'yellow', 'pink', 'teal', 'brown', 'black'];
+
+  const generateRandomPositions = (num) => {
+    const positions = [];
+    for (let i = 0; i < num; i++) {
+      const offsetLat = (Math.random() - 0.5) * offsetY;
+      const offsetLng = (Math.random() - 0.5) * offsetX;
+      positions.push([baseY + offsetLat, baseX + offsetLng]);
+    }
+    return positions;
+  };
+
+  const [carPositions, setCarPositions] = useState(generateRandomPositions(NUM_CARS));
+  const [userPositions, setUserPositions] = useState(generateRandomPositions(NUM_USERS));
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
-      const watchId = navigator.geolocation.watchPosition(
-        (pos) => {
-          const { latitude, longitude } = pos.coords;
-          // Mapear coordenadas reales al sistema de tu mapa interno (esto es solo un ejemplo)
-          const mappedLat = (latitude % imageHeight);
-          const mappedLng = (longitude % imageWidth);
-          setUserPosition([mappedLat, mappedLng]);
-          setSimulated(false);
-        },
-        (error) => {
-          console.warn('Geolocation error, falling back to simulation:', error.message);
-          setSimulated(true);
-        },
-        { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
+    const interval = setInterval(() => {
+      const minY = 0;
+      const maxY = imageHeight;
+      const minX = 0;
+      const maxX = imageWidth;
+
+      setCarPositions((positions) =>
+        positions.map(([lat, lng]) => {
+          const newLat = Math.min(maxY, Math.max(minY, lat + (Math.random() - 0.5) * 10));
+          const newLng = Math.min(maxX, Math.max(minX, lng + (Math.random() - 0.5) * 10));
+          return [newLat, newLng];
+        })
       );
 
-      return () => navigator.geolocation.clearWatch(watchId);
-    } else {
-      console.warn('Geolocation not supported, using simulation');
-      setSimulated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (simulated) {
-      const interval = setInterval(() => {
-        setUserPosition(([lat, lng]) => {
-          const newLat = Math.max(0, Math.min(imageHeight, lat + (Math.random() - 0.5) * 5));
-          const newLng = Math.max(0, Math.min(imageWidth, lng + (Math.random() - 0.5) * 5));
+      setUserPositions((positions) =>
+        positions.map(([lat, lng]) => {
+          const newLat = Math.min(maxY, Math.max(minY, lat + (Math.random() - 0.5) * 5));
+          const newLng = Math.min(maxX, Math.max(minX, lng + (Math.random() - 0.5) * 5));
           return [newLat, newLng];
-        });
-      }, 500);
-      return () => clearInterval(interval);
-    }
-  }, [simulated]);
+        })
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <MapContainer
       crs={L.CRS.Simple}
       bounds={bounds}
-      center={userPosition}
+      center={[baseY, baseX]}
       zoom={0}
       style={{ height: '100%', width: '100%' }}
       minZoom={-1}
     >
       <ImageOverlay url={plano} bounds={bounds} />
-      <CenterMapOnUser position={userPosition} />
 
       {zones.map((zone, index) => (
         <Polygon
@@ -678,7 +694,7 @@ const IndoorMap = () => {
             color: getColorByType(zone.type),
             weight: 1,
             fillOpacity: 0,
-            opacity: 0.6,
+            opacity: 0.6
           }}
           eventHandlers={{
             mouseover: (e) => {
@@ -686,40 +702,41 @@ const IndoorMap = () => {
             },
             mouseout: (e) => {
               e.target.setStyle({ weight: 1, color: getColorByType(zone.type) });
-            },
+            }
           }}
         >
           <Tooltip>{zone.name}</Tooltip>
           <Popup>
-            <div>
-              <strong>{zone.name}</strong>
-              <br />
-              {zone.info}
-              <br />
-              <button
-                style={{
-                  marginTop: '5px',
-                  padding: '5px 10px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => alert(`Solicitado trayecto a: ${zone.name}`)}
-              >
-                Solicitar trayecto a esta ubicación
-              </button>
-            </div>
+            <strong>{zone.name}</strong><br />
+            {zone.info}
           </Popup>
         </Polygon>
       ))}
 
-      <Marker position={userPosition}>
-        <Popup>{simulated ? 'Estás aquí (simulado)' : 'Estás aquí (GPS real)'}</Popup>
-      </Marker>
+      {/* Coches simulados */}
+      {carPositions.map((pos, index) => (
+        <Marker
+          key={`car-${index}`}
+          position={pos}
+          icon={customCarIcon(colors[index % colors.length])}
+        >
+          <Popup>Coche #{index + 1}</Popup>
+        </Marker>
+      ))}
+
+      {/* Usuarios simulados */}
+      {userPositions.map((pos, index) => (
+        <Marker
+          key={`user-${index}`}
+          position={pos}
+          icon={customUserIcon()}
+        >
+          <Popup>Usuario con reserva #{index + 1}</Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 };
 
-export default IndoorMap;
+export default MapaLeafletAdmin;
+
