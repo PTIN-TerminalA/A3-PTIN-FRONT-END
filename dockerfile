@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY airport-front-end/package*.json ./airport-front-end/
 RUN npm install
 ENV PATH /app/node_modules/.bin:$PATH
 
