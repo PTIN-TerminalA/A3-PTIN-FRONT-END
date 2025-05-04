@@ -58,7 +58,7 @@ function Login() {
         try{
             const userData = jwtDecode(credentialResponse.credential)
   
-            const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+            const registerRes = await fetch("http://192.168.10.10:8000/api/register-login-google", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
