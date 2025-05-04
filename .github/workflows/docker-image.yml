@@ -25,14 +25,3 @@ jobs:
           context: .
           push: true
           tags: artuaragon/via-project-a-frontend:latest
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: 147.83.159.197
-          username: clouda
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /home/clouda/app
-            docker-compose pull
-            docker-compose up -d
