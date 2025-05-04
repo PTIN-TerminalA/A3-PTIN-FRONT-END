@@ -22,6 +22,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./airport-front-end      # Directory where your app code lives
+          file: ./airport-front-end/dockerfile  # Explicit path to the Dockerfile
           push: true
           tags: artuaragon/via-project-a-frontend:latest
