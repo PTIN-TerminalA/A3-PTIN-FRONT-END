@@ -7,26 +7,8 @@ import plano from '/src/components/assets/planol.png';
 const imageWidth = 995;
 const imageHeight = 630;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
-const NUM_CARS = 10;
 const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
-const offsetY = 100;
-const offsetX = 150;
-
-// Icono cuadrado de color
-const customCarIcon = (color = 'red') =>
-  L.divIcon({
-    className: 'custom-car-marker',
-    html: `<div style="
-      width: 25px;
-      height: 25px;
-      background-color: ${color};
-      border: 1px solid white;
-      border-radius: 2px;
-    "></div>`,
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
-  });
 
 // Función para asignar colores por tipo
 const getColorByType = (type) => {
@@ -231,17 +213,6 @@ const zones = [
     info: 'Punt informació aeroport'
   },
   {
-    name: 'Farmàcia oest',
-    type: 'Farmàcia',
-    positions: [
-      [295, 7],
-      [295, 50],
-      [216, 50],
-      [216, 7]
-    ],
-    info: 'Venta de medicaments'
-  },
-  {
     name: 'Venta billets',
     type: 'Venta bitllets',
     positions: [
@@ -259,7 +230,11 @@ const zones = [
       [409, 104],
       [409, 196],
       [197, 196],
-      [197, 65],
+      [197, 78],
+      [187, 78],
+      [187, 6],
+      [294, 6],
+      [294, 65],
       [376, 65],
       [376, 104]
     ],
@@ -467,138 +442,163 @@ const zones = [
     type: 'Escales accés',
     positions: [
       [179, 597],
-      [179, 622],
-      [149, 622],
+      [179, 621],
+      [149, 621],
       [149, 597]
     ],
     info: 'Escales accés 5'
   },
   {
-    name: 'Louis Vuitton',
-    type: 'Tenda',
+    name: 'Gate A4',
+    type: 'Gate',
     positions: [
-      [254, 622],
-      [254, 786],
-      [207, 786],
-      [207, 622]
+      [254, 621],
+      [254, 790],
+      [192, 790],
+      [192, 895],
+      [51, 895],
+      [51, 621]
     ],
-    info: 'Tenda de moda de luxe'
-  },
-  {
-    name: 'Serveis sud-est',
-    type: 'Serveis',
-    positions: [
-      [206, 623],
-      [206, 676],
-      [144, 676],
-      [144, 623]
-    ],
-    info: 'Serveis de la secció sud-est'
+    info: 'Porta embarcament A4'
   },
   {
     name: 'Caixer 2',
     type: 'Caixer',
     positions: [
-      [161, 677],
-      [161, 707],
-      [141, 707],
-      [141, 712],
-      [125, 712],
-      [125, 655],
-      [141, 655],
-      [141, 677]
-    ],
-    info: 'Caixer ATM'
-  },
-  {
-    name: 'Punt informacio sud-est',
-    type: 'Informacio',
-    positions: [
-      [191, 736],
-      [191, 789],
-      [143, 789],
-      [143, 736]
-    ],	
-    info: 'Punt informació aeroport'
-  },
-  {
-    name: 'Caixer 3',
-    type: 'Caixer',
-    positions: [
-      [255, 790],
       [255, 827],
+      [255, 791],
+      [196, 791],
       [196, 827],
-      [196, 790]
     ],
     info: 'Caixer ATM'
   },
   {
-    name: 'Gate A4',
-    type: 'Gate',
+    name: 'Carrega electrica',
+    type: 'Servei',
     positions: [
-      [192, 791],
-      [192, 895],
-      [53, 895],
-      [53, 791]
+      [103, 514],
+      [103, 601],
+      [77, 601],
+      [77, 618],
+      [4, 618],
+      [4, 514]
     ],
-    info: 'Porta embarcament A4'
+    info: 'Punt de càrrega dels vehicles elèctrics'
   },
   {
-    name: 'Zona VIP',
-    type: 'VIP',
+    name: 'Sortida sud',
+    type: 'Sortida',
     positions: [
-      [101, 784],
-      [101, 712],
-      [52, 712],
-      [52, 784]
+      [57, 462],
+      [57, 512],
+      [21, 512],
+      [21, 462]
     ],
-    info: 'Zona VIP'
+    info: 'Sortida de la secció sud'
   },
   {
-    name: 'Zara',
-    type: 'Tendes',
+    name: 'Sortida sud-oest',
+    type: 'Sortida',
     positions: [
-      [101, 622],
-      [101, 710],
-      [52, 710],
-      [52, 622]
+      [57, 196],
+      [57, 247],
+      [22, 247],
+      [22, 196]
+    ],
+    info: 'Sortida de la secció sud-oest'
+  },
+  {
+    name: 'H&M',
+    type: 'Tenda',
+    positions: [
+      [406, 790],
+      [406, 860],
+      [360, 860],
+      [360, 790]
     ],
     info: 'Tenda de roba'
   },
+  {
+    name: 'Adidas',
+    type: 'Tenda',
+    positions: [
+      [319, 790],
+      [319, 860],
+      [359, 860],
+      [359, 790]
+    ],
+    info: 'Tenda articles esportius'
+  },
+  {
+    name: 'Enrique Tomas',
+    type: 'Menjar',
+    positions: [
+      [318, 790],
+      [318, 860],
+      [277, 860],
+      [277, 790]
+    ],
+    info: 'Entrepans i tapes de pernil'
+  },
+  {
+    name: 'Gate A3',
+    type: 'Gate',
+    positions: [
+      [190, 87],
+      [190, 193],
+      [126, 193],
+      [126, 87]
+    ],
+    info: 'Porta embarcament A3'
+  },
+  {
+    name: 'Escales accés 6',
+    type: 'Escales accés',
+    positions: [
+      [93, 87],
+      [93, 193],
+      [124, 193],
+      [124, 87]
+    ],
+    info: 'Escales accés 6'
+  },
+  {
+    name: 'Seguretat sud-oest',
+    type: 'Seguretat',
+    positions: [
+      [91, 89],
+      [91, 194],
+      [22, 194],
+      [22, 89]
+    ],
+    info: 'Control de seguretat de la secció sud-oest'
+  },
+  {
+    name: 'Zona de maletes',
+    type: 'Servei',
+    positions: [
+      [159, 307],
+      [159, 244],
+      [81, 244],
+      [81, 307]
+    ],
+    info: 'Recollida de maletes'
+  },
+  {
+    name: 'Venta bitllets',
+    type: 'Servei',
+    positions: [
+      [159, 405],
+      [159, 468],
+      [81, 468],
+      [81, 405]
+    ],
+    info: 'Venta de bitllets avió'
+  },
+  
 ];
 
 const IndoorMap = () => {
-  const colors = ['red', 'blue', 'green', 'orange', 'purple', 'yellow', 'pink', 'teal', 'brown', 'black'];
-
-  const generateInitialPositions = () => {
-    const positions = [];
-    for (let i = 0; i < NUM_CARS; i++) {
-      const offsetLat = (Math.random() - 0.5) * offsetY;
-      const offsetLng = (Math.random() - 0.5) * offsetX;
-      positions.push([baseY + offsetLat, baseX + offsetLng]);
-    }
-    return positions;
-  };
-
-  const [carPositions, setCarPositions] = useState(generateInitialPositions);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const minY = baseY - offsetY / 2;
-      const maxY = baseY + offsetY / 2;
-      const minX = baseX - offsetX / 2;
-      const maxX = baseX + offsetX / 2;
-      setCarPositions((positions) =>
-        positions.map(([lat, lng]) => {
-          const newLat = Math.min(maxY, Math.max(minY, lat + (Math.random() - 0.5) * 10));
-          const newLng = Math.min(maxX, Math.max(minX, lng + (Math.random() - 0.5) * 10));
-          return [newLat, newLng];
-        })
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <MapContainer
       crs={L.CRS.Simple}
@@ -610,34 +610,50 @@ const IndoorMap = () => {
     >
       <ImageOverlay url={plano} bounds={bounds} />
 
-      {/* Zonas fijas con Polygon */}
       {zones.map((zone, index) => (
         <Polygon
           key={index}
           positions={zone.positions}
-          pathOptions={{ color: getColorByType(zone.type), weight: 1, fillOpacity: 0.2 }}
+          pathOptions={{ 
+            color: getColorByType(zone.type), 
+            weight: 1, 
+            fillOpacity: 0, 
+            opacity: 0.6 
+          }}
+          eventHandlers={{
+            mouseover: (e) => {
+              e.target.setStyle({ weight: 2, color: 'yellow' });
+            },
+            mouseout: (e) => {
+              e.target.setStyle({ weight: 1, color: getColorByType(zone.type) });
+            }
+          }}
         >
           <Tooltip>{zone.name}</Tooltip>
           <Popup>
-            <strong>{zone.name}</strong><br />
-            {zone.info}
+            <div>
+              <strong>{zone.name}</strong><br />
+              {zone.info}<br />
+              <button
+                style={{
+                  marginTop: '5px',
+                  padding: '5px 10px',
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => alert(`Solicitado trayecto a: ${zone.name}`)}
+              >
+                Solicitar trayecto a esta ubicación
+              </button>
+            </div>
           </Popup>
         </Polygon>
-      ))}
-
-      {/* Coches en movimiento */}
-      {carPositions.map((pos, index) => (
-        <Marker
-          key={`car-${index}`}
-          position={pos}
-          icon={customCarIcon(colors[index % colors.length])}
-        >
-          <Popup>Coche #{index + 1}</Popup>
-        </Marker>
       ))}
     </MapContainer>
   );
 };
 
 export default IndoorMap;
-
