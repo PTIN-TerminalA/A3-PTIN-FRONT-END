@@ -357,10 +357,10 @@ function Register() {
         <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
       </form>
 
-      <div className="login-divider">
-        <hr />
+      <div className="register-divider">
+        <hr className="register-linea"/>
         <span>o</span>
-        <hr />
+        <hr className="register-linea"/>
       </div>
 
       <div className="googleDiv">

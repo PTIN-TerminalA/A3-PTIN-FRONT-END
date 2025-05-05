@@ -48,6 +48,7 @@
 
 .register-text {
   color: black;
+  text-align: center;
 }
 
 /* MENSAJE EXITO */
@@ -109,7 +110,7 @@
   background-color: white;
 }
 
-.login-divider {
+.register-divider {
   display: flex;
   align-items: center;
   margin: 2rem 0 1.5rem;
@@ -117,14 +118,16 @@
   color: #999;
 }
 
-.login-divider hr {
+.register-linea {
   flex: 1;
   height: 1px;
+  max-width: auto;
+  width: 13rem;
   border: none;
   background-color: #ccc;
 }
 
-.login-divider span {
+.register-divider span {
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -231,13 +234,17 @@
     padding: 0;
   }
 
-  .login-divider {
+  .register-divider {
     font-size: 0.9rem;
     font-weight: 500;
   }
 
+  .register-linea {
+    width: 10rem;
+  }
+
   .input-numero {
-    max-width: 100%;
+    width: auto;
   }
 }
 
