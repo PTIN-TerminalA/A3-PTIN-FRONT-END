@@ -269,6 +269,13 @@ html, body {
   margin-top: 0.5rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  .home-wrapper {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .section-title {
