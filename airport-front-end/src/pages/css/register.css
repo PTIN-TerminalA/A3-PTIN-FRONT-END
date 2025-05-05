@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: white;
   font-family: 'Roboto', sans-serif;
   padding: 120px 1rem 2rem 1rem;
 }
@@ -31,9 +31,23 @@
 /* TITULO */
 .register-title {
   font-size: 2rem;
-  color: #023047;
+  color: black;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-top: 0rem;
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+.register-subtitle {
+  color: black;
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.register-text {
+  color: black;
   text-align: center;
 }
 
@@ -51,7 +65,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem 2rem;
-  width: clamp(320px, 90%, 850px);
+  width: 100%;
+  max-width: 40rem;
 }
 
 /* Para que los campos amplios (email, contraseña...) ocupen 2 columnas */
@@ -78,6 +93,10 @@
   font-size: 1rem;
 }
 
+.input-numero {
+  width: 100%;
+}
+
 .phone-wrapper {
   display: flex;
   gap: 0.5rem;
@@ -91,6 +110,28 @@
   background-color: white;
 }
 
+.register-divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0 1.5rem;
+  gap: 1rem;
+  color: #999;
+}
+
+.register-linea {
+  flex: 1;
+  height: 1px;
+  max-width: auto;
+  width: 13rem;
+  border: none;
+  background-color: #ccc;
+}
+
+.register-divider span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
 /* BOTONES */
 .register-button {
   padding: 0.9rem;
@@ -102,8 +143,11 @@
   cursor: pointer;
   font-weight: bold;
   width: 100%;
+  max-width: 30rem;
   transition: background-color 0.3s;
   grid-column: 1 / -1;
+  margin: 0 auto;
+  margin-top: 0.9rem;
 }
 
 .register-button:hover {
@@ -171,11 +215,36 @@
     width: 100%;
   }
 
+  .register-header {
+    display: none;
+  }
+
+  .register-title {
+    margin-top: -5rem;
+  }
+
+  .register-subtitle {
+    text-align: center;
+  }
+
   .show-hide-button {
     margin-left: 1;
     margin-top: 0.5rem;
     align-self: center;
     padding: 0;
+  }
+
+  .register-divider {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .register-linea {
+    width: 10rem;
+  }
+
+  .input-numero {
+    width: auto;
   }
 }
 
@@ -183,6 +252,11 @@
 @media (min-width: 769px) and (max-width: 1024px) {
   .register-form {
     width: 95%;
+  }
+
+  .login-divider {
+    font-size: 0.9rem;
+    font-weight: 500;
   }
 
   .register-title {
@@ -199,6 +273,11 @@
   .register-title {
     font-size: 2.2rem;
   }
+
+  .login-divider {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
 }
 
 /* MODO OSCURO */
@@ -208,8 +287,10 @@
     color: #e0e0e0;
   }
 
-  .register-title {
-    color: #ffffff;
+  .register-title,
+  .register-subtitle,
+  .register-text {
+    color: white;
   }
 
   .input-group label {

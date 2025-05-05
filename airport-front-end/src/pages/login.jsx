@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "/src/pages/images/LogoBlanco.png";
+import googleIcon from "/src/pages/images/google.png"
 import "./css/login.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie"
@@ -16,6 +17,17 @@ function Login() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+
+  const loginGoogle = GoogleLogin({
+    onSuccess: (credentialResponse) => {
+      //registrar o loggear usuario
+      handleGoogleLogin(credentialResponse)       
+    },
+    onError: () => {
+      console.log("Login failed");
+    }
+  }); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,24 +152,33 @@ function Login() {
           <button type="submit" className="btn-primary">Iniciar sessió</button>
         </form>
 
+        <div className="login-links">
+          <a onClick={() => navigate("/psswdrecov")}>Has oblidat la teva contrasenya?</a>
+        </div>
+
+        <div className="login-divider">
+          <hr />
+          <span>o</span>
+          <hr />
+        </div>
+
         {message && <div className="login-message">{message}</div>}
         {errorMessage && <div className="login-error">{errorMessage}</div>}
 
-        <div className="login-links">
-          <a onClick={() => navigate("/psswdrecov")}>Has oblidat la teva contrasenya?</a>
-          <a onClick={() => navigate("/register")}>Crea un compte</a>
-        </div>
       </main>
-      <div>
-        <GoogleLogin 
-        onSuccess={(credentialResponse) => {
-          //registrar o loggear usuario
-          handleGoogleLogin(credentialResponse)       
-        }}
-        onError={() => console.log("Login failed")}
-        />   
-      </div>        
+      <div className="googleDiv">
+        <button className="google-custom-button" onClick={() => loginGoogle()}>
+          <img src={googleIcon} alt="Google" className="google-icon" />
+          <span>Continua amb Google</span>
+        </button> 
+      </div>
+      <p className="login-terms">
+        En fer clic a iniciar sessió acceptes les nostres <strong>Condicions del servei</strong> i la <strong>Política de privadesa</strong>
+      </p>  
 
+      <div className="login-links">
+        <a onClick={() => navigate("/register")}>Crea un compte</a>
+      </div>
     </div>
   );
 }

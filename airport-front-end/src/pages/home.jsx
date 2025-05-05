@@ -46,7 +46,7 @@ function Home() {
       <div className="background-section">
         <div className="background-overlay">
           <div className="background-content">
-            <h1 className="section-title">Qui Som?</h1>
+            <h1 className="section-title-home">Qui Som?</h1>
             <p className="section-description">
               {whoAreWe}
             </p>
