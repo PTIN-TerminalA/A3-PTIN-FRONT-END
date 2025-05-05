@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "/src/pages/images/LogoBlanco.png";
+import googleIcon from "/src/pages/images/google.png"
 import "./css/register.css";
 import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom';
@@ -239,9 +240,15 @@ function Register() {
       }
   }
       
-
-
-
+  const loginGoogle = GoogleLogin({
+    onSuccess: (credentialResponse) => {
+      //registrar o loggear usuario
+      handleGoogleLogin(credentialResponse)       
+    },
+    onError: () => {
+      console.log("Login failed");
+    }
+  }); 
 
 
   // Función para generar una contraseña aleatoria
@@ -260,7 +267,11 @@ function Register() {
         <img src={logo} alt="Logo" className="register-logo" />
       </header>
 
-      <h1 className="register-title">Registre de Nou Usuari</h1>
+      <h1 className="register-title">Benvingut a Flysy!</h1>
+      <h2 className="register-subtitle">Registrat</h2>
+      <p className="register-text">
+        Introdueix les teves dades i crea una contrasenya per registrar-te
+      </p>
       {successMessage && <div className="success-message">{successMessage}</div>}
 
       <form className="register-form" onSubmit={handleSubmit}>
@@ -301,7 +312,7 @@ function Register() {
                 <option key={country.code} value={country.code}>{country.code} ({country.name})</option>
               ))}
             </select>
-            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+            <input className="input-numero" type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
           </div>
         </div>
 
@@ -346,17 +357,21 @@ function Register() {
         <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
       </form>
 
-      <div>
-        <GoogleLogin 
-        onSuccess={(credentialResponse) => {
-          //registrar o loggear usuario
-          handleGoogleLogin(credentialResponse)       
-        }}
-        onError={() => console.log("Login failed")}
-        />   
-      </div>        
+      <div className="login-divider">
+        <hr />
+        <span>o</span>
+        <hr />
+      </div>
 
-
+      <div className="googleDiv">
+        <button className="google-custom-button" onClick={() => loginGoogle()}>
+          <img src={googleIcon} alt="Google" className="google-icon" />
+          <span>Continua amb Google</span>
+        </button> 
+      </div>
+      <p className="login-terms">
+        En fer clic a iniciar sessió acceptes les nostres <strong>Condicions del servei</strong> i la <strong>Política de privadesa</strong>
+      </p>      
     </div>
   );
 }
