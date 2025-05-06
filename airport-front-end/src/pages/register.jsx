@@ -6,6 +6,8 @@ import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode" 
+import { useGoogleLogin } from '@react-oauth/google';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -197,9 +199,9 @@ function Register() {
 
 
 
-  const handleGoogleLogin = async (credentialResponse) => {
+  const handleGoogleLogin = async (userData) => {
       try{
-          const userData = jwtDecode(credentialResponse.credential)
+          //const userData = jwtDecode(credentialResponse.credential)
 
           const registerRes = await fetch("http://192.168.10.10:8000/api/register-login-google", {
             method: "POST",
@@ -240,15 +242,23 @@ function Register() {
       }
   }
       
-  const loginGoogle = GoogleLogin({
-    onSuccess: (credentialResponse) => {
-      //registrar o loggear usuario
-      handleGoogleLogin(credentialResponse)       
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      // Usas el token para pedir los datos del usuario
+      const userInfo = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
+      }).then(res => res.json());
+  
+      // Ahora tienes name, email, etc.
+      console.log("User Info", userInfo);
+  
+      // Aquí haces tu registro o login en el backend
+      await handleGoogleLogin(userInfo);
     },
-    onError: () => {
-      console.log("Login failed");
-    }
-  }); 
+    onError: () => console.log("Login failed"),
+  });
 
 
   // Función para generar una contraseña aleatoria
