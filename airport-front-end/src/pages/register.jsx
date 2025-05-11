@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import logo from "/src/pages/images/LogoBlanco.png";
+import googleIcon from "/src/pages/images/google.png"
 import "./css/register.css";
 import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode" 
+import { useGoogleLogin } from '@react-oauth/google';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -196,9 +199,9 @@ function Register() {
 
 
 
-  const handleGoogleLogin = async (credentialResponse) => {
+  const handleGoogleLogin = async (userData) => {
       try{
-          const userData = jwtDecode(credentialResponse.credential)
+          //const userData = jwtDecode(credentialResponse.credential)
 
           const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
             method: "POST",
@@ -239,9 +242,23 @@ function Register() {
       }
   }
       
-
-
-
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      // Usas el token para pedir los datos del usuario
+      const userInfo = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
+        },
+      }).then(res => res.json());
+  
+      // Ahora tienes name, email, etc.
+      console.log("User Info", userInfo);
+  
+      // Aquí haces tu registro o login en el backend
+      await handleGoogleLogin(userInfo);
+    },
+    onError: () => console.log("Login failed"),
+  });
 
 
   // Función para generar una contraseña aleatoria
@@ -260,7 +277,11 @@ function Register() {
         <img src={logo} alt="Logo" className="register-logo" />
       </header>
 
-      <h1 className="register-title">Registre de Nou Usuari</h1>
+      <h1 className="register-title">Benvingut a Flysy!</h1>
+      <h2 className="register-subtitle">Registrat</h2>
+      <p className="register-text">
+        Introdueix les teves dades i crea una contrasenya per registrar-te
+      </p>
       {successMessage && <div className="success-message">{successMessage}</div>}
 
       <form className="register-form" onSubmit={handleSubmit}>
@@ -301,7 +322,7 @@ function Register() {
                 <option key={country.code} value={country.code}>{country.code} ({country.name})</option>
               ))}
             </select>
-            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+            <input className="input-numero" type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
           </div>
         </div>
 
@@ -346,17 +367,21 @@ function Register() {
         <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
       </form>
 
-      <div>
-        <GoogleLogin 
-        onSuccess={(credentialResponse) => {
-          //registrar o loggear usuario
-          handleGoogleLogin(credentialResponse)       
-        }}
-        onError={() => console.log("Login failed")}
-        />   
-      </div>        
+      <div className="register-divider">
+        <hr className="register-linea"/>
+        <span>o</span>
+        <hr className="register-linea"/>
+      </div>
 
-
+      <div className="googleDiv">
+        <button className="google-custom-button" onClick={() => loginGoogle()}>
+          <img src={googleIcon} alt="Google" className="google-icon" />
+          <span>Continua amb Google</span>
+        </button> 
+      </div>
+      <p className="login-terms">
+        En fer clic a iniciar sessió acceptes les nostres <strong>Condicions del servei</strong> i la <strong>Política de privadesa</strong>
+      </p>      
     </div>
   );
 }

@@ -27,7 +27,7 @@ html, body {
 }
 
 .navbar-logo {
-  width: 160px;
+  width: 100px;
   height: auto;
   display: block;
 }
@@ -71,8 +71,8 @@ html, body {
 
 .btn-outline {
   background: transparent;
-  border: 1px solid #ffb703;
-  color: #ffb703;
+  border: 1px solid #219EBC;
+  color: #8ECAE6;
 }
 
 .btn-outline:hover {
@@ -81,13 +81,13 @@ html, body {
 }
 
 .btn-filled {
-  background-color: #ffb703;
+  background-color: #8ECAE6;
   color: #003049;
   margin-right: 35px;
 }
 
 .btn-filled:hover {
-  background-color: #ffa500;
+  background-color: #ffb703;
 }
 
 
@@ -99,7 +99,7 @@ html, body {
 
 .background-section {
   position: relative;
-  height: 90vh;
+  height: fit-content;
   width: 100%;
   background-image: url('../images/home.png');
   background-size: cover;
@@ -124,13 +124,13 @@ html, body {
   max-width: 600px;
 }
 
-.section-title {
+.section-title-home {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: center;
   color: white;
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
 
 .section-subtitle {
@@ -153,21 +153,6 @@ html, body {
   text-align: center;
   padding: 4rem 1rem;
   background-color: #f9fafb;
-}
-
-@media (prefers-color-scheme: dark) {
-  .features-section {
-    background-color: black;
-  }
-
-  .feature-item {
-    color: black;
-    background: black;
-  }
-
-  .feature-icon {
-    background-color: black;
-  }
 }
 
 .features-title {
@@ -284,6 +269,38 @@ html, body {
   margin-top: 0.5rem;
 }
 
+
+@media (prefers-color-scheme: dark) {
+  .features-section {
+    background-color: #005187;
+  }
+
+  .feature-item {
+    color: black;
+    background: rgb(0, 0, 0);
+  }
+
+  .feature-icon {
+    background-color: rgb(112, 105, 105);
+  }
+
+  .feature-heading {
+    color: white;
+  }
+
+  .feature-text {
+    color: white;
+  }
+
+  .features-title {
+    color: white;
+  }
+
+  .features-subtitle {
+    color: white;
+  }
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .section-title {
@@ -294,20 +311,26 @@ html, body {
   }
 
   .background-section {
-    height: 210vw;
+    height: fit-content;
   }
 
   .navbar-logo {
-    width: 120px;
+    width: 80px;
   }
 
   .navbar-center {
     display: none; /* oculta los enlaces del centro */
   }
 
+  .navbar-right {
+    margin-right: -2.5rem;
+    align-items: right;
+    gap: 0.5rem;
+  }
+
   .btn {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 0.90rem;
+    padding: 0.4rem 0.7rem;
   }
 
   .section-description {
