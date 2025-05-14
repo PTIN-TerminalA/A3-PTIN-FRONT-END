@@ -8,6 +8,8 @@ import perfil from "/src/pages/images/perfil.png";
 import "./css/reservacotxe.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
+import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
+
 
 function ReservaCotxe() {
   const navigate = useNavigate();
@@ -185,7 +187,7 @@ function ReservaCotxe() {
 
           <div className="mapa-container">
             <div className="mapa-wrapper">
-              <img src={mapa} alt="Mapa de l'aeroport" className="mapa-imagen" />
+              <IndoorMap startLocation={[0.5015634772, 0.3986866792]} endLocation={[0.5109443402, 0.3367729831]} />
             </div>
           </div>
         </div>
