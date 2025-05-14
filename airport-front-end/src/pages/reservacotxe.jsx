@@ -1,6 +1,6 @@
 // src/pages/reservacotxe.jsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import LogOutButton from "/src/components/LogOutButton.jsx";
@@ -10,7 +10,6 @@ import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
 
-
 function ReservaCotxe() {
   const navigate = useNavigate();
   const [tipusReserva, setTipusReserva] = useState("instant");
@@ -18,6 +17,8 @@ function ReservaCotxe() {
   const [destinacio, setDestinacio] = useState("");
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
+  const [startLocation, setStartLocation] = useState(null);
+  const [endLocation, setEndLocation] = useState(null);
 
   const ubicacions = [
     "Porta A3",
@@ -42,6 +43,28 @@ function ReservaCotxe() {
     "Levi's",
     "Parada Taxi"
   ];
+
+  useEffect(() => {
+    if (puntRecollida) {
+      fetch(`http://127.0.0.1:8000/api/establishment-position?name=${encodeURIComponent(puntRecollida)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setStartLocation([data.location_x, data.location_y]);
+        })
+        .catch((error) => console.error("Error fetching start location:", error));
+    }
+  }, [puntRecollida]);
+
+  useEffect(() => {
+    if (destinacio) {
+      fetch(`http://127.0.0.1:8000/api/establishment-position?name=${encodeURIComponent(destinacio)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setEndLocation([data.location_x, data.location_y]);
+        })
+        .catch((error) => console.error("Error fetching end location:", error));
+    }
+  }, [destinacio]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -187,7 +210,7 @@ function ReservaCotxe() {
 
           <div className="mapa-container">
             <div className="mapa-wrapper">
-              <IndoorMap startLocation={[0.5015634772, 0.3986866792]} endLocation={[0.5109443402, 0.3367729831]} />
+              <IndoorMap startLocation={startLocation} endLocation={endLocation} />
             </div>
           </div>
         </div>
