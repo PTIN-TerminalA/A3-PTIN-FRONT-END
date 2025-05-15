@@ -3,13 +3,16 @@ import { MapContainer, ImageOverlay, Marker, Polyline } from "react-leaflet";
 import plano from '/src/components/assets/planol.png';
 import L from "leaflet";
 
-const imageWidth = 1027;
-const imageHeight = 664;
+const imageWidth = 3850;
+const imageHeight = 2569;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
 const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
 
-const normalizeCoordinates = ([x, y]) => [y * imageHeight, x * imageWidth];
+const normalizeCoordinates = ([x, y]) => [(1 - y) * imageHeight, x * imageWidth];
+const normalizeCoordinatesRuta = ([x, y]) => [y * imageHeight, x * imageWidth];
+const normalizeCoordinatesPos = ([x, y]) => [x, (1-y)];
+//const normalizeCoordinatesRuta = ([x,y]) => [(1-y) * imageHeight, x * imageWidth];
 
 const IndoorMap = ({ startLocation, endLocation }) => {
   const [route, setRoute] = useState([]); // Ruta devuelta por la API
@@ -22,14 +25,16 @@ const IndoorMap = ({ startLocation, endLocation }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          start: startLocation,
-          goal: endLocation,
+          start: normalizeCoordinatesPos(startLocation),
+          //start: [0.0, 0.0], // Coordenadas de inicio (placeholder)
+          //goal: [1.0,1.0]
+          goal: normalizeCoordinatesPos(endLocation),
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           if (data.path) {
-            setRoute(data.path.map(normalizeCoordinates)); // Normalizar puntos a formato Leaflet
+            setRoute(data.path.map(normalizeCoordinatesRuta)); // Normalizar puntos a formato Leaflet
           }
         })
         .catch((error) => console.error("Error fetching route:", error));
