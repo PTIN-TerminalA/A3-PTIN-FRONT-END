@@ -229,12 +229,30 @@ function Register() {
             sameSite: "strict"
           })
 
+         
           if (registerData.needs_regular){
-            navigate("/regularInfoForm")
+              navigate("/regularInfoForm")
           }
-          else{
+
+          token = registerData.access_token;
+          const usertyperes = await fetch("http://localhost:8000/api/get-user-type", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (usertyperes.usertype == "admin"){
+            navigate("/admin")
+          }
+          else if (usertyperes.usertype == "regular"){
             navigate("/mainpage")
-          }
+          } 
+
+          navigate("/regularInfoForm")
+
+          
       } 
       
       catch(err) {

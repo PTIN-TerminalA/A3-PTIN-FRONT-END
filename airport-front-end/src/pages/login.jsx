@@ -49,9 +49,23 @@ function Login() {
         //para https -> secure: true,
         sameSite: "strict"
       })
-      
-      // Redirigimos a la página principal después de iniciar sesión
-      navigate("/mainpage");
+
+      const usertyperes = await fetch(`http://localhost:8000/api/get-user-type?token=${data.access_token}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          // No hace falta Authorization aquí porque el backend no lo lee
+        },
+      });
+
+      const jonsonData = await usertyperes.json();
+      console.log("El tipo de usuario es: ", jonsonData.user_type);
+      if (jonsonData.user_type == "admin") {
+        navigate("/admin");
+      }
+      else{
+        navigate("/mainpage");
+      }
 
     } catch (error) {
       console.error("Error en el login:", error);
