@@ -6,6 +6,9 @@ import logo                    from "../pages/images/LogoBlanco.png";
 import adminPhoto              from "../pages/images/lewandowski.png";
 import LogOutButton            from "/src/components/LogOutButton.jsx";
 import perfil                  from "/src/pages/images/perfil.png";
+import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
+import MapaLeafletGestioReservas from "/src/components/MapaLeafletGestioReservas.jsx";
+
 
 export default function GestioReserves() {
   const navigate = useNavigate();
@@ -123,6 +126,18 @@ export default function GestioReserves() {
       })
       .catch(console.error);
   }
+
+  // Pasar reservas filtradas al mapa
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
+
+  useEffect(() => {
+    // Actualizar las rutas cada vez que cambien las reservas
+    const updatedRoutes = reserves.map((r) => ({
+      start: [parseFloat(r.start_location.split(",")[0]), parseFloat(r.start_location.split(",")[1])],
+      end: [parseFloat(r.end_location.split(",")[0]), parseFloat(r.end_location.split(",")[1])],
+    }));
+    setFilteredRoutes(updatedRoutes);
+  }, [reserves]);
 
   return (
     <div className="admin-page">
@@ -289,6 +304,10 @@ export default function GestioReserves() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="map-container">
+            <MapaLeafletGestioReservas routes={filteredRoutes} />
           </div>
         </div>
       </div>

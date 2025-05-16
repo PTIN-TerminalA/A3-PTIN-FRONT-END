@@ -14,7 +14,7 @@ const normalizeCoordinatesRuta = ([x, y]) => [y * imageHeight, x * imageWidth];
 const normalizeCoordinatesPos = ([x, y]) => [x, (1-y)];
 //const normalizeCoordinatesRuta = ([x,y]) => [(1-y) * imageHeight, x * imageWidth];
 
-const IndoorMap = ({ startLocation, endLocation }) => {
+const IndoorMap = ({ startLocation, endLocation, routes }) => {
   const [route, setRoute] = useState([]); // Ruta devuelta por la API
 
   useEffect(() => {
@@ -60,6 +60,29 @@ const IndoorMap = ({ startLocation, endLocation }) => {
 
       {/* Dibujar la ruta */}
       {route.length > 0 && <Polyline positions={route} color="blue" />}
+
+      {/* Dibujar todas las rutas */}
+      {routes.map((route, index) => {
+        const start = normalizeCoordinates(route.start);
+        const end = normalizeCoordinates(route.end);
+
+        // Validar que las coordenadas sean válidas
+        if (
+          start.every((coord) => !isNaN(coord)) &&
+          end.every((coord) => !isNaN(coord))
+        ) {
+          return (
+            <Polyline
+              key={index}
+              positions={[start, end]}
+              color="blue"
+            />
+          );
+        } else {
+          console.error("Invalid route coordinates:", { start, end });
+          return null;
+        }
+      })}
     </MapContainer>
   );
 };

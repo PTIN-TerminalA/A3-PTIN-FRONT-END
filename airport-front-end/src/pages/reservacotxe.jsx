@@ -10,6 +10,8 @@ import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
 
+const _apiUrl = "http://127.0.0.1:8000" 
+
 function ReservaCotxe() {
   const navigate = useNavigate();
   const [tipusReserva, setTipusReserva] = useState("instant");
@@ -20,33 +22,20 @@ function ReservaCotxe() {
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
 
-  const ubicacions = [
-    "Porta A3",
-    "Pàrquing",
-    "McDonald's",
-    "Starbucks",
-    "Porta A2",
-    "Serveis 1",
-    "FCB Store",
-    "Farmàcia",
-    "Porta A1",
-    "Punt Info. 2",
-    "H&M",
-    "Cafè",
-    "Serveis 2",
-    "Porta A4",
-    "VIP A4",
-    "Reclamació equipatge",
-    "Control Seguretat",
-    "Punt Info. 1",
-    "Zona Check-in",
-    "Levi's",
-    "Parada Taxi"
-  ];
+  const [ubicacions, setUbicacions] = useState([]);
+
+  useEffect(() => {
+    fetch(`${_apiUrl}/api/services`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUbicacions(data.map((service) => service.name));
+      })
+      .catch((error) => console.error("Error fetching ubicacions:", error));
+  }, []);
 
   useEffect(() => {
     if (puntRecollida) {
-      fetch(`http://127.0.0.1:8000/api/establishment-position?name=${encodeURIComponent(puntRecollida)}`)
+      fetch(`${_apiUrl}/api/establishment-position?name=${encodeURIComponent(puntRecollida)}`)
         .then((response) => response.json())
         .then((data) => {
           setStartLocation([data.location_x, data.location_y]);
@@ -57,7 +46,7 @@ function ReservaCotxe() {
 
   useEffect(() => {
     if (destinacio) {
-      fetch(`http://127.0.0.1:8000/api/establishment-position?name=${encodeURIComponent(destinacio)}`)
+      fetch(`${_apiUrl}/api/establishment-position?name=${encodeURIComponent(destinacio)}`)
         .then((response) => response.json())
         .then((data) => {
           setEndLocation([data.location_x, data.location_y]);
@@ -81,7 +70,7 @@ function ReservaCotxe() {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/reserves/usuari", {
+      const res = await fetch(`${_apiUrl}/reserves/usuari`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
