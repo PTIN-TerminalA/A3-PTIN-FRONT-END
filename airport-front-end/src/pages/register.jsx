@@ -199,66 +199,69 @@ function Register() {
 
 
 
-  const handleGoogleLogin = async (userData) => {
-      try{
-          //const userData = jwtDecode(credentialResponse.credential)
-
-          const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name: userData.name,
-              dni: "00000000X",
-              email: userData.email,
-              password: generateRandomPassword(),
-              usertype: 1
-            }),
-          });
-
-          if (!registerRes.ok) {
-            const responseData = await registerRes.json();
-            throw new Error(responseData.detail || "Error en el registro");
-          }
-
-          const registerData = await registerRes.json();
-          Cookies.set("token", registerData.access_token,{
-            expires: 1,
-          //para https -> secure: true,
-            sameSite: "strict"
-          })
-
-         
-          if (registerData.needs_regular){
+   const handleGoogleLogin = async (userData) => {
+        try{
+            //const userData = jwtDecode(credentialResponse.credential)
+  
+            const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: userData.name,
+                dni: "00000000X",
+                email: userData.email,
+                password: generateRandomPassword(),
+                usertype: 1
+              }),
+            });
+  
+            if (!registerRes.ok) {
+              const responseData = await registerRes.json();
+              throw new Error(responseData.detail || "Error en el registro");
+            }
+  
+            const registerData = await registerRes.json();
+            Cookies.set("token", registerData.access_token,{
+              expires: 1,
+            //para https -> secure: true,
+              sameSite: "strict"
+            })
+  
+            if (registerData.needs_regular){
               navigate("/regularInfoForm")
-          }
-
-          token = registerData.access_token;
-          const usertyperes = await fetch("http://localhost:8000/api/get-user-type", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+            }
+            const usertyperes = await fetch(`http://localhost:8000/api/get-user-type?token=${registerData.access_token}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              // No hace falta Authorization aquí porque el backend no lo lee
             },
-          });
+            });
+    
+            const jonsonData = await usertyperes.json();
+            console.log("El tipo de usuario es: ", jonsonData.user_type);
+            if (jonsonData.user_type == "admin") {
+              navigate("/admin");
+            }
+            else if(jonsonData.user_type == "superadmin"){
+              navigate("/superadmin");
+            }
+            else if (registerData.needs_regular){
+              navigate("/regularInfoForm")
+            }
+            else{
+              navigate("/mainpage")
+            }
+        } 
+        
+        catch(err) {
+          console.error("Error amb el login de Google", err.message)
+        }
+    }
 
-          if (usertyperes.usertype == "admin"){
-            navigate("/admin")
-          }
-          else if (usertyperes.usertype == "regular"){
-            navigate("/mainpage")
-          } 
-
-          navigate("/regularInfoForm")
-
-          
-      } 
-      
-      catch(err) {
-        console.error("Error amb el login de Google", err.message)
-      }
-  }
+  
       
   const loginGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -269,8 +272,6 @@ function Register() {
         },
       }).then(res => res.json());
   
-      // Ahora tienes name, email, etc.
-      console.log("User Info", userInfo);
   
       // Aquí haces tu registro o login en el backend
       await handleGoogleLogin(userInfo);

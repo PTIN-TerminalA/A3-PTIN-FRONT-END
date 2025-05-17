@@ -63,6 +63,9 @@ function Login() {
       if (jonsonData.user_type == "admin") {
         navigate("/admin");
       }
+      else if(jonsonData.user_type == "superadmin"){
+        navigate("/superadmin");
+      }
       else{
         navigate("/mainpage");
       }
@@ -106,6 +109,25 @@ function Login() {
             if (registerData.needs_regular){
               navigate("/regularInfoForm")
             }
+            const usertyperes = await fetch(`http://localhost:8000/api/get-user-type?token=${registerData.access_token}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              // No hace falta Authorization aquí porque el backend no lo lee
+            },
+            });
+    
+            const jonsonData = await usertyperes.json();
+            console.log("El tipo de usuario es: ", jonsonData.user_type);
+            if (jonsonData.user_type == "admin") {
+              navigate("/admin");
+            }
+            else if(jonsonData.user_type == "superadmin"){
+              navigate("/superadmin");
+            }
+            else if (registerData.needs_regular){
+              navigate("/regularInfoForm")
+            }
             else{
               navigate("/mainpage")
             }
@@ -124,9 +146,6 @@ function Login() {
            Authorization: `Bearer ${tokenResponse.access_token}`,
          },
        }).then(res => res.json());
-   
-       // Ahora tienes name, email, etc.
-       console.log("User Info", userInfo);
    
        // Aquí haces tu registro o login en el backend
        await handleGoogleLogin(userInfo);
