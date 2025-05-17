@@ -251,7 +251,10 @@
   /* SECCIÓN DEL MAPA (GRANDE) */
   .mapa-container {
     flex: 2;
-    min-height: 800px;
+    /*min-height: 800px;*/
+    min-height: fit-content;
+    max-width: 100%;
+    max-height: auto;
     display: flex;
     flex-direction: column;
     border-radius: 16px;
