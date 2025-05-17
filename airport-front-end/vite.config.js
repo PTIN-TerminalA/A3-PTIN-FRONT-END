@@ -6,6 +6,6 @@ export default defineConfig({
     server: {
         host: true,
         port: 5173,
-        allowedHosts: ["projectevia-a.duckdns.org", flysy.software"]
+        allowedHosts: ["projectevia-a.duckdns.org", "flysy.software"]
     }
 });
