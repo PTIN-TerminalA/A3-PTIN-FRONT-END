@@ -144,7 +144,7 @@ function UserProfile() {
             </button>
             <button
               className="reserves-button"
-              onClick={() => window.location.href = "/lesMevesReserves"}
+              onClick={() => window.location.href = "/userReserves"}
             >
               Les meves Reserves
             </button>
