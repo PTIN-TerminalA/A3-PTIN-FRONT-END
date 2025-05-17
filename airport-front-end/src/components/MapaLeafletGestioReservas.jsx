@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, ImageOverlay, Marker, Polyline } from "react-leaflet";
 import plano from '/src/components/assets/planol.png';
 import L from "leaflet";
@@ -10,81 +10,61 @@ const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
 
 const normalizeCoordinates = ([x, y]) => [(1 - y) * imageHeight, x * imageWidth];
+const normalizeCoordinatesPos = ([x, y]) => [x, (1 - y)];
 const normalizeCoordinatesRuta = ([x, y]) => [y * imageHeight, x * imageWidth];
-const normalizeCoordinatesPos = ([x, y]) => [x, (1-y)];
-//const normalizeCoordinatesRuta = ([x,y]) => [(1-y) * imageHeight, x * imageWidth];
+const _url = `http://localhost:8000`;
 
-const IndoorMap = ({ startLocation, endLocation, routes }) => {
-  const [route, setRoute] = useState([]); // Ruta devuelta por la API
+const MapaLeafletGestioReservas = ({ routes }) => {
+  const [calculatedRoute, setCalculatedRoute] = useState([]);
 
   useEffect(() => {
-    if (startLocation && endLocation) {
-      fetch("http://127.0.0.1:8000/api/shortest-path", {
+    if (routes && routes.length === 1 && routes[0].start && routes[0].end) {
+      const start = routes[0].start;
+      const end = routes[0].end;
+      fetch(`${_url}/api/shortest-path`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          start: normalizeCoordinatesPos(startLocation),
-          //start: [0.0, 0.0], // Coordenadas de inicio (placeholder)
-          //goal: [1.0,1.0]
-          goal: normalizeCoordinatesPos(endLocation),
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ start: normalizeCoordinatesPos(start), goal: normalizeCoordinatesPos(end)})
       })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.path) {
-            setRoute(data.path.map(normalizeCoordinatesRuta)); // Normalizar puntos a formato Leaflet
+        .then(res => res.json())
+        .then(data => {
+          if (data.path && Array.isArray(data.path)) {
+            setCalculatedRoute(data.path);
+          } else {
+            setCalculatedRoute([]);
           }
         })
-        .catch((error) => console.error("Error fetching route:", error));
+        .catch(() => setCalculatedRoute([]));
+    } else {
+      setCalculatedRoute([]);
     }
-  }, [startLocation, endLocation]);
+  }, [routes]);
 
   return (
     <MapContainer
       crs={L.CRS.Simple}
-      bounds={bounds} // Ajustar los límites al tamaño de la imagen
-      center={[baseY, baseX]} // Centrar el mapa
+      bounds={bounds}
+      center={[baseY, baseX]}
       zoom={-2.0}
-      zoomSnap={-0.1}
-      zoomDelta={0.5}
       style={{ height: "100%", width: "100%" }}
-      minZoom={-3} // Permitir más zoom out
+      minZoom={-3}
     >
       <ImageOverlay url={plano} bounds={bounds} />
-
-      {/* Mostrar puntos seleccionados */}
-      {startLocation && <Marker position={normalizeCoordinates(startLocation)} opacity={0.9} />}
-      {endLocation && <Marker position={normalizeCoordinates(endLocation)} />}
-
-      {/* Dibujar la ruta */}
-      {route.length > 0 && <Polyline positions={route} color="blue" />}
-
-      {/* Dibujar todas las rutas */}
-      {routes.map((route, index) => {
-        const start = normalizeCoordinates(route.start);
-        const end = normalizeCoordinates(route.end);
-
-        // Validar que las coordenadas sean válidas
-        if (
-          start.every((coord) => !isNaN(coord)) &&
-          end.every((coord) => !isNaN(coord))
-        ) {
-          return (
-            <Polyline
-              key={index}
-              positions={[start, end]}
-              color="blue"
-            />
-          );
-        } else {
-          console.error("Invalid route coordinates:", { start, end });
-          return null;
-        }
-      })}
+      {routes && routes.length === 1 && routes[0].start && (
+        <Marker position={normalizeCoordinates(routes[0].start)} opacity={0.9} />
+      )}
+      {routes && routes.length === 1 && routes[0].end && (
+        <Marker position={normalizeCoordinates(routes[0].end)} />
+      )}
+      {calculatedRoute.length > 1 && (
+        <Polyline
+          positions={calculatedRoute.map(normalizeCoordinatesRuta)}
+          color="blue"
+          weight={4}
+        />
+      )}
     </MapContainer>
   );
 };
 
-export default IndoorMap;
+export default MapaLeafletGestioReservas;

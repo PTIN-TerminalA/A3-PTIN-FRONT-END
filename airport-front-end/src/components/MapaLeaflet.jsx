@@ -668,7 +668,6 @@ const IndoorMap = () => {
       minZoom={-1}
     >
       <ImageOverlay url={plano} bounds={bounds} />
-      <CenterMapOnUser position={userPosition} />
 
       {zones.map((zone, index) => (
         <Polygon
@@ -714,10 +713,6 @@ const IndoorMap = () => {
           </Popup>
         </Polygon>
       ))}
-
-      <Marker position={userPosition}>
-        <Popup>{simulated ? 'Estás aquí (simulado)' : 'Estás aquí (GPS real)'}</Popup>
-      </Marker>
     </MapContainer>
   );
 };

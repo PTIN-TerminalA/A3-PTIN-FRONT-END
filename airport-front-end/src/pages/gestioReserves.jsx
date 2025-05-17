@@ -11,6 +11,7 @@ import MapaLeafletGestioReservas from "/src/components/MapaLeafletGestioReservas
 
 
 export default function GestioReserves() {
+  const _url = "http://localhost:8000";
   const navigate = useNavigate();
 
   // filtros de lectura
@@ -35,13 +36,19 @@ export default function GestioReserves() {
     state: "Programada"
   });
 
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
+
+  // Estado para la reserva seleccionada
+  const [selectedReserve, setSelectedReserve] = useState(null);
+  const [selectedRoute, setSelectedRoute] = useState(null);
+
   // cargar reservas
   useEffect(fetchReserves, []);
 
   function fetchReserves() {
     const token = Cookies.get("token");
     const qs = new URLSearchParams(filters).toString();
-    fetch(`http://localhost:8000/reserves?${qs}`, {
+    fetch(`${_url}/reserves?${qs}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -64,7 +71,7 @@ export default function GestioReserves() {
 
   function handleCreate() {
     const token = Cookies.get("token");
-    fetch("http://localhost:8000/reserves/programada", {
+    fetch(`${_url}/reserves/programada`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +96,7 @@ export default function GestioReserves() {
   function handleDelete(id) {
     if (!window.confirm("Segur?")) return;
     const token = Cookies.get("token");
-    fetch(`http://localhost:8000/reserves/${id}`, {
+    fetch(`${_url}/reserves/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -112,7 +119,7 @@ export default function GestioReserves() {
     if (Object.keys(update).length === 0) return;
 
     const token = Cookies.get("token");
-    fetch(`http://localhost:8000/reserves/${id}`, {
+    fetch(`${_url}/reserves/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -127,17 +134,42 @@ export default function GestioReserves() {
       .catch(console.error);
   }
 
-  // Pasar reservas filtradas al mapa
-  const [filteredRoutes, setFilteredRoutes] = useState([]);
-
+  // Cuando cambia la reserva seleccionada, buscar sus coordenadas
   useEffect(() => {
-    // Actualizar las rutas cada vez que cambien las reservas
-    const updatedRoutes = reserves.map((r) => ({
-      start: [parseFloat(r.start_location.split(",")[0]), parseFloat(r.start_location.split(",")[1])],
-      end: [parseFloat(r.end_location.split(",")[0]), parseFloat(r.end_location.split(",")[1])],
-    }));
-    setFilteredRoutes(updatedRoutes);
-  }, [reserves]);
+    async function fetchRouteForSelected() {
+      if (!selectedReserve) {
+        setSelectedRoute(null);
+        return;
+      }
+      if (!selectedReserve.start_location || !selectedReserve.end_location) {
+        setSelectedRoute(null);
+        return;
+      }
+      try {
+        const [startRes, endRes] = await Promise.all([
+          fetch(`${_url}/api/establishment-position?name=${encodeURIComponent(selectedReserve.start_location)}`),
+          fetch(`${_url}/api/establishment-position?name=${encodeURIComponent(selectedReserve.end_location)}`)
+        ]);
+        const startData = await startRes.json();
+        const endData = await endRes.json();
+        if (
+          typeof startData.location_x === 'number' && typeof startData.location_y === 'number' &&
+          typeof endData.location_x === 'number' && typeof endData.location_y === 'number'
+        ) {
+          setSelectedRoute({
+            start: [startData.location_x, startData.location_y],
+            end: [endData.location_x, endData.location_y],
+            id: selectedReserve._id || selectedReserve.id || selectedReserve.email || Math.random()
+          });
+        } else {
+          setSelectedRoute(null);
+        }
+      } catch (e) {
+        setSelectedRoute(null);
+      }
+    }
+    fetchRouteForSelected();
+  }, [selectedReserve]);
 
   return (
     <div className="admin-page">
@@ -280,7 +312,8 @@ export default function GestioReserves() {
               </thead>
               <tbody>
                 {reserves.map(r => (
-                  <tr key={r._id}>
+                  <tr key={r._id} style={{ cursor: 'pointer', background: selectedReserve && selectedReserve._id === r._id ? '#e0e7ff' : undefined }}
+                      onClick={() => setSelectedReserve(r)}>
                     <td>{r.user_email}</td>
                     <td>{r.start_location}</td>
                     <td>{r.end_location}</td>
@@ -289,13 +322,13 @@ export default function GestioReserves() {
                     <td>
                       <button
                         className="btn btn-outline small"
-                        onClick={() => handleUpdate(r._id)}
+                        onClick={e => { e.stopPropagation(); handleUpdate(r._id); }}
                       >
                         Edit
                       </button>
                       <button
                         className="btn btn-filled small"
-                        onClick={() => handleDelete(r._id)}
+                        onClick={e => { e.stopPropagation(); handleDelete(r._id); }}
                       >
                         Cancel·lar
                       </button>
@@ -307,7 +340,7 @@ export default function GestioReserves() {
           </div>
 
           <div className="map-container">
-            <MapaLeafletGestioReservas routes={filteredRoutes} />
+            <MapaLeafletGestioReservas routes={selectedRoute ? [selectedRoute] : []} />
           </div>
         </div>
       </div>
