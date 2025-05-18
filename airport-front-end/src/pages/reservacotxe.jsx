@@ -1,6 +1,6 @@
 // src/pages/reservacotxe.jsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import LogOutButton from "/src/components/LogOutButton.jsx";
@@ -8,6 +8,9 @@ import perfil from "/src/pages/images/perfil.png";
 import "./css/reservacotxe.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
+import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
+
+const _apiUrl = "http://127.0.0.1:8000" 
 
 function ReservaCotxe() {
   const navigate = useNavigate();
@@ -16,30 +19,41 @@ function ReservaCotxe() {
   const [destinacio, setDestinacio] = useState("");
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
+  const [startLocation, setStartLocation] = useState(null);
+  const [endLocation, setEndLocation] = useState(null);
 
-  const ubicacions = [
-    "Porta A3",
-    "Pàrquing",
-    "McDonald's",
-    "Starbucks",
-    "Porta A2",
-    "Serveis 1",
-    "FCB Store",
-    "Farmàcia",
-    "Porta A1",
-    "Punt Info. 2",
-    "H&M",
-    "Cafè",
-    "Serveis 2",
-    "Porta A4",
-    "VIP A4",
-    "Reclamació equipatge",
-    "Control Seguretat",
-    "Punt Info. 1",
-    "Zona Check-in",
-    "Levi's",
-    "Parada Taxi"
-  ];
+  const [ubicacions, setUbicacions] = useState([]);
+
+  useEffect(() => {
+    fetch(`${_apiUrl}/api/services`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUbicacions(data.map((service) => service.name));
+      })
+      .catch((error) => console.error("Error fetching ubicacions:", error));
+  }, []);
+
+  useEffect(() => {
+    if (puntRecollida) {
+      fetch(`${_apiUrl}/api/establishment-position?name=${encodeURIComponent(puntRecollida)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setStartLocation([data.location_x, data.location_y]);
+        })
+        .catch((error) => console.error("Error fetching start location:", error));
+    }
+  }, [puntRecollida]);
+
+  useEffect(() => {
+    if (destinacio) {
+      fetch(`${_apiUrl}/api/establishment-position?name=${encodeURIComponent(destinacio)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setEndLocation([data.location_x, data.location_y]);
+        })
+        .catch((error) => console.error("Error fetching end location:", error));
+    }
+  }, [destinacio]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +70,7 @@ function ReservaCotxe() {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/reserves/usuari", {
+      const res = await fetch(`${_apiUrl}/reserves/usuari`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -185,7 +199,7 @@ function ReservaCotxe() {
 
           <div className="mapa-container">
             <div className="mapa-wrapper">
-              <img src={mapa} alt="Mapa de l'aeroport" className="mapa-imagen" />
+              <IndoorMap startLocation={startLocation} endLocation={endLocation} />
             </div>
           </div>
         </div>
