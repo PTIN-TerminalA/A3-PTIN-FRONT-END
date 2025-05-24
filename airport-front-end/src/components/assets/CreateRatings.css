@@ -1,0 +1,94 @@
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 320px;
+  max-width: 95vw;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  animation: modalIn 0.2s;
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #0077b6;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #d90429;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #003049;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #333;
+  font-weight: 500;
+}
+
+select, textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #bdbdbd;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.7rem;
+  resize: vertical;
+}
+
+textarea {
+  min-height: 60px;
+  max-height: 180px;
+}
+
+button[type="submitRating"] {
+  background: linear-gradient(90deg, #0077b6 60%, #00b4d8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+button[type="submitRating"]:hover {
+  background: linear-gradient(90deg, #005f8a 60%, #0096c7 100%);
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    min-width: 90vw;
+    padding: 1rem;
+  }
+}

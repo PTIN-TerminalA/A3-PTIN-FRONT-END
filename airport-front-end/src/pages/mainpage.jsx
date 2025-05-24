@@ -8,6 +8,8 @@ import perfil from "/src/pages/images/perfil.png";
 import campana from "/src/pages/images/campana.png";
 import mapaVirtual from "/src/pages/images/Plano.png";
 import chatbotIcon from "/src/pages/images/chatboticon.png";
+import ServiceRatings from "../components/ServiceRatings";
+import CreateRatings from "../components/CreateRatings";
 
 // ===== Componente ChatWindow =====
 function ChatWindow({ onClose }) {
@@ -148,61 +150,63 @@ function FlightInfo() {
 
 // ===== Secció Comerços i Oci =====
 function ShopsLeisureExtended() {
+  // Todos los servicios de la base de datos, incluyendo los cerrados
+  const services = [
+    { id: 1, name: "Haribo", description: "Venda de dolços i llaminadures", link: "https://www.haribo.com", ad_path: "https://seeklogo.com/images/H/haribo-logo-62279040B7-seeklogo.com.png", offer: "Enviament gratuit", status: "open" },
+    { id: 2, name: "Starbucks", description: "Cafeteria internacional", link: "https://www.starbucks.com", ad_path: "https://images.icon-icons.com/2699/PNG/512/starbucks_logo_icon_170705.png", offer: "Oferta especial en begudes", status: "open" },
+    { id: 3, name: "Chanel", description: "Botiga de luxe de cosmètics i moda", link: "https://www.chanel.com", ad_path: "https://1000logos.net/wp-content/uploads/2016/11/Chanel-logo.png", offer: "20% de descompte", status: "open" },
+    { id: 4, name: "Farmàcia 1", description: "Farmàcia amb servei 24h", link: "https://www.farmàcia_.com", ad_path: "https://centrocomerciallosangeles.es/wp-content/uploads/2017/06/logo-farmacia.jpg", offer: "Regal amb la teva compra", status: "open" },
+    { id: 6, name: "Levis", description: "Botiga de roba texana", link: "https://www.levis.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Levi%27s_logo.svg/2560px-Levi%27s_logo.svg.png", offer: "2x1 en productes seleccionats", status: "open" },
+    { id: 7, name: "Massimo Dutti", description: "Botiga de moda elegant", link: "https://www.massimo_dutti.com", ad_path: "https://r.fashionunited.com/nWvxR2Z7vP9sJeVyII3dQCs_QwmFyLGPSgRzQ9qeHnI/resize:fill:1164:0:0/gravity:ce/quality:70/aHR0cHM6Ly9mYXNoaW9udW5pdGVkLmNvbS9pbWcvdXBsb2FkLzIwMjMvMDYvMDIvbG9nby1tYXNzaW1vLWR1dHRpLWZveXc1a25sLTIwMjMtMDYtMDIucG5n", offer: "Regal amb la teva compra", status: "open" },
+    { id: 8, name: "Coffee Pause", description: "Petita cafeteria", link: "https://www.coffee_pause.com", ad_path: "https://img.freepik.com/premium-vector/coffee-cup-icon-coffee-break-text_667176-307.jpg", offer: "2x1 en productes seleccionats", status: "open" },
+    { id: 9, name: "Nike", description: "Botiga d'esport i roba esportiva", link: "https://www.nike.com", ad_path: "https://www.liderlogo.es/wp-content/uploads/2022/12/pasted-image-0.png", offer: "2x1 en productes seleccionats", status: "open" },
+    { id: 10, name: "Sephora", description: "Perfumeria i cosmètics", link: "https://www.sephora.com", ad_path: "https://1000logos.net/wp-content/uploads/2018/08/Sephora-Logo.png", offer: "Oferta especial en begudes", status: "open" },
+    { id: 11, name: "Mc Donald's", description: "Restaurant de menjar ràpid", link: "https://www.mc_donalds.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png", offer: "Enviament gratuit", status: "open" },
+    { id: 13, name: "Tous", description: "Joieria i accessoris", link: "https://www.tous.com", ad_path: "https://www.integratecnologia.es/sites/default/files/logo-tous_0.png", offer: "20% de descompte", status: "open" },
+    { id: 14, name: "Lindt", description: "Xocolateria", link: "https://www.lindt.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/9/93/Lindt_logo.png", offer: "Regal amb la teva compra", status: "open" },
+    { id: 16, name: "Adidas", description: "Botiga d'esport i roba esportiva", link: "https://www.adidas.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg", offer: "Regal amb la teva compra", status: "open" },
+    { id: 17, name: "H&M", description: "Botiga de moda", link: "https://www.hm.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png", offer: "2x1 en productes seleccionats", status: "open" },
+  ];
+
+  const [showRatings, setShowRatings] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [selectedServiceId, setSelectedServiceId] = useState(null);
+
+  const handleViewRatings = (serviceName) => {
+    alert(`Veure valoracions per a ${serviceName}`);
+  };
+
+  const handleRateService = (serviceName) => {
+    alert(`Valorar el servei de ${serviceName}`);
+  };
+
   return (
     <section className="shops-leisure-extended">
       <h2>Comerços i Oci</h2>
       <p>Consulta els comerços i oci de l'aeroport per descobrir ofertes i serveis.</p>
       <div className="carousel">
-        {/* Aquí mantienes las cards como ya las tenías */}
-        <div className="shop-card">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png"
-            alt="McDonald's"
-          />
-          <h4>McDonald's</h4>
-          <p>Clàssics menús de menjar ràpid per a tots els gustos.</p>
-        </div>
-        <div className="shop-card">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png"
-            alt="Starbucks"
-          />
-          <h4>Starbucks</h4>
-          <p>Cafès i begudes artesanals en un ambient acollidor.</p>
-        </div>
-        <div className="shop-card">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScwvX8md4fxiyl71dgKvLZAhOK_K3T1y3FJQ&s"
-            alt="FCB Store"
-          />
-          <h4>FCB Store</h4>
-          <p>Botiga oficial del FC Barcelona amb productes exclusius.</p>
-        </div>
-        <div className="shop-card">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/H%26M-Logo.svg/2560px-H%26M-Logo.svg.png"
-            alt="H&M"
-          />
-          <h4>H&M</h4>
-          <p>Moda actual per a tota la família a preus assequibles.</p>
-        </div>
-        <div className="shop-card">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/95/Logo_oficial_cafe.png"
-            alt="Cafè Britt"
-          />
-          <h4>Cafè Britt</h4>
-          <p>Especialitats de cafè gourmet en un entorn relaxant.</p>
-        </div>
-        <div className="shop-card">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Levis-logo-quer.svg/1280px-Levis-logo-quer.svg.png"
-            alt="Levi's"
-          />
-          <h4>Levi's</h4>
-          <p>Roba texana icònica amb estil i qualitat reconeguda.</p>
-        </div>
+        {services.map((service) => (
+          <div key={service.id} className={`shop-card${service.status === 'closed' ? ' closed' : ''}`}>
+            <a href={service.link} target="_blank" rel="noopener noreferrer">
+              <img src={service.ad_path} alt={service.name} />
+            </a>
+            <h4>{service.name}</h4>
+            <p>{service.description}</p>
+            {service.offer && <p><strong>Oferta:</strong> {service.offer}</p>}
+            {service.status === 'closed' && <p style={{color: 'red', fontWeight: 'bold'}}>Tancat</p>}
+            <div className="shop-card-buttons">
+              <button onClick={() => { setSelectedServiceId(service.id); setShowRatings(true); }}>Veure Valoracions</button>
+              <button onClick={() => { setSelectedServiceId(service.id); setShowCreate(true); }}>Valorar</button>
+            </div>
+          </div>
+        ))}
       </div>
+      {showRatings && (
+        <ServiceRatings serviceId={selectedServiceId} onClose={() => setShowRatings(false)} />
+      )}
+      {showCreate && (
+        <CreateRatings serviceId={selectedServiceId} onClose={() => setShowCreate(false)} />
+      )}
     </section>
   );
 }
