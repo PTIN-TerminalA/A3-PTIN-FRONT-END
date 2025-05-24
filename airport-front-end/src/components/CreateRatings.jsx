@@ -47,7 +47,7 @@ function CreateRatings({ serviceId, onClose, onSuccess }) {
           <label>
             Puntuació:
             <select value={rating} onChange={e => setRating(Number(e.target.value))}>
-              {[9,8,7,6,5,4,3,2,1].map(n => <option key={n} value={n}>{n}</option>)}
+              {[5,4,3,2,1].map(n => <option key={n} value={n}>{n}</option>)}
             </select>
           </label>
           <br />

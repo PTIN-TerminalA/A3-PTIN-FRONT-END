@@ -42,7 +42,7 @@ function ServiceRatings({ serviceId, onClose }) {
         <ul className="ratings-list">
           {ratings.map((r, idx) => (
             <li key={idx} className="rating-item">
-              {r.rating}/10
+              {r.rating}/5
               <br />
               <span>{r.comment}</span>
             </li>
