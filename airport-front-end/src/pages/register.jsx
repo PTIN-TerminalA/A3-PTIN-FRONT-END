@@ -134,7 +134,7 @@ function Register() {
 
         const fullName = `${formData.firstName} ${formData.lastName} ${formData.secondLastName}`;
 
-        const registerRes = await fetch("http://localhost:8000/api/register", {
+        const registerRes = await fetch("http://192.168.10.10:8000/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -157,7 +157,7 @@ function Register() {
         const registerData = await registerRes.json();
         const token = registerData.access_token;
 
-        const regularRes = await fetch("http://localhost:8000/api/register-regular", {
+        const regularRes = await fetch("http://192.168.10.10:8000/api/register-regular", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -203,7 +203,7 @@ function Register() {
         try{
             //const userData = jwtDecode(credentialResponse.credential)
   
-            const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+            const registerRes = await fetch("http://192.168.10.10:8000/api/register-login-google", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -232,7 +232,7 @@ function Register() {
             if (registerData.needs_regular){
               navigate("/regularInfoForm")
             }
-            const usertyperes = await fetch(`http://localhost:8000/api/get-user-type?token=${registerData.access_token}`, {
+            const usertyperes = await fetch(`http://192.168.10.10:8000/api/get-user-type?token=${registerData.access_token}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",

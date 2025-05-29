@@ -12,7 +12,7 @@ const baseX = imageWidth / 2;
 const normalizeCoordinates = ([x, y]) => [(1 - y) * imageHeight, x * imageWidth];
 const normalizeCoordinatesPos = ([x, y]) => [x, (1 - y)];
 const normalizeCoordinatesRuta = ([x, y]) => [y * imageHeight, x * imageWidth];
-const _url = `http://localhost:8000`;
+const _url = `http://192.168.10.10:8000`;
 
 const MapaLeafletGestioReservas = ({ routes }) => {
   const [calculatedRoute, setCalculatedRoute] = useState([]);

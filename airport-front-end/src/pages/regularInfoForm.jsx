@@ -26,7 +26,7 @@ function RegularInfoForm() {
       const token = Cookies.get("token");
       if (!token) throw new Error("Token no disponible");
 
-      const response = await fetch("http://localhost:8000/api/register-regular", {
+      const response = await fetch("http://192.168.10.10:8000/api/register-regular", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function RegularInfoForm() {
         throw new Error(errorData.detail || "Error al completar el registre");
       }
 
-      const response2 = await fetch("http://localhost:8000/api/update-dni",{
+      const response2 = await fetch("http://192.168.10.10:8000/api/update-dni",{
         method: "POST",
         headers: {
             "Content-Type": "application/json",

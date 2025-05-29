@@ -4,7 +4,7 @@ function UserList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/")
+    fetch("http://192.168.10.10:8000/")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
