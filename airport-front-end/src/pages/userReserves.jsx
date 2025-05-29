@@ -9,7 +9,7 @@ import perfil from "/src/pages/images/perfil.png";
 import MapaLeafletGestioReservas from "/src/components/MapaLeafletGestioReservas.jsx";
 
 export default function GestioReserves() {
-  const _url = "http://192.168.10.10:8000";
+  const _url = "https://192.168.10.10:8000";
   const navigate = useNavigate();
 
   const [filters, setFilters] = useState({

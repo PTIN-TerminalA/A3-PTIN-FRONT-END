@@ -19,7 +19,7 @@ const IndoorMap = ({ startLocation, endLocation }) => {
 
   useEffect(() => {
     if (startLocation && endLocation) {
-      fetch("http://127.0.0.1:8000/api/shortest-path", {
+      fetch("https://127.0.0.1:8000/api/shortest-path", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
