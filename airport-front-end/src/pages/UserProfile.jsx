@@ -35,7 +35,7 @@ function UserProfile() {
       setLoading(false);
       return;
     }
-    fetch("https://192.168.10.10:8000/api/profile", {
+    fetch("https://flysy.software/api/profile", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -58,7 +58,7 @@ function UserProfile() {
 
   const handleSave = () => {
     const token = Cookies.get("token");
-    fetch("https://192.168.10.10:8000/api/profile", {
+    fetch("https://flysy.software/api/profile", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -9,7 +9,7 @@ function InfocotxesA() {
   const [nouEstat, setNouEstat] = useState('');
 
   useEffect(() => {
-    fetch('https://192.168.10.10:8000/vehicles')
+    fetch('https://flysy.software/vehicles')
       .then((res) => res.json())
       .then((data) => setCotxes(data))
       .catch((err) => console.error('Error carregant cotxes:', err));
@@ -23,7 +23,7 @@ function InfocotxesA() {
   };
 
   const confirmarCanvi = () => {
-    fetch(`https://192.168.10.10:8000/vehicles/${selectedCotxe._id}`, {
+    fetch(`https://flysy.software/vehicles/${selectedCotxe._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

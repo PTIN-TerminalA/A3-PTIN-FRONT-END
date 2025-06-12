@@ -11,7 +11,7 @@ import MapaLeafletGestioReservas from "/src/components/MapaLeafletGestioReservas
 
 
 export default function GestioReserves() {
-  const _url = "https://192.168.10.10:8000";
+  const _url = "https://flysy.software";
   const navigate = useNavigate();
 
   // filtros de lectura
