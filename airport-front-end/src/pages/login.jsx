@@ -81,20 +81,6 @@ function Login() {
             //const userData = jwtDecode(credentialResponse.credential)
             console.log("Email del usuario:", userData.email);
             console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
-            console.log("Email del usuario:", userData.email);
-            console.log("Nombre del usuario:", userData.name);
             
             const registerRes = await fetch("https://flysy.software/api/register-login-google", {
               method: "POST",
