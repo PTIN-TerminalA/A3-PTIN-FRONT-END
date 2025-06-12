@@ -45,7 +45,7 @@ export default function GestioReserves() {
   // cargar reservas
   useEffect(fetchReserves, []);
 
-  /*function fetchReserves() {
+  function fetchReserves() {
     const token = Cookies.get("token");
     const qs = new URLSearchParams(filters).toString();
     fetch(`${_url}/reserves?${qs}`, {
@@ -55,25 +55,7 @@ export default function GestioReserves() {
       .then(data => setReserves(data.reserves || []))
       .catch(console.error);
   }
-*/
-  function fetchReserves() {
-  const token = Cookies.get("token");
-  const qs = new URLSearchParams(filters).toString();
-  fetch(`${_url}/reserves?${qs}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-    .then(async r => {
-      const text = await r.text(); // obtener texto sin parsear
-      console.log("Respuesta raw de /reserves:", text);
-      try {
-        const data = JSON.parse(text);
-        setReserves(data.reserves || []);
-      } catch (err) {
-        console.error("Error parseando JSON:", err);
-      }
-    })
-    .catch(console.error);
-}
+
 
   function handleFilterChange(e) {
     setFilters(f => ({ ...f, [e.target.name]: e.target.value }));
