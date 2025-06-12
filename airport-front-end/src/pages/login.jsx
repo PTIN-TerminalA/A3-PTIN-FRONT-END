@@ -79,7 +79,7 @@ function Login() {
     const handleGoogleLogin = async (userData) => {
         try{
             //const userData = jwtDecode(credentialResponse.credential)
-  
+            console.log("Datos recibidos del login con Google:", userData);
             const registerRes = await fetch("https://flysy.software/api/register-login-google", {
               method: "POST",
               headers: {
