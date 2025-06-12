@@ -25,7 +25,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://192.168.10.10:8000/api/login", {
+      const response = await fetch("https://flysy.software:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function Login() {
         sameSite: "strict"
       })
 
-      const usertyperes = await fetch(`https://192.168.10.10:8000/api/get-user-type?token=${data.access_token}`, {
+      const usertyperes = await fetch(`https://flysy.software:8000/api/get-user-type?token=${data.access_token}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ function Login() {
         try{
             //const userData = jwtDecode(credentialResponse.credential)
   
-            const registerRes = await fetch("https://192.168.10.10:8000/api/register-login-google", {
+            const registerRes = await fetch("https://flysy.software:8000/api/register-login-google", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function Login() {
             if (registerData.needs_regular){
               navigate("/regularInfoForm")
             }
-            const usertyperes = await fetch(`https://192.168.10.10:8000/api/get-user-type?token=${registerData.access_token}`, {
+            const usertyperes = await fetch(`https://flysy.software:8000/api/get-user-type?token=${registerData.access_token}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
