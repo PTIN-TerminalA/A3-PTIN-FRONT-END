@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, ImageOverlay, Marker, Popup, Polygon, Tooltip } from 'react-leaflet';
+import { MapContainer, ImageOverlay, Marker, Popup, Polygon, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import plano from '/src/components/assets/planol.png';
+import carIconImg from '/src/components/assets/carIcon.png';
 
 const imageWidth = 995;
 const imageHeight = 630;
@@ -13,21 +14,6 @@ const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
 const offsetY = 100;
 const offsetX = 150;
-
-// Icono cuadrado para coches
-const customCarIcon = (color = 'red') =>
-  L.divIcon({
-    className: 'custom-car-marker',
-    html: `<div style="
-      width: 20px;
-      height: 20px;
-      background-color: ${color};
-      border: 1px solid white;
-      border-radius: 2px;
-    "></div>`,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-  });
 
 // Icono redondo y brillante para usuarios
 const customUserIcon = () =>
@@ -43,6 +29,7 @@ const customUserIcon = () =>
     iconSize: [25, 25],
     iconAnchor: [12, 12],
   });
+
 
 const getColorByType = (type) => {
   switch (type) {
@@ -632,6 +619,18 @@ const zones = [
   
 ];
 
+// Componente para obtener el zoom actual del mapa
+function ZoomListener({ setZoom }) {
+  const map = useMap();
+  useEffect(() => {
+    setZoom(map.getZoom());
+    const onZoom = () => setZoom(map.getZoom());
+    map.on('zoom', onZoom);
+    return () => map.off('zoom', onZoom);
+  }, [map, setZoom]);
+  return null;
+}
+
 const MapaLeafletAdmin = () => {
   const colors = ['red', 'blue', 'green', 'orange', 'purple', 'yellow', 'pink', 'teal', 'brown', 'black'];
 
@@ -647,6 +646,61 @@ const MapaLeafletAdmin = () => {
 
   const [carPositions, setCarPositions] = useState(generateRandomPositions(NUM_CARS));
   const [userPositions, setUserPositions] = useState(generateRandomPositions(NUM_USERS));
+  const [zoom, setZoom] = useState(0);
+
+  // Estado para coches recibidos por WebSocket
+  const [wsCars, setWsCars] = useState({}); // { [id]: { data, lastUpdate } }
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8000/ws/cars');
+
+    ws.onopen = () => {
+      console.log('WebSocket abierto');
+    };
+
+    ws.onmessage = (event) => {
+      console.log('Mensaje recibido:', event.data);
+      try {
+        const msg = JSON.parse(event.data);
+        if (msg.id && msg.coordinates) {
+          setWsCars(prev => ({
+            ...prev,
+            [msg.id]: {
+              data: msg,
+              lastUpdate: Date.now(),
+            }
+          }));
+        }
+      } catch (e) {
+        // Ignorar mensajes malformados
+      }
+    };
+
+    ws.onerror = (err) => {
+      console.error('WebSocket error:', err);
+    };
+
+    ws.onclose = (event) => {
+      console.warn('WebSocket cerrado', event);
+    };
+
+    return () => ws.close();
+  }, []);
+
+  // Limpiar coches inactivos (>30s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWsCars(prev => {
+        const now = Date.now();
+        const filtered = {};
+        Object.entries(prev).forEach(([id, car]) => {
+          if (now - car.lastUpdate < 30000) filtered[id] = car;
+        });
+        return filtered;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -684,8 +738,10 @@ const MapaLeafletAdmin = () => {
       style={{ height: '100%', width: '100%' }}
       minZoom={-1}
     >
+      <ZoomListener setZoom={setZoom} />
       <ImageOverlay url={plano} bounds={bounds} />
 
+      {/* Zonas */}
       {zones.map((zone, index) => (
         <Polygon
           key={index}
@@ -713,27 +769,41 @@ const MapaLeafletAdmin = () => {
         </Polygon>
       ))}
 
-      {/* Coches simulados */}
-      {carPositions.map((pos, index) => (
-        <Marker
-          key={`car-${index}`}
-          position={pos}
-          icon={customCarIcon(colors[index % colors.length])}
-        >
-          <Popup>Coche #{index + 1}</Popup>
-        </Marker>
-      ))}
-
-      {/* Usuarios simulados */}
-      {userPositions.map((pos, index) => (
-        <Marker
-          key={`user-${index}`}
-          position={pos}
-          icon={customUserIcon()}
-        >
-          <Popup>Usuario con reserva #{index + 1}</Popup>
-        </Marker>
-      ))}
+      {/* Coches del WebSocket */}
+      {Object.entries(wsCars).map(([id, { data, lastUpdate }], idx) => {
+        // Convertir coordenadas normalizadas a píxeles
+        const y = data.coordinates.y * imageHeight;
+        const x = data.coordinates.x * imageWidth;
+        // Ajustar tamaño del icono según el zoom
+        const baseSize = 32;
+        const scale = Math.pow(0.6, zoom);
+        const iconSize = Math.max(baseSize, baseSize / scale);
+        // Asignar un color diferente usando hue-rotate
+        const hue = (idx * 60) % 360;
+        const carDynamicIcon = L.divIcon({
+          className: '',
+          html: `<img src='${carIconImg}' style="width:${iconSize}px;height:${iconSize}px;filter:hue-rotate(${hue}deg) drop-shadow(0 0 2px #000);" />`,
+          iconSize: [iconSize, iconSize],
+          iconAnchor: [iconSize / 2, iconSize / 2],
+          popupAnchor: [0, -iconSize / 2],
+        });
+        return (
+          <Marker
+            key={`ws-car-${id}`}
+            position={[y, x]}
+            icon={carDynamicIcon}
+          >
+            <Tooltip>
+              Coche #{id}
+            </Tooltip>
+            <Popup>
+              <strong>Coche #{id}</strong><br />
+              Estado: {data.state}<br />
+              Última actualización: {new Date(lastUpdate).toLocaleTimeString()}
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };
