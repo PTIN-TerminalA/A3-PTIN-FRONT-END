@@ -46,9 +46,11 @@ export default function GestioReserves() {
   useEffect(fetchReserves, []);
 
   function fetchReserves() {
+    console.log("Fetching reserves");
     const token = Cookies.get("token");
     const qs = new URLSearchParams(filters).toString();
     fetch(`${_url}/reserves?${qs}`, {
+      
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
