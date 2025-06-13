@@ -48,7 +48,7 @@ export default function GestioReserves() {
   function fetchReserves() {
     const token = Cookies.get("token");
     const qs = new URLSearchParams(filters).toString();
-    fetch(`${_url}/reserves?${qs}`, {
+    fetch(`${_url}/api/reserves?${qs}`, {
       
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -56,25 +56,6 @@ export default function GestioReserves() {
       .then(data => setReserves(data.reserves || []))
       .catch(console.error);
   }
-
-
-  function fetchReserves() {
-    const token = Cookies.get("token");
-    const qs = new URLSearchParams(filters).toString();
-    fetch(`${_url}/reserves?${qs}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(async r => {
-        if (!r.ok) {
-          const text = await r.text();
-          console.error("Error del servidor:", r.status, text);
-          throw new Error("Error al obtener reserves");
-        }
-        return r.json();
-      })
-      .then(data => setReserves(data.reserves || []))
-      .catch(console.error);
-}
 
   function handleFilterChange(e) {
     setFilters(f => ({ ...f, [e.target.name]: e.target.value }));

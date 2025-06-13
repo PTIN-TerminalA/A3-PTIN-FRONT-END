@@ -10,7 +10,7 @@ import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
 
-const _apiUrl = "http://127.0.0.1:8000" 
+const _apiUrl = "https://flysy.software" 
 
 function ReservaCotxe() {
   const navigate = useNavigate();
