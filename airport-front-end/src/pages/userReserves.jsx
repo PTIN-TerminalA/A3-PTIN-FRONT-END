@@ -56,7 +56,7 @@ export default function GestioReserves() {
   function fetchReserves() {
     const token = Cookies.get("token");
     const qs = new URLSearchParams(filters).toString();
-    fetch(`${_url}/reserves?${qs}`, {
+    fetch(`${_url}/api/reserves?${qs}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -67,7 +67,7 @@ export default function GestioReserves() {
   function handleDelete(id) {
     if (!window.confirm("Segur?")) return;
     const token = Cookies.get("token");
-    fetch(`${_url}/reserves/${id}`, {
+    fetch(`${_url}/api/reserves/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` }
     })

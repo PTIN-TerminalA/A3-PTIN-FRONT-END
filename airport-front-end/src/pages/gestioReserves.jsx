@@ -72,7 +72,7 @@ export default function GestioReserves() {
 
   function handleCreate() {
     const token = Cookies.get("token");
-    fetch(`${_url}/reserves/programada`, {
+    fetch(`${_url}/api/reserves/programada`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export default function GestioReserves() {
   function handleDelete(id) {
     if (!window.confirm("Segur?")) return;
     const token = Cookies.get("token");
-    fetch(`${_url}/reserves/${id}`, {
+    fetch(`${_url}/api/reserves/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` }
     })
@@ -120,7 +120,7 @@ export default function GestioReserves() {
     if (Object.keys(update).length === 0) return;
 
     const token = Cookies.get("token");
-    fetch(`${_url}/reserves/${id}`, {
+    fetch(`${_url}/api/reserves/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

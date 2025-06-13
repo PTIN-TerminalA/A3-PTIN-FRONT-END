@@ -9,7 +9,7 @@ function InfocotxesA() {
   const [nouEstat, setNouEstat] = useState('');
 
   useEffect(() => {
-    fetch('https://flysy.software/vehicles')
+    fetch('https://flysy.software/api/vehicles')
       .then((res) => res.json())
       .then((data) => setCotxes(data))
       .catch((err) => console.error('Error carregant cotxes:', err));
@@ -23,7 +23,7 @@ function InfocotxesA() {
   };
 
   const confirmarCanvi = () => {
-    fetch(`https://flysy.software/vehicles/${selectedCotxe._id}`, {
+    fetch(`https://flysy.software/api/vehicles/${selectedCotxe._id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

@@ -72,7 +72,7 @@ function GestioReserves() {
     if (!window.confirm("Segur que vols cancel·lar aquesta reserva?")) return;
 
     try {
-      const res = await fetch(`https://flysy.software/reserves/${id}`, {
+      const res = await fetch(`https://flysy.software/api/reserves/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -116,7 +116,7 @@ function GestioReserves() {
         state: newReserveType === "programada" ? "Programada" : "En curs"
       };
 
-      const res = await fetch("https://flysy.software/reserves/programada", {
+      const res = await fetch("https://flysy.software/api/reserves/programada", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
