@@ -3,6 +3,7 @@ import { MapContainer, ImageOverlay, Marker, Polyline } from "react-leaflet";
 import plano from '/src/components/assets/planol.png';
 import L from "leaflet";
 
+const _url = 'https://flysy.sofware';
 const imageWidth = 3850;
 const imageHeight = 2569;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
@@ -20,7 +21,7 @@ const IndoorMap = ({ startLocation, endLocation }) => {
 
   useEffect(() => {
     if (startLocation && endLocation) {
-      fetch("http://127.0.0.1:8000/api/shortest-path", {
+      fetch(`${_url}/api/shortest-path`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

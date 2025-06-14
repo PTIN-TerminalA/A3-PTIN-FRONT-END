@@ -656,7 +656,11 @@ const MapaLeafletAdmin = () => {
   const [wsCars, setWsCars] = useState({});
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/ws/cars');
+    // Adaptar WebSocket para entorno seguro y dominio personalizado
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = 'flysy.sofware';
+    const wsUrl = `${wsProtocol}://${wsHost}/ws/cars`;
+    const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       console.log('WebSocket abierto');
