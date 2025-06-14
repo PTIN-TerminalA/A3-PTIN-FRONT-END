@@ -21,8 +21,11 @@ function ReservaCotxe() {
   const [hora, setHora] = useState("");
   const [startLocation, setStartLocation] = useState(null);
   const [endLocation, setEndLocation] = useState(null);
-
   const [ubicacions, setUbicacions] = useState([]);
+  const [showReservas, setShowReservas] = useState(false);
+  const [misReservas, setMisReservas] = useState([]);
+  const [valoracions, setValoracions] = useState({}); // { idx: { rating, comment } }
+  const [loadingReservas, setLoadingReservas] = useState(false);
 
   useEffect(() => {
     fetch(`${_apiUrl}/api/services`)
@@ -84,6 +87,81 @@ function ReservaCotxe() {
       } else {
         const err = await res.json();
         alert("Error en la reserva: " + (err.detail || res.statusText));
+      }
+    } catch (err) {
+      alert("Error en el servidor: " + err.message);
+    }
+  };
+
+  const handleVerReservas = async () => {
+    setLoadingReservas(true);
+    setShowReservas(true);
+    const token = Cookies.get("token");
+    try {
+      const res = await fetch(`${_apiUrl}/api/user-reserves`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Respuesta reservas:", data);
+        let reservas = [];
+        if (Array.isArray(data)) {
+          reservas = data;
+        } else if (Array.isArray(data.reserves)) {
+          reservas = data.reserves;
+        } else if (Array.isArray(data.Reservas)) {
+          reservas = data.Reservas;
+        } else if (Array.isArray(data.reservas)) {
+          reservas = data.reservas;
+        }
+        // Aseguramos que reservas es un array
+        setMisReservas(Array.isArray(reservas) ? reservas : []);
+      } else {
+        setMisReservas([]);
+        alert("No se pudieron obtener las reservas");
+      }
+    } catch (err) {
+      setMisReservas([]);
+      alert("Error al obtener reservas: " + err.message);
+    }
+    setLoadingReservas(false);
+  };
+
+  const handleValoracionChange = (idx, field, value) => {
+    setValoracions(prev => ({
+      ...prev,
+      [idx]: {
+        ...prev[idx],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleEnviarValoracion = async (idx, reserva) => {
+    const token = Cookies.get("token");
+    const { rating, comment } = valoracions[idx] || {};
+    if (!rating || !comment) {
+      alert("Por favor, introduce una valoración y un comentario.");
+      return;
+    }
+    try {
+      const res = await fetch(`${_apiUrl}/api/route-rate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          scheduled_time: reserva.scheduled_time,
+          rating: parseInt(rating),
+          comment
+        })
+      });
+      if (res.ok) {
+        alert("Valoración añadida correctamente");
+      } else {
+        const err = await res.json();
+        alert("Error al enviar valoración: " + (err.detail || res.statusText));
       }
     } catch (err) {
       alert("Error en el servidor: " + err.message);
@@ -203,6 +281,41 @@ function ReservaCotxe() {
             </div>
           </div>
         </div>
+
+        <button type="button" className="btn btn-filled" style={{marginTop: 16}} onClick={handleVerReservas}>
+          Ver mis reservas
+        </button>
+        {showReservas && (
+          <div className="mis-reservas-modal" style={{background: '#fff', border: '1px solid #ccc', padding: 20, marginTop: 20, borderRadius: 8}}>
+            <h2>Mis reservas</h2>
+            {loadingReservas ? (
+              <p>Cargando reservas...</p>
+            ) : misReservas.length === 0 ? (
+              <p>No tienes reservas.</p>
+            ) : (
+              <ul style={{listStyle: 'none', padding: 0}}>
+                {misReservas.map((res, idx) => (
+                  <li key={idx} style={{borderBottom: '1px solid #eee', marginBottom: 12, paddingBottom: 12}}>
+                    <div><b>Origen:</b> {res.start_location}</div>
+                    <div><b>Destino:</b> {res.end_location}</div>
+                    <div><b>Fecha:</b> {res.scheduled_time}</div>
+                    <div><b>Estado:</b> {res.state}</div>
+                    <div style={{marginTop: 8}}>
+                      <label>Valoració: </label>
+                      <select value={(valoracions[idx] && valoracions[idx].rating) || ''} onChange={e => handleValoracionChange(idx, 'rating', e.target.value)}>
+                        <option value="">Selecciona</option>
+                        {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                      </select>
+                      <input type="text" placeholder="Comentario" style={{marginLeft: 8}} value={(valoracions[idx] && valoracions[idx].comment) || ''} onChange={e => handleValoracionChange(idx, 'comment', e.target.value)} />
+                      <button style={{marginLeft: 8}} onClick={() => handleEnviarValoracion(idx, res)}>Enviar valoración</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button className="btn" style={{marginTop: 10}} onClick={() => setShowReservas(false)}>Cerrar</button>
+          </div>
+        )}
       </div>
 
       <footer className="main-footer lowered-footer"> 

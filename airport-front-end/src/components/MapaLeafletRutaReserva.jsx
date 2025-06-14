@@ -3,6 +3,7 @@ import { MapContainer, ImageOverlay, Marker, Polyline } from "react-leaflet";
 import plano from '/src/components/assets/planol.png';
 import L from "leaflet";
 
+const _url = 'https://flysy.sofware';
 const imageWidth = 3850;
 const imageHeight = 2569;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
@@ -16,10 +17,11 @@ const normalizeCoordinatesPos = ([x, y]) => [x, (1-y)];
 
 const IndoorMap = ({ startLocation, endLocation }) => {
   const [route, setRoute] = useState([]); // Ruta devuelta por la API
+  const [routeTime, setRouteTime] = useState(""); // Tiempo de la ruta
 
   useEffect(() => {
     if (startLocation && endLocation) {
-      fetch("https://flysy.software/api/shortest-path", {
+      fetch(`${_url}/api/shortest-path`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,31 +38,54 @@ const IndoorMap = ({ startLocation, endLocation }) => {
           if (data.path) {
             setRoute(data.path.map(normalizeCoordinatesRuta)); // Normalizar puntos a formato Leaflet
           }
+          if (data.temps) {
+            setRouteTime(data.temps); // Guardar el tiempo de la ruta
+          }
         })
         .catch((error) => console.error("Error fetching route:", error));
     }
   }, [startLocation, endLocation]);
 
   return (
-    <MapContainer
-      crs={L.CRS.Simple}
-      bounds={bounds} // Ajustar los límites al tamaño de la imagen
-      center={[baseY, baseX]} // Centrar el mapa
-      zoom={-2.0}
-      zoomSnap={-0.1}
-      zoomDelta={0.5}
-      style={{ height: "100%", width: "100%" }}
-      minZoom={-3} // Permitir más zoom out
-    >
-      <ImageOverlay url={plano} bounds={bounds} />
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      {/* Etiqueta flotante para el tiempo de la ruta */}
+      {routeTime && (
+        <div style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          background: "rgba(0, 123, 255, 0.9)",
+          color: "#fff",
+          padding: "12px 24px",
+          borderRadius: "16px",
+          fontWeight: "bold",
+          fontSize: "1.2rem",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+          zIndex: 1000,
+        }}>
+          🕒 Temps estimat: {routeTime}
+        </div>
+      )}
+      <MapContainer
+        crs={L.CRS.Simple}
+        bounds={bounds} // Ajustar los límites al tamaño de la imagen
+        center={[baseY, baseX]} // Centrar el mapa
+        zoom={-2.0}
+        zoomSnap={-0.1}
+        zoomDelta={0.5}
+        style={{ height: "100%", width: "100%" }}
+        minZoom={-3} // Permitir más zoom out
+      >
+        <ImageOverlay url={plano} bounds={bounds} />
 
-      {/* Mostrar puntos seleccionados */}
-      {startLocation && <Marker position={normalizeCoordinates(startLocation)} opacity={0.9} />}
-      {endLocation && <Marker position={normalizeCoordinates(endLocation)} />}
+        {/* Mostrar puntos seleccionados */}
+        {startLocation && <Marker position={normalizeCoordinates(startLocation)} opacity={0.9} />}
+        {endLocation && <Marker position={normalizeCoordinates(endLocation)} />}
 
-      {/* Dibujar la ruta */}
-      {route.length > 0 && <Polyline positions={route} color="blue" />}
-    </MapContainer>
+        {/* Dibujar la ruta */}
+        {route.length > 0 && <Polyline positions={route} color="blue" />}
+      </MapContainer>
+    </div>
   );
 };
 

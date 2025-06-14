@@ -150,6 +150,8 @@ html, body, #root {
   width: 100%;
   max-width: 1500px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .shops-leisure-extended h2 {
@@ -264,7 +266,6 @@ html, body, #root {
     background-color: #006494;
   }
 }
-
 
 /* Estilos del Chatbot */
 .icon-section img[alt="Chatbot"] {
@@ -426,5 +427,44 @@ html, body, #root {
   .chat-header {
     background-color: #005f8a;
   }
+}
+
+.shop-card {
+  width: fit-content;
+  white-space: nowrap;
+  padding-right: 0.5rem;
+}
+
+.shop-card img {
+  width: 300px;
+  height: 200px;
+  object-fit:contain;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Estilos adicionales per als botons del carousel */
+.shop-card-buttons {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.shop-card-buttons button {
+  background: linear-gradient(90deg, #0077b6 60%, #00b4d8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.shop-card-buttons button:hover {
+  background: linear-gradient(90deg, #005f8a 60%, #0096c7 100%);
+  transform: translateY(-2px) scale(1.05);
 }
 

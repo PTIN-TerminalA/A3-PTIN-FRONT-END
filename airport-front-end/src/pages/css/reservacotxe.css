@@ -508,3 +508,52 @@
       text-align: center;
     }
   }
+
+  /* Estilo para la lista de reservas en el modal */
+.mis-reservas-modal ul {
+  padding: 0;
+  margin: 0;
+}
+
+.mis-reservas-modal li {
+  background: #f5f8fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 18px;
+  padding: 18px 20px 12px 20px;
+  transition: box-shadow 0.2s;
+  border: 1px solid #e2e8f0;
+}
+
+.mis-reservas-modal li:last-child {
+  margin-bottom: 0;
+}
+
+.mis-reservas-modal b {
+  color: #005187;
+}
+
+.mis-reservas-modal select,
+.mis-reservas-modal input[type="text"] {
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #bfc9d1;
+  font-size: 1rem;
+}
+
+.mis-reservas-modal button {
+  margin-top: 6px;
+  background: #005187;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mis-reservas-modal button:hover {
+  background: #003d66;
+}

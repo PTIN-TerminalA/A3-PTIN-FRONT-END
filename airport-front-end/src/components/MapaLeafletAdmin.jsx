@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, ImageOverlay, Marker, Popup, Polygon, Tooltip } from 'react-leaflet';
+import { MapContainer, ImageOverlay, Marker, Popup, Polygon, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import plano from '/src/components/assets/planol.png';
+import carIconImg from '/src/components/assets/carIcon.png';
 
 const imageWidth = 995;
 const imageHeight = 630;
@@ -13,21 +14,6 @@ const baseY = imageHeight / 2;
 const baseX = imageWidth / 2;
 const offsetY = 100;
 const offsetX = 150;
-
-// Icono cuadrado para coches
-const customCarIcon = (color = 'red') =>
-  L.divIcon({
-    className: 'custom-car-marker',
-    html: `<div style="
-      width: 20px;
-      height: 20px;
-      background-color: ${color};
-      border: 1px solid white;
-      border-radius: 2px;
-    "></div>`,
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-  });
 
 // Icono redondo y brillante para usuarios
 const customUserIcon = () =>
@@ -43,6 +29,7 @@ const customUserIcon = () =>
     iconSize: [25, 25],
     iconAnchor: [12, 12],
   });
+
 
 const getColorByType = (type) => {
   switch (type) {
@@ -632,6 +619,21 @@ const zones = [
   
 ];
 
+// Historial de posiciones de cada coche fuera del estado de React
+const carHistory = {};
+
+// Componente para obtener el zoom actual del mapa
+function ZoomListener({ setZoom }) {
+  const map = useMap();
+  useEffect(() => {
+    setZoom(map.getZoom());
+    const onZoom = () => setZoom(map.getZoom());
+    map.on('zoom', onZoom);
+    return () => map.off('zoom', onZoom);
+  }, [map, setZoom]);
+  return null;
+}
+
 const MapaLeafletAdmin = () => {
   const colors = ['red', 'blue', 'green', 'orange', 'purple', 'yellow', 'pink', 'teal', 'brown', 'black'];
 
@@ -647,6 +649,84 @@ const MapaLeafletAdmin = () => {
 
   const [carPositions, setCarPositions] = useState(generateRandomPositions(NUM_CARS));
   const [userPositions, setUserPositions] = useState(generateRandomPositions(NUM_USERS));
+  const [zoom, setZoom] = useState(0);
+
+  // Estado para coches recibidos por WebSocket
+  // Ahora guardamos también la última posición para cada coche
+  const [wsCars, setWsCars] = useState({});
+
+  useEffect(() => {
+    // Adaptar WebSocket para entorno seguro y dominio personalizado
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = 'flysy.sofware';
+    const wsUrl = `${wsProtocol}://${wsHost}/ws/cars`;
+    const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      console.log('WebSocket abierto');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        if (msg.id && msg.coordinates) {
+          // Copia profunda de las coordenadas
+          const coords = { x: msg.coordinates.x, y: msg.coordinates.y };
+          if (!carHistory[msg.id]) {
+            carHistory[msg.id] = {
+              prev: undefined,
+              current: coords
+            };
+          } else {
+            carHistory[msg.id].prev = carHistory[msg.id].current;
+            carHistory[msg.id].current = coords;
+          }
+          setWsCars(prev => ({
+            ...prev,
+            [msg.id]: {
+              data: { ...msg, coordinates: coords },
+              lastUpdate: Date.now(),
+            }
+          }));
+          // Logs de depuración
+          const prev = carHistory[msg.id].prev;
+          const curr = carHistory[msg.id].current;
+          console.log(
+            `carHistory[${msg.id}]: prev=(${prev?.x},${prev?.y}) current=(${curr.x},${curr.y}) ` +
+            `prev===current: ${prev && prev.x === curr.x && prev.y === curr.y}`
+          );
+          console.log('wsCars:', JSON.stringify(wsCars));
+        }
+      } catch (e) {
+        // Ignorar mensajes malformados
+      }
+    };
+
+    ws.onerror = (err) => {
+      console.error('WebSocket error:', err);
+    };
+
+    ws.onclose = (event) => {
+      console.warn('WebSocket cerrado', event);
+    };
+
+    return () => ws.close();
+  }, []);
+
+  // Limpiar coches inactivos (>30s)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWsCars(prev => {
+        const now = Date.now();
+        const filtered = {};
+        Object.entries(prev).forEach(([id, car]) => {
+          if (now - car.lastUpdate < 30000) filtered[id] = car;
+        });
+        return filtered;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -684,8 +764,10 @@ const MapaLeafletAdmin = () => {
       style={{ height: '100%', width: '100%' }}
       minZoom={-1}
     >
+      <ZoomListener setZoom={setZoom} />
       <ImageOverlay url={plano} bounds={bounds} />
 
+      {/* Zonas */}
       {zones.map((zone, index) => (
         <Polygon
           key={index}
@@ -713,27 +795,65 @@ const MapaLeafletAdmin = () => {
         </Polygon>
       ))}
 
-      {/* Coches simulados */}
-      {carPositions.map((pos, index) => (
-        <Marker
-          key={`car-${index}`}
-          position={pos}
-          icon={customCarIcon(colors[index % colors.length])}
-        >
-          <Popup>Coche #{index + 1}</Popup>
-        </Marker>
-      ))}
-
-      {/* Usuarios simulados */}
-      {userPositions.map((pos, index) => (
-        <Marker
-          key={`user-${index}`}
-          position={pos}
-          icon={customUserIcon()}
-        >
-          <Popup>Usuario con reserva #{index + 1}</Popup>
-        </Marker>
-      ))}
+      {/* Coches del WebSocket */}
+      {Object.entries(wsCars).map(([id, { data, lastUpdate }], idx) => {
+        const history = carHistory[id];
+        const prevCoords = history?.prev;
+        const currCoords = history?.current;
+        // Convertir coordenadas normalizadas a píxeles
+        const y = currCoords.y * imageHeight;
+        const x = currCoords.x * imageWidth;
+        // Ajustar tamaño del icono según el zoom
+        const baseSize = 32;
+        const scale = Math.pow(0.6, zoom);
+        const iconSize = Math.max(baseSize, baseSize / scale);
+        // Asignar un color diferente usando hue-rotate
+        const hue = (idx * 60) % 360;
+        // Calcular ángulo de rotación si hay posición previa
+        let angle = 0;
+        if (prevCoords && (prevCoords.x !== currCoords.x || prevCoords.y !== currCoords.y)) {
+          // Invertir el eje Y para el cálculo correcto del ángulo
+          const prevY = (1 - prevCoords.y) * imageHeight;
+          const prevX = prevCoords.x * imageWidth;
+          const currY = (1 - currCoords.y) * imageHeight;
+          const currX = currCoords.x * imageWidth;
+          const dx = currX - prevX;
+          const dy = currY - prevY;
+          if (dx !== 0 || dy !== 0) {
+            angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+          }
+        }
+        // Log mejorado para depuración
+        console.log(
+          `Coche ${id}: prev=(${prevCoords?.x},${prevCoords?.y}) actual=(${currCoords?.x},${currCoords?.y}) ` +
+          `prev===actual: ${prevCoords && prevCoords.x === currCoords.x && prevCoords.y === currCoords.y} ángulo=${angle}`
+        );
+        const carDynamicIcon = L.divIcon({
+          className: 'car-rotating-icon',
+          html: `<img src='${carIconImg}' style="width:${iconSize}px;height:${iconSize}px;filter:hue-rotate(${hue}deg) drop-shadow(0 0 2px #000);transform:rotate(${angle}deg);transition:transform 0.2s;" />`,
+          iconSize: [iconSize, iconSize],
+          iconAnchor: [iconSize / 2, iconSize / 2],
+          popupAnchor: [0, -iconSize / 2],
+        });
+        return (
+          <Marker
+            key={`ws-car-${id}`}
+            position={[y, x]}
+            icon={carDynamicIcon}
+          >
+            <Tooltip>
+              Coche #{id}
+            </Tooltip>
+            <Popup>
+              <strong>Coche #{id}</strong><br />
+              Estado: {data.state}<br />
+              Colisión: {data.checkup?.collision}<br />
+              Motherboard: {data.checkup?.motherboard}<br />
+              Última actualización: {new Date(lastUpdate).toLocaleTimeString()}
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };
