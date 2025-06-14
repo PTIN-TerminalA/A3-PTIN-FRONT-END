@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './assets/ServiceRatings.css';
 
-const _uri = "http://localhost:8000";
+const _uri = "https://flysy.sofware";
 
 function ServiceRatings({ serviceId, onClose }) {
   const [ratings, setRatings] = useState([]);

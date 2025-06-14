@@ -105,7 +105,7 @@ function Login() {
  const loginGoogle = useGoogleLogin({
      onSuccess: async (tokenResponse) => {
        // Usas el token para pedir los datos del usuario
-       const userInfo = await fetch("http://www.googleapis.com/oauth2/v3/userinfo", {
+       const userInfo = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
          headers: {
            Authorization: `Bearer ${tokenResponse.access_token}`,
          },
