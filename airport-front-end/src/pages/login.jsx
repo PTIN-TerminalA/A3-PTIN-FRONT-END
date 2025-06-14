@@ -25,7 +25,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/login", {
+      const response = await fetch("https://flysy.software/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,9 +49,26 @@ function Login() {
         //para https -> secure: true,
         sameSite: "strict"
       })
-      
-      // Redirigimos a la página principal después de iniciar sesión
-      navigate("/mainpage");
+
+      const usertyperes = await fetch(`https://flysy.software/api/get-user-type?token=${data.access_token}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          // No hace falta Authorization aquí porque el backend no lo lee
+        },
+      });
+
+      const jonsonData = await usertyperes.json();
+      console.log("El tipo de usuario es: ", jonsonData.user_type);
+      if (jonsonData.user_type == "admin") {
+        navigate("/admin");
+      }
+      else if(jonsonData.user_type == "superadmin"){
+        navigate("/superadmin");
+      }
+      else{
+        navigate("/mainpage");
+      }
 
     } catch (error) {
       console.error("Error en el login:", error);
@@ -62,8 +79,10 @@ function Login() {
     const handleGoogleLogin = async (userData) => {
         try{
             //const userData = jwtDecode(credentialResponse.credential)
-  
-            const registerRes = await fetch("http://localhost:8000/api/register-login-google", {
+            console.log("Email del usuario:", userData.email);
+            console.log("Nombre del usuario:", userData.name);
+            
+            const registerRes = await fetch("https://flysy.software/api/register-login-google", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -92,6 +111,25 @@ function Login() {
             if (registerData.needs_regular){
               navigate("/regularInfoForm")
             }
+            const usertyperes = await fetch(`https://flysy.software/api/get-user-type?token=${registerData.access_token}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              // No hace falta Authorization aquí porque el backend no lo lee
+            },
+            });
+    
+            const jonsonData = await usertyperes.json();
+            console.log("El tipo de usuario es: ", jonsonData.user_type);
+            if (jonsonData.user_type == "admin") {
+              navigate("/admin");
+            }
+            else if(jonsonData.user_type == "superadmin"){
+              navigate("/superadmin");
+            }
+            else if (registerData.needs_regular){
+              navigate("/regularInfoForm")
+            }
             else{
               navigate("/mainpage")
             }
@@ -110,9 +148,6 @@ function Login() {
            Authorization: `Bearer ${tokenResponse.access_token}`,
          },
        }).then(res => res.json());
-   
-       // Ahora tienes name, email, etc.
-       console.log("User Info", userInfo);
    
        // Aquí haces tu registro o login en el backend
        await handleGoogleLogin(userInfo);

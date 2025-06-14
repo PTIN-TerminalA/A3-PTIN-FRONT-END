@@ -38,7 +38,7 @@ function GestioReserves() {
       const token = Cookies.get('token');
       const params = new URLSearchParams();
       Object.entries(filters).forEach(([k, v]) => v && params.append(k, v));
-      const url = `http://localhost:8000/reserves?${params.toString()}`;
+      const url = `https://flysy.software/reserves?${params.toString()}`;
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -72,7 +72,7 @@ function GestioReserves() {
     if (!window.confirm("Segur que vols cancel·lar aquesta reserva?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/reserves/${id}`, {
+      const res = await fetch(`https://flysy.software/api/reserves/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -97,7 +97,7 @@ function GestioReserves() {
 
     try {
       const token = Cookies.get('token');
-      const userRes = await fetch(`http://localhost:8000/check-user?email=${encodeURIComponent(newReserveEmail)}`, {
+      const userRes = await fetch(`https://flysy.software/check-user?email=${encodeURIComponent(newReserveEmail)}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -116,7 +116,7 @@ function GestioReserves() {
         state: newReserveType === "programada" ? "Programada" : "En curs"
       };
 
-      const res = await fetch("http://localhost:8000/reserves/programada", {
+      const res = await fetch("https://flysy.software/api/reserves/programada", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

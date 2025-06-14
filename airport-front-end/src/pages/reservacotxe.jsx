@@ -10,7 +10,7 @@ import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
 
-const _apiUrl = "http://127.0.0.1:8000" 
+const _apiUrl = "https://flysy.software" 
 
 function ReservaCotxe() {
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ function ReservaCotxe() {
     };
 
     try {
-      const res = await fetch(`${_apiUrl}/reserves/usuari`, {
+      const res = await fetch(`${_apiUrl}/api/reserves/usuari`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -181,7 +181,7 @@ function ReservaCotxe() {
           <a href="#contacte">Contacte</a>
         </div>
         <div className="navbar-right-reservas">
-          <button class="reservas-perfil-button" onClick={() => window.location.href = "/AdminProfile"}>
+          <button className="reservas-perfil-button" onClick={() => window.location.href = "/AdminProfile"}>
             <img src={perfil} alt="Perfil" />
           </button>
           <LogOutButton></LogOutButton>

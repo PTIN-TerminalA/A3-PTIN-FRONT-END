@@ -4,7 +4,7 @@ function UserList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/")
+    fetch("https://flysy.software/")
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

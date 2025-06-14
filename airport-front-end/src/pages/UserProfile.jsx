@@ -35,7 +35,7 @@ function UserProfile() {
       setLoading(false);
       return;
     }
-    fetch("http://localhost:8000/api/profile", {
+    fetch("https://flysy.software/api/profile", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -58,7 +58,7 @@ function UserProfile() {
 
   const handleSave = () => {
     const token = Cookies.get("token");
-    fetch("http://localhost:8000/api/profile", {
+    fetch("https://flysy.software/api/profile", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +144,7 @@ function UserProfile() {
             </button>
             <button
               className="reserves-button"
-              onClick={() => window.location.href = "/lesMevesReserves"}
+              onClick={() => window.location.href = "/userReserves"}
             >
               Les meves Reserves
             </button>
