@@ -619,6 +619,9 @@ const zones = [
   
 ];
 
+// Historial de posiciones de cada coche fuera del estado de React
+const carHistory = {};
+
 // Componente para obtener el zoom actual del mapa
 function ZoomListener({ setZoom }) {
   const map = useMap();
@@ -649,7 +652,8 @@ const MapaLeafletAdmin = () => {
   const [zoom, setZoom] = useState(0);
 
   // Estado para coches recibidos por WebSocket
-  const [wsCars, setWsCars] = useState({}); // { [id]: { data, lastUpdate } }
+  // Ahora guardamos también la última posición para cada coche
+  const [wsCars, setWsCars] = useState({});
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8000/ws/cars');
@@ -659,17 +663,35 @@ const MapaLeafletAdmin = () => {
     };
 
     ws.onmessage = (event) => {
-      console.log('Mensaje recibido:', event.data);
       try {
         const msg = JSON.parse(event.data);
         if (msg.id && msg.coordinates) {
+          // Copia profunda de las coordenadas
+          const coords = { x: msg.coordinates.x, y: msg.coordinates.y };
+          if (!carHistory[msg.id]) {
+            carHistory[msg.id] = {
+              prev: undefined,
+              current: coords
+            };
+          } else {
+            carHistory[msg.id].prev = carHistory[msg.id].current;
+            carHistory[msg.id].current = coords;
+          }
           setWsCars(prev => ({
             ...prev,
             [msg.id]: {
-              data: msg,
+              data: { ...msg, coordinates: coords },
               lastUpdate: Date.now(),
             }
           }));
+          // Logs de depuración
+          const prev = carHistory[msg.id].prev;
+          const curr = carHistory[msg.id].current;
+          console.log(
+            `carHistory[${msg.id}]: prev=(${prev?.x},${prev?.y}) current=(${curr.x},${curr.y}) ` +
+            `prev===current: ${prev && prev.x === curr.x && prev.y === curr.y}`
+          );
+          console.log('wsCars:', JSON.stringify(wsCars));
         }
       } catch (e) {
         // Ignorar mensajes malformados
@@ -771,18 +793,40 @@ const MapaLeafletAdmin = () => {
 
       {/* Coches del WebSocket */}
       {Object.entries(wsCars).map(([id, { data, lastUpdate }], idx) => {
+        const history = carHistory[id];
+        const prevCoords = history?.prev;
+        const currCoords = history?.current;
         // Convertir coordenadas normalizadas a píxeles
-        const y = data.coordinates.y * imageHeight;
-        const x = data.coordinates.x * imageWidth;
+        const y = currCoords.y * imageHeight;
+        const x = currCoords.x * imageWidth;
         // Ajustar tamaño del icono según el zoom
         const baseSize = 32;
         const scale = Math.pow(0.6, zoom);
         const iconSize = Math.max(baseSize, baseSize / scale);
         // Asignar un color diferente usando hue-rotate
         const hue = (idx * 60) % 360;
+        // Calcular ángulo de rotación si hay posición previa
+        let angle = 0;
+        if (prevCoords && (prevCoords.x !== currCoords.x || prevCoords.y !== currCoords.y)) {
+          // Invertir el eje Y para el cálculo correcto del ángulo
+          const prevY = (1 - prevCoords.y) * imageHeight;
+          const prevX = prevCoords.x * imageWidth;
+          const currY = (1 - currCoords.y) * imageHeight;
+          const currX = currCoords.x * imageWidth;
+          const dx = currX - prevX;
+          const dy = currY - prevY;
+          if (dx !== 0 || dy !== 0) {
+            angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+          }
+        }
+        // Log mejorado para depuración
+        console.log(
+          `Coche ${id}: prev=(${prevCoords?.x},${prevCoords?.y}) actual=(${currCoords?.x},${currCoords?.y}) ` +
+          `prev===actual: ${prevCoords && prevCoords.x === currCoords.x && prevCoords.y === currCoords.y} ángulo=${angle}`
+        );
         const carDynamicIcon = L.divIcon({
-          className: '',
-          html: `<img src='${carIconImg}' style="width:${iconSize}px;height:${iconSize}px;filter:hue-rotate(${hue}deg) drop-shadow(0 0 2px #000);" />`,
+          className: 'car-rotating-icon',
+          html: `<img src='${carIconImg}' style="width:${iconSize}px;height:${iconSize}px;filter:hue-rotate(${hue}deg) drop-shadow(0 0 2px #000);transform:rotate(${angle}deg);transition:transform 0.2s;" />`,
           iconSize: [iconSize, iconSize],
           iconAnchor: [iconSize / 2, iconSize / 2],
           popupAnchor: [0, -iconSize / 2],
@@ -799,6 +843,8 @@ const MapaLeafletAdmin = () => {
             <Popup>
               <strong>Coche #{id}</strong><br />
               Estado: {data.state}<br />
+              Colisión: {data.checkup?.collision}<br />
+              Motherboard: {data.checkup?.motherboard}<br />
               Última actualización: {new Date(lastUpdate).toLocaleTimeString()}
             </Popup>
           </Marker>
