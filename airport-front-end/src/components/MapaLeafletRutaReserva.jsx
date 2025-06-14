@@ -3,7 +3,7 @@ import { MapContainer, ImageOverlay, Marker, Polyline } from "react-leaflet";
 import plano from '/src/components/assets/planol.png';
 import L from "leaflet";
 
-const _url = 'https://flysy.sofware';
+const _url = 'https://flysy.software/';
 const imageWidth = 3850;
 const imageHeight = 2569;
 const bounds = [[0, 0], [imageHeight, imageWidth]];
