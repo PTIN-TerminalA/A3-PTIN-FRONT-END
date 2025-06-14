@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './assets/CreateRatings.css';
 import Cookies from 'js-cookie';
 
-const _uri = 'https://flysy.sofware';
+const _uri = 'https://flysy.software';
 
 
 function CreateRatings({ serviceId, onClose, onSuccess }) {
