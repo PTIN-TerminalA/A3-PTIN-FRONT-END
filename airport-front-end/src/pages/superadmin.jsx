@@ -39,7 +39,7 @@ function SuperAdmin() {
           try {
             console.log("Fetching admin profile...");
             const token = Cookies.get("token");
-            const response = await fetch(`${_apiUrlLocal}/api/profile`, {
+            const response = await fetch(`${API_BASE_URL}/api/profile`, {
               headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
