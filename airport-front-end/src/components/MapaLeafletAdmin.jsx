@@ -662,7 +662,7 @@ const MapaLeafletAdmin = () => {
     const wsHost = 'flysy.software';
 
 
-    const wsUrl = `${wsProtocol}://${wsHost}/api/cars`;
+    const wsUrl = `${wsProtocol}://${wsHost}/ws/cars`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
