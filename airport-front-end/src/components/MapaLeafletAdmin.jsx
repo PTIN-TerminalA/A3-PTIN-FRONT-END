@@ -660,8 +660,6 @@ const MapaLeafletAdmin = () => {
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     // const wsHost = 'flysy.software';
     const wsHost = 'flysy.software';
-
-
     const wsUrl = `wss://${wsHost}/ws/cars`;
     const ws = new WebSocket(wsUrl);
 
@@ -670,7 +668,6 @@ const MapaLeafletAdmin = () => {
     };
 
     ws.onmessage = (event) => {
-
       try {
         const msg = JSON.parse(event.data);
         if (msg.id && msg.coordinates) {
