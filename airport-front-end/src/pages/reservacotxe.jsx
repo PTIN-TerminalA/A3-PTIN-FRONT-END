@@ -74,6 +74,7 @@ function ReservaCotxe() {
 
     try {
       const res = await fetch(`${_apiUrl}/api/reserves/usuari`, {
+      //const res = await fetch(`http://localhost:8000/api/reserves/usuari`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
