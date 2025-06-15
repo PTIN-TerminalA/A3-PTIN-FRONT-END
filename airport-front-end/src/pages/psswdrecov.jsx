@@ -28,7 +28,7 @@ function PasswordRecovery() {
     formDataToSend.append("email", formData.email);
     formDataToSend.append("dni", formData.dni);
 
-    const res = await fetch("http://192.168.10.10:8000/api/recovery/request", {
+    const res = await fetch("https://flysy.software/api/recovery/request", {
       method: "POST",
       body: formDataToSend,
     });

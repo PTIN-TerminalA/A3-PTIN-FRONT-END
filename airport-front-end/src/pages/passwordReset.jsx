@@ -37,7 +37,7 @@ function PasswordReset() {
     formData.append("new_password", newPassword);
 
     try {
-      const response = await fetch("http://192.168.10.10:8000/api/recovery/reset", {
+      const response = await fetch("https://flysy.software/api/recovery/reset", {
         method: "POST",
         body: formData,
       });
