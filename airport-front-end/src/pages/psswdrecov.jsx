@@ -20,12 +20,30 @@ function PasswordRecovery() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setMessage(
-      `T'hem enviat un correu a ${formData.email} per reestablir la teva contrasenya.`
-    );
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
+  try {
+    const formDataToSend = new FormData();
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("dni", formData.dni);
+
+    const res = await fetch("http://192.168.10.10:8000/api/recovery/request", {
+      method: "POST",
+      body: formDataToSend,
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      setMessage(`T'hem enviat un correu a ${formData.email} per reestablir la teva contrasenya.`);
+    } else {
+      setMessage(`Error: ${data.detail || "No s'ha pogut enviar el correu."}`);
+    }
+  } catch (err) {
+    setMessage("Error de connexió amb el servidor.");
+  }
+};
+
 
   return (
     <div className="recovery-wrapper">
