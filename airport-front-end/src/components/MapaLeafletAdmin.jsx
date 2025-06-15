@@ -659,7 +659,7 @@ const MapaLeafletAdmin = () => {
     // Adaptar WebSocket para entorno seguro y dominio personalizado
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     // const wsHost = 'flysy.software';
-    const wsHost = 'localhost:8000';
+    const wsHost = 'flysy.software';
 
 
     const wsUrl = `${wsProtocol}://${wsHost}/api/cars`;
