@@ -662,7 +662,7 @@ const MapaLeafletAdmin = () => {
     const wsHost = 'flysy.software';
 
 
-    const wsUrl = `${wsProtocol}://${wsHost}/ws/cars`;
+    const wsUrl = `wss://${wsHost}/ws/cars`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
@@ -670,8 +670,8 @@ const MapaLeafletAdmin = () => {
     };
 
     ws.onmessage = (event) => {
-      console.log('Mensaje recibido del WebSocket:', event.data);
-      /*try {
+
+      try {
         const msg = JSON.parse(event.data);
         if (msg.id && msg.coordinates) {
           // Copia profunda de las coordenadas
@@ -704,7 +704,7 @@ const MapaLeafletAdmin = () => {
       } catch (e) {
         // Ignorar mensajes malformados
       }
-        */
+        
     };
 
     ws.onerror = (err) => {
