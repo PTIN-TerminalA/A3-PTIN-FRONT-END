@@ -619,9 +619,6 @@ const zones = [
   
 ];
 
-// Historial de posiciones de cada coche fuera del estado de React
-const carHistory = {};
-
 // Componente para obtener el zoom actual del mapa
 function ZoomListener({ setZoom }) {
   const map = useMap();
@@ -651,17 +648,12 @@ const MapaLeafletAdmin = () => {
   const [userPositions, setUserPositions] = useState(generateRandomPositions(NUM_USERS));
   const [zoom, setZoom] = useState(0);
 
-  // Estado para coches recibidos por WebSocket
-  // Ahora guardamos también la última posición para cada coche
+  // Estado para coches recibidos por WebSocket, con historial de posiciones
   const [wsCars, setWsCars] = useState({});
 
   useEffect(() => {
-    // Adaptar WebSocket para entorno seguro y dominio personalizado
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    // const wsHost = 'flysy.software';
     const wsHost = 'flysy.software';
-
-
     const wsUrl = `wss://${wsHost}/ws/cars`;
     const ws = new WebSocket(wsUrl);
 
@@ -670,41 +662,50 @@ const MapaLeafletAdmin = () => {
     };
 
     ws.onmessage = (event) => {
-
       try {
         const msg = JSON.parse(event.data);
         if (msg.id && msg.coordinates) {
-          // Copia profunda de las coordenadas
-          const coords = { x: msg.coordinates.x, y: msg.coordinates.y };
-          if (!carHistory[msg.id]) {
-            carHistory[msg.id] = {
-              prev: undefined,
-              current: coords
-            };
-          } else {
-            carHistory[msg.id].prev = carHistory[msg.id].current;
-            carHistory[msg.id].current = coords;
-          }
-          setWsCars(prev => ({
-            ...prev,
-            [msg.id]: {
-              data: { ...msg, coordinates: coords },
-              lastUpdate: Date.now(),
+          setWsCars(prev => {
+            const prevCar = prev[msg.id];
+            const currCoords = { x: msg.coordinates.x, y: msg.coordinates.y };
+            // Si no hay coche previo, inicializa
+            if (!prevCar) {
+              return {
+                ...prev,
+                [msg.id]: {
+                  data: { ...msg, coordinates: { ...currCoords } },
+                  lastUpdate: Date.now(),
+                  prev: undefined,
+                  current: currCoords
+                }
+              };
             }
-          }));
-          // Logs de depuración
-          const prev = carHistory[msg.id].prev;
-          const curr = carHistory[msg.id].current;
-          console.log(
-            `carHistory[${msg.id}]: prev=(${prev?.x},${prev?.y}) current=(${curr.x},${curr.y}) ` +
-            `prev===current: ${prev && prev.x === curr.x && prev.y === curr.y}`
-          );
-          console.log('wsCars:', JSON.stringify(wsCars));
+            // Si la posición no cambia, no actualices prev ni current
+            if (prevCar.current.x === currCoords.x && prevCar.current.y === currCoords.y) {
+              return {
+                ...prev,
+                [msg.id]: {
+                  ...prevCar,
+                  data: { ...msg, coordinates: { ...currCoords } },
+                  lastUpdate: Date.now()
+                }
+              };
+            }
+            // Si la posición cambia, actualiza prev y current correctamente
+            return {
+              ...prev,
+              [msg.id]: {
+                data: { ...msg, coordinates: { ...currCoords } },
+                lastUpdate: Date.now(),
+                prev: { ...prevCar.current },
+                current: currCoords
+              }
+            };
+          });
         }
       } catch (e) {
         // Ignorar mensajes malformados
       }
-        
     };
 
     ws.onerror = (err) => {
@@ -714,8 +715,6 @@ const MapaLeafletAdmin = () => {
     ws.onclose = (event) => {
       console.warn('El WebSocket se ha cerrado', event);
     };
-
-   // return () => ws.close();
   }, []);
 
   // Limpiar coches inactivos (>30s)
@@ -801,13 +800,10 @@ const MapaLeafletAdmin = () => {
       ))}
 
       {/* Coches del WebSocket */}
-      {Object.entries(wsCars).map(([id, { data, lastUpdate }], idx) => {
-        const history = carHistory[id];
-        const prevCoords = history?.prev;
-        const currCoords = history?.current;
+      {Object.entries(wsCars).map(([id, { data, lastUpdate, prev, current }], idx) => {
         // Convertir coordenadas normalizadas a píxeles
-        const y = currCoords.y * imageHeight;
-        const x = currCoords.x * imageWidth;
+        const y = current.y * imageHeight;
+        const x = current.x * imageWidth;
         // Ajustar tamaño del icono según el zoom
         const baseSize = 32;
         const scale = Math.pow(0.6, zoom);
@@ -816,22 +812,21 @@ const MapaLeafletAdmin = () => {
         const hue = (idx * 60) % 360;
         // Calcular ángulo de rotación si hay posición previa
         let angle = 0;
-        if (prevCoords && (prevCoords.x !== currCoords.x || prevCoords.y !== currCoords.y)) {
-          // Invertir el eje Y para el cálculo correcto del ángulo
-          const prevY = (1 - prevCoords.y) * imageHeight;
-          const prevX = prevCoords.x * imageWidth;
-          const currY = (1 - currCoords.y) * imageHeight;
-          const currX = currCoords.x * imageWidth;
+        if (prev && (prev.x !== current.x || prev.y !== current.y)) {
+          const prevY = (1 - prev.y) * imageHeight;
+          const prevX = prev.x * imageWidth;
+          const currY = (1 - current.y) * imageHeight;
+          const currX = current.x * imageWidth;
           const dx = currX - prevX;
           const dy = currY - prevY;
           if (dx !== 0 || dy !== 0) {
             angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
           }
         }
-        // Log mejorado para depuración
+        // Log para depuración
         console.log(
-          `Coche ${id}: prev=(${prevCoords?.x},${prevCoords?.y}) actual=(${currCoords?.x},${currCoords?.y}) ` +
-          `prev===actual: ${prevCoords && prevCoords.x === currCoords.x && prevCoords.y === currCoords.y} ángulo=${angle}`
+          `Coche ${id}: prev=(${prev?.x},${prev?.y}) actual=(${current?.x},${current?.y}) ` +
+          `prev===actual: ${prev && prev.x === current.x && prev.y === current.y} ángulo=${angle}`
         );
         const carDynamicIcon = L.divIcon({
           className: 'car-rotating-icon',
