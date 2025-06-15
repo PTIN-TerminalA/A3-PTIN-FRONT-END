@@ -269,3 +269,33 @@ html, body {
   }
 }
 
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.admin-card:hover {
+  transform: scale(1.05);
+}
+
+.admin-card-photo {
+  width: 50px;
+  height: 50px;
+}
+
+.admin-card-name {
+  margin-top: 10px;
+  font-weight: bold;
+}
