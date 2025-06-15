@@ -1,0 +1,183 @@
+/* Barra superior y lateral mantienen el admin.css original */
+
+.admin-main-content {
+  padding: 20px;
+}
+
+/* Contenedor de las cards */
+.admin-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Centrar los cuadrados horizontalmente */
+  align-items: flex-start;
+}
+
+/* Estilo de cada card admin */
+.admin-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px; /* Más ancho para email */
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+}
+
+.admin-emoji {
+  font-size: 3.5rem;  /* Un poco más pequeño que antes */
+  display: block;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.admin-card-name {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.admin-card-details {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* Botón eliminar dentro del desplegable */
+.admin-card-details button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin-card-details button:hover {
+  background-color: #c9302c;
+}
+
+/* Buscador arriba de las cards */
+.admin-searchbar {
+
+  margin-bottom: 20px;
+}
+
+.admin-searchbar input {
+  padding: 8px;
+  font-size: 14px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-create-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin: 40px auto; /* Centrado horizontal y margen arriba/abajo */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-create-form label {
+  font-weight: bold;
+}
+
+.admin-create-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.admin-create-form button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007baf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-create-form button:hover {
+  background-color: #005f80;
+}
+
+
+/* Superadmin foto lateral */
+.superadmin-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.superadmin-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.admin-create-wrapper {
+  display: flex;
+  justify-content: center;
+ 
+  flex: 1;
+  min-height: calc(100vh - 100px); /* Ajusta si tu navbar es más o menos alto */
+}
+
+.admin-create-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  gap: 15px;
+}
+
+.admin-create-center-wrapper {
+  width: 500%;
+}
+
+.admin-create-form button.cancel-button {
+  background-color: #f8d7da;  /* rojo muy suave */
+  color: #721c24;             /* texto en un rojo más oscuro */
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-create-form button.cancel-button:hover {
+  background-color: #f5c6cb;  /* un poco más oscuro al pasar el ratón */
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.5em;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: 0.9em;
+  top: 100%;
+  left: 0;
+}
+
+
