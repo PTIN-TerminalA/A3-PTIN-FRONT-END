@@ -658,16 +658,20 @@ const MapaLeafletAdmin = () => {
   useEffect(() => {
     // Adaptar WebSocket para entorno seguro y dominio personalizado
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const wsHost = 'flysy.software'; 
+    // const wsHost = 'flysy.software';
+    const wsHost = 'localhost:8000';
+
+
     const wsUrl = `${wsProtocol}://${wsHost}/api/cars`;
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      console.log('WebSocket abierto');
+      console.log('WebSocket abierto correctamente');
     };
 
     ws.onmessage = (event) => {
-      try {
+      console.log('Mensaje recibido del WebSocket:', event.data);
+      /*try {
         const msg = JSON.parse(event.data);
         if (msg.id && msg.coordinates) {
           // Copia profunda de las coordenadas
@@ -700,14 +704,15 @@ const MapaLeafletAdmin = () => {
       } catch (e) {
         // Ignorar mensajes malformados
       }
+        */
     };
 
     ws.onerror = (err) => {
-      console.error('WebSocket error:', err);
+      console.error('Error con el websocket:', err);
     };
 
     ws.onclose = (event) => {
-      console.warn('WebSocket cerrado', event);
+      console.warn('El WebSocket se ha cerrado', event);
     };
 
    // return () => ws.close();
