@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import "/src/pages/css/admin.css";
 import "/src/pages/css/superadmin.css";
 import LogOutButton from "/src/components/LogOutButton.jsx";
+import Cookies from "js-cookie";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
-import adminPhoto from "/src/pages/images/lewandowski.png";
+import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 
 function SuperAdmin() {
   const [admins, setAdmins] = useState([]);
@@ -19,6 +20,7 @@ function SuperAdmin() {
     password: "",
     superadmin: false
   });
+  const [adminName, setAdminName] = useState("");
 
   const [errors, setErrors] = useState({
     dniFormat: true,
@@ -28,9 +30,32 @@ function SuperAdmin() {
   });
 
   const API_BASE_URL = "https://flysy.software";
+  const _apiUrlLocal = "http://127.0.0.1:8000";
+
 
   useEffect(() => {
     fetchAdmins();
+    const fetchProfile = async () => {
+          try {
+            console.log("Fetching admin profile...");
+            const token = Cookies.get("token");
+            const response = await fetch(`${API_BASE_URL}/api/profile`, {
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+            });
+            if (response.ok) {
+              const data = await response.json();
+              setAdminName(data.name);
+            } else {
+              setAdminName("Nom Admin");
+            }
+          } catch (error) {
+            setAdminName("Nom Admin");
+          }
+        };
+    fetchProfile();
   }, []);
 
   const fetchAdmins = async () => {
@@ -173,7 +198,7 @@ function SuperAdmin() {
         <aside className="admin-sidebar">
           <div className="superadmin-profile">
             <img src={adminPhoto} alt="SuperAdmin" className="superadmin-photo" />
-            <h2>Super Admin</h2>
+            <h2>{adminName || "Nom Admin"}</h2>
           </div>
           <div className="admin-buttons">
             <button onClick={() => {

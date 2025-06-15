@@ -8,7 +8,7 @@ import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import MapaLeaflet from "/src/components/MapaLeafletAdmin.jsx";
 
 const _apiUrl = "https://flysy.software"
-const _apiUrlLocal = "http://localhost:8000";
+const _apiUrlLocal = "http://127.0.0.1:8000";
 
 function Admin() {
   const [adminName, setAdminName] = useState("");
