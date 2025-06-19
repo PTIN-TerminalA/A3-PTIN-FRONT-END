@@ -58,6 +58,14 @@ function ReservaCotxe() {
     }
   }, [destinacio]);
 
+  useEffect(() => {
+    const destinoGuardado = localStorage.getItem('destinoReserva');
+    if (destinoGuardado) {
+      setDestinacio(destinoGuardado);
+      localStorage.removeItem('destinoReserva'); // Opcional: limpiar después de usar
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = Cookies.get("token");

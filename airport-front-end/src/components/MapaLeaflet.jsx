@@ -6,6 +6,7 @@ import plano from '/src/components/assets/planol.png';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { useNavigate } from 'react-router-dom';
 
 // Fix icon
 delete L.Icon.Default.prototype._getIconUrl;
@@ -42,7 +43,7 @@ const CenterMapOnUser = ({ position }) => {
 // Zonas con Polygon
 const zones = [
   {
-    name: 'Sortida 5',
+    name: 'Sortida 4',
     type: 'Sortida',
     positions: [
       [234, 933],
@@ -50,7 +51,7 @@ const zones = [
       [275, 982],
       [275, 933]
     ],	
-    info: 'Sortida numero 5'
+    info: 'Sortida numero 4'
   },
   {
     name: 'Lindt',
@@ -64,7 +65,7 @@ const zones = [
     info: 'Venta de bombons'
   },
   {
-    name: 'Facturació est',
+    name: 'Facturar Maletes 3',
     type: 'Facturació',
     positions: [
       [359, 883],
@@ -75,7 +76,7 @@ const zones = [
     info: 'Zona de facturació de maletes'
   },
   {
-    name: 'Gate A2',
+    name: 'A2',
     type: 'Gate A2',
     positions: [
       [626, 883],
@@ -86,7 +87,7 @@ const zones = [
     info: 'Porta embarcament A2'
   },
   {
-    name: 'Seguretat nord',
+    name: 'Seguretat 3',
     type: 'Seguretat nord',
     positions: [
       [626, 880],
@@ -110,7 +111,7 @@ const zones = [
     info: 'Venta de roba'
   },
   {
-    name: 'Farmàcia nord',
+    name: 'Farmàcia 1',
     type: 'Farmàcia',
     positions: [
       [624, 654],
@@ -132,7 +133,7 @@ const zones = [
     info: 'Venta articles alta gama'
   },
   {
-    name: 'Serveis nord',
+    name: 'Lavabo 2',
     type: 'Serveis',
     positions: [
       [624, 507],
@@ -165,7 +166,7 @@ const zones = [
     info: 'Venta de gominoles'
   },
   {
-    name: 'Seguretat nord',
+    name: 'Seguretat 1',
     type: 'Seguretat nord',
     positions: [
       [624, 98],
@@ -176,7 +177,7 @@ const zones = [
     info: 'Control de seguretat de la zona nord'
   },
   {
-    name: 'Gate A1',
+    name: 'A1',
     type: 'Gate A1',
     positions: [
       [624, 7],
@@ -187,7 +188,7 @@ const zones = [
     info: 'Porta embarcament A1'
   },
   {
-    name: 'Facturació oest',
+    name: 'Facturar Maletes 1',
     type: 'Facturació',
     positions: [
       [439, 7],
@@ -198,7 +199,7 @@ const zones = [
     info: 'Zona de facturació de maletes'
   },
   {
-    name: 'Caixer 1',
+    name: 'ATM 1',
     type: 'Caixer',
     positions: [
       [439, 97],
@@ -220,7 +221,7 @@ const zones = [
     info: 'Sortida numero 1'
   },
   {
-    name: 'Punt informacio oest',
+    name: "Punt d'informacio 1",
     type: 'Informacio',
     positions: [
       [295, 64],
@@ -231,7 +232,7 @@ const zones = [
     info: 'Punt informació aeroport'
   },
   {
-    name: 'Venta billets',
+    name: 'Billets1',
     type: 'Venta bitllets',
     positions: [
       [409, 65],
@@ -259,7 +260,7 @@ const zones = [
     info: 'Parking de la planta 0'
   },
   {
-    name: 'Escales accés 1',
+    name: 'Escales1',
     type: 'Escales accés',
     positions: [
       [543, 129],
@@ -270,7 +271,7 @@ const zones = [
     info: 'Escales accés 1'
   },
   {
-    name: 'Serveis nord-oest',
+    name: 'Lavabo 1',
     type: 'Serveis',
     positions: [
       [439, 129],
@@ -281,7 +282,7 @@ const zones = [
     info: 'Serveis de la secció nord-oest'
   },
   {
-    name: 'Serveis nord-est',
+    name: 'Lavabo 3',
     type: 'Serveis',
     positions: [
       [492, 855],
@@ -292,7 +293,7 @@ const zones = [
     info: 'Serveis de la secció nord-est'
   },
   {
-    name: 'Escales accés 2',
+    name: 'Escales6',
     type: 'Escales accés',
     positions: [
       [494, 855],
@@ -303,7 +304,7 @@ const zones = [
     info: 'Escales accés 2'
   },
   {
-    name: 'Oficina policial',
+    name: 'Policia',
     type: 'Oficina policial',
     positions: [
       [520, 655],
@@ -325,7 +326,7 @@ const zones = [
     info: 'Tenda de roba'
   },
   {
-    name: 'Coffee house',
+    name: 'Coffee pause',
     type: 'Menjar',
     positions: [
       [520, 393],
@@ -369,7 +370,7 @@ const zones = [
     info: 'Tenda cosmetics i perfums'
   },
   {
-    name: 'Escales accés 3',
+    name: 'Escales3',
     type: 'Escales accés',
     positions: [
       [320, 252],
@@ -380,7 +381,7 @@ const zones = [
     info: 'Escales accés 3'
   },
   {
-    name: 'Parking soterrani busos i taxis',
+    name: 'Recollda bus i taxi',
     type: 'Parking',
     positions: [
       [321, 251],
@@ -390,7 +391,7 @@ const zones = [
     info: 'Parking accedit a traves de: Escales accés 3'
   },
   {
-    name: 'Parking soterrani busos i taxis ',
+    name: 'Recollida bus i taxi',
     type: 'Parking',
     positions: [
       [321, 251],
@@ -406,7 +407,7 @@ const zones = [
     info: 'Parking accedit a traves de: Escales accés 3'
   },
   {
-    name: 'McDonalds',
+    name: "Mc Donald's",
     type: 'Menjar',
     positions: [
       [416, 515],
@@ -419,7 +420,7 @@ const zones = [
     info: 'Restaurant de menjar ràpid'
   },
   {
-    name: 'Sala actes',
+    name: "Sala d'actes",
     type: 'Sala actes',
     positions: [
       [366, 515],
@@ -430,7 +431,7 @@ const zones = [
     info: 'Sala per actes varis'
   },
   {
-    name: 'Escales accés 4',
+    name: 'Escales4',
     type: 'Escales accés',
     positions: [
       [195, 512],
@@ -456,7 +457,7 @@ const zones = [
     info: 'Tenda de joies'
   },
   {
-    name: 'Escales accés 5',
+    name: 'Escales5',
     type: 'Escales accés',
     positions: [
       [179, 597],
@@ -467,7 +468,7 @@ const zones = [
     info: 'Escales accés 5'
   },
   {
-    name: 'Gate A4',
+    name: 'A4',
     type: 'Gate',
     positions: [
       [254, 621],
@@ -480,7 +481,7 @@ const zones = [
     info: 'Porta embarcament A4'
   },
   {
-    name: 'Caixer 2',
+    name: 'ATM 2',
     type: 'Caixer',
     positions: [
       [255, 827],
@@ -491,7 +492,7 @@ const zones = [
     info: 'Caixer ATM'
   },
   {
-    name: 'Carrega electrica',
+    name: "Zona d'endolls per cotxes elèctrics",
     type: 'Servei',
     positions: [
       [103, 514],
@@ -504,7 +505,7 @@ const zones = [
     info: 'Punt de càrrega dels vehicles elèctrics'
   },
   {
-    name: 'Sortida sud',
+    name: 'Sortida 3',
     type: 'Sortida',
     positions: [
       [57, 462],
@@ -515,7 +516,7 @@ const zones = [
     info: 'Sortida de la secció sud'
   },
   {
-    name: 'Sortida sud-oest',
+    name: 'Sortida 2',
     type: 'Sortida',
     positions: [
       [57, 196],
@@ -559,7 +560,7 @@ const zones = [
     info: 'Entrepans i tapes de pernil'
   },
   {
-    name: 'Gate A3',
+    name: 'A3',
     type: 'Gate',
     positions: [
       [190, 87],
@@ -570,7 +571,7 @@ const zones = [
     info: 'Porta embarcament A3'
   },
   {
-    name: 'Escales accés 6',
+    name: 'Escales2',
     type: 'Escales accés',
     positions: [
       [93, 87],
@@ -581,7 +582,7 @@ const zones = [
     info: 'Escales accés 6'
   },
   {
-    name: 'Seguretat sud-oest',
+    name: 'Seguretat 2',
     type: 'Seguretat',
     positions: [
       [91, 89],
@@ -592,7 +593,7 @@ const zones = [
     info: 'Control de seguretat de la secció sud-oest'
   },
   {
-    name: 'Zona de maletes',
+    name: 'Facturar Maletes 2',
     type: 'Servei',
     positions: [
       [159, 307],
@@ -603,7 +604,7 @@ const zones = [
     info: 'Recollida de maletes'
   },
   {
-    name: 'Venta bitllets',
+    name: 'Billets2',
     type: 'Servei',
     positions: [
       [159, 405],
@@ -619,6 +620,7 @@ const zones = [
 const IndoorMap = () => {
   const [userPosition, setUserPosition] = useState([baseY, baseX]);
   const [simulated, setSimulated] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if ('geolocation' in navigator) {
@@ -705,7 +707,10 @@ const IndoorMap = () => {
                   borderRadius: '4px',
                   cursor: 'pointer',
                 }}
-                onClick={() => alert(`Solicitado trayecto a: ${zone.name}`)}
+                onClick={() => {
+                  localStorage.setItem('destinoReserva', zone.name);
+                  navigate('/reservacotxe');
+                }}
               >
                 Solicitar trayecto a esta ubicación
               </button>
