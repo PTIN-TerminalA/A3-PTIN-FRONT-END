@@ -48,27 +48,29 @@ const IndoorMap = ({ startLocation, endLocation }) => {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      {/* Etiqueta flotante para el tiempo de la ruta */}
-      {routeTime && (
-        <div style={{
-          position: "absolute",
-          top: 20,
-          right: 20,
-          background: "rgba(0, 123, 255, 0.9)",
-          color: "#fff",
-          padding: "12px 24px",
-          borderRadius: "16px",
-          fontWeight: "bold",
-          fontSize: "1.2rem",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-          zIndex: 1000,
-        }}>
-          🕒 Temps estimat: {routeTime}
-        </div>
-      )}
-      <MapContainer
-        crs={L.CRS.Simple}
-        bounds={bounds} // Ajustar los límites al tamaño de la imagen
+        {routeTime && (
+          <div style={{
+            position: "absolute",
+            top: "1rem",
+            right: "1rem",
+            left: "3.0rem",
+            background: "rgba(0, 123, 255, 0.9)",
+            color: "#fff",
+            padding: "0.8rem 1.2rem",
+            borderRadius: "12px",
+            fontWeight: "bold",
+            fontSize: "1rem",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            zIndex: 1000,
+            maxWidth: "fit-content", // Limitar el ancho para pantallas pequeñas
+            wordWrap: "break-word", // Ajustar texto largo
+          }}>
+            🕒 Temps estimat: {routeTime}
+          </div>
+        )}
+        <MapContainer
+          crs={L.CRS.Simple}
+          bounds={bounds} // Ajustar los límites al tamaño de la imagen
         center={[baseY, baseX]} // Centrar el mapa
         zoom={-2.0}
         zoomSnap={-0.1}

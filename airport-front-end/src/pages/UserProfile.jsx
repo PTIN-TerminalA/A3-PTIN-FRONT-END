@@ -3,8 +3,7 @@ import Cookies from "js-cookie";
 import "/src/pages/css/UserProfile.css";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
-import perfil from "/src/pages/images/perfil.png";
-import userPhoto from "/src/pages/images/lewandowski.png";
+import userPhoto from "/src/pages/images/Portrait_Placeholder.png";
 
 function UserProfile() {
   const [loading, setLoading] = useState(true);
@@ -90,9 +89,6 @@ function UserProfile() {
           <img src={logoBlanco} alt="Logo" className="user-logo" />
         </div>
         <div className="user-navbar-buttons">
-          <button onClick={() => window.location.href = "/UserProfile"}>
-            <img src={perfil} alt="Perfil" />
-          </button>
           <LogOutButton />
         </div>
       </header>
@@ -102,11 +98,11 @@ function UserProfile() {
           <img src={userPhoto} alt="Usuari" className="user-photo" />
 
           <div className="user-info">
-            <div className="user-field">
+            <div className="user-field user-field-nom">
               <label>Nom</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)} />
             </div>
-            <div className="user-field">
+            <div className="user-field user-field-nom">
               <label>Correu Electrònic</label>
               <input type="email" value={email} disabled />
             </div>
@@ -124,7 +120,7 @@ function UserProfile() {
                 </select>
               </div>
             </div>
-            <div className="user-field">
+            <div className="user-field user-field-nom">
               <label>Telèfon</label>
               <input type="text" value={phoneNum} onChange={e => setPhoneNum(e.target.value)} />
             </div>
@@ -154,34 +150,6 @@ function UserProfile() {
           </div>
         </div>
       </main>
-
-      <footer className="user-main-footer lowered-footer">
-        <div className="user-footer-columns">
-          <div className="user-footer-col">
-            <h4>Serveis</h4>
-            <ul>
-              <li>Informació de vols</li>
-              <li>Botigues i restauració</li>
-              <li>Transport</li>
-              <li>Accessibilitat</li>
-            </ul>
-          </div>
-          <div className="user-footer-col">
-            <h4>Xarxes Socials</h4>
-            <div className="user-social-icons">
-              <span className="user-icon-placeholder">F</span>
-              <span className="user-icon-placeholder">G+</span>
-              <span className="user-icon-placeholder">T</span>
-              <span className="user-icon-placeholder">Y</span>
-            </div>
-          </div>
-          <div className="user-footer-col">
-            <h4>Contacte</h4>
-            <p>Necessites ajuda? Truca'ns ara</p>
-            <p className="user-footer-phone">+34 600 000 000</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

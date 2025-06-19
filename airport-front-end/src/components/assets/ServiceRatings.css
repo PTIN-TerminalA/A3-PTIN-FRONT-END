@@ -70,3 +70,45 @@
     padding: 1rem;
   }
 }
+
+/* Dark mode styles: use black background and white text */
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    box-shadow: 0 8px 32px rgba(255,255,255,0.08);
+  }
+  .modal-content h3 {
+    color: #fff !important;
+  }
+  .modal-content textarea {
+    background: #333 !important;
+    width: 95% !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+  }
+  .modal-content label {
+    color: #fff !important;
+  }
+  .close-btn {
+    color: #fff !important;
+  }
+  .close-btn:hover {
+    color: #fff;
+    background: #222;
+  }
+  .modal-content h3 {
+    color: #fff;
+  }
+  .ratings-list {
+    /* no color change needed */
+  }
+  .rating-item {
+    background: #222;
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(255,255,255,0.04);
+  }
+  .rating-item strong {
+    color: #fff;
+  }
+}

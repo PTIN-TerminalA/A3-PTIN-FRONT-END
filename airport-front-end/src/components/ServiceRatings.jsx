@@ -10,15 +10,26 @@ function ServiceRatings({ serviceId, onClose }) {
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
     fetch(`${_uri}/api/service-ratings?service_id=${serviceId}`)
       .then(async (res) => {
         if (!res.ok) {
+          let errorMsg = "Error carregant valoracions";
+          try {
+            const errData = await res.json();
+            if (errData && errData.detail) {
+              errorMsg = errData.detail;
+            }
+          } catch {}
           if (res.status === 404) {
             setRatings([]);
             setLoading(false);
+            setError(errorMsg);
             return;
           } else {
-            throw new Error("Error carregant valoracions");
+            setError(errorMsg);
+            setLoading(false);
+            return;
           }
         }
         const data = await res.json();

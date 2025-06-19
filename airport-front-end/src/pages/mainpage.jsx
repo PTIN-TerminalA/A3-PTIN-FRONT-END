@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '/src/pages/css/mainpage.css';
+import { useNavigate } from 'react-router-dom';
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import logo from "/src/pages/images/LogoBlanco.png";
 import coche from "/src/pages/images/coche.png";
 import avion from "/src/pages/images/avion.png";
 import perfil from "/src/pages/images/perfil.png";
-import campana from "/src/pages/images/campana.png";
-import mapaVirtual from "/src/pages/images/Plano.png";
 import chatbotIcon from "/src/pages/images/chatboticon.png";
 import ServiceRatings from "../components/ServiceRatings";
 import CreateRatings from "../components/CreateRatings";
@@ -44,10 +43,16 @@ function ChatWindow({ onClose }) {
           Asistente Virtual
         </div>
         <div className="chat-controls">
-          <button className="minimize-btn" onClick={() => setIsMinimized(!isMinimized)}>
-            {isMinimized ? '🗖' : '🗕'}
+          <button
+            className="minimize-btn"
+            aria-label={isMinimized ? "Restaurar" : "Minimizar"}
+            onClick={() => setIsMinimized(!isMinimized)}
+          >
+            {isMinimized ? '▢' : '—'}
           </button>
-          <button className="close-btn" onClick={onClose}>✕</button>
+          <br></br>
+          <br></br>
+          <button className="close-btn" aria-label="Cerrar" onClick={onClose}>✕</button>
         </div>
       </div>
       
@@ -83,6 +88,7 @@ import IndoorMap from "/src/components/MapaLeaflet.jsx"; // 👈 Importamos tu c
 // ===== Navbar/Header =====
 function Header() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="header">
@@ -93,10 +99,7 @@ function Header() {
         <button title="Chatbot" onClick={() => setIsChatOpen(!isChatOpen)}>
           <img src={chatbotIcon} alt="Chatbot" />
         </button>
-        <button title="Notificacions">
-          <img src={campana} alt="Notificacions" />
-        </button>
-        <button title="Perfil">
+        <button title="Perfil" onClick={() => navigate("/UserProfile")}>
           <img src={perfil} alt="Perfil" />
         </button>
         <LogOutButton />

@@ -28,7 +28,16 @@ function CreateRatings({ serviceId, onClose, onSuccess }) {
         },
         body: formData
       });
-      if (!res.ok) throw new Error("Error enviant la valoració");
+      if (!res.ok) {
+        let msg = "Error enviant la valoració";
+        try {
+          const err = await res.json();
+          if (err && err.detail) msg = err.detail;
+        } catch {}
+        setError(msg);
+        setLoading(false);
+        return;
+      }
       setLoading(false);
       if (onSuccess) onSuccess();
       onClose();

@@ -96,7 +96,7 @@ function ReservaCotxe() {
 
   const handleVerReservas = async () => {
     setLoadingReservas(true);
-    setShowReservas(true);
+    setShowReservas(!showReservas);
     const token = Cookies.get("token");
     try {
       const res = await fetch(`${_apiUrl}/api/user-reserves`, {
@@ -175,14 +175,8 @@ function ReservaCotxe() {
         <div className="navbar-left">
           <img src={logo} alt="Logo" className="navbar-logo" />
         </div>
-        <div className="navbar-center">
-          <a href="/">Inici</a>
-          <a href="#vols">Vols</a>
-          <a href="#serveis">Serveis</a>
-          <a href="#contacte">Contacte</a>
-        </div>
         <div className="navbar-right-reservas">
-          <button className="reservas-perfil-button" onClick={() => window.location.href = "/AdminProfile"}>
+          <button className="reservas-perfil-button" onClick={() => window.location.href = "/UserProfile"}>
             <img src={perfil} alt="Perfil" />
           </button>
           <LogOutButton></LogOutButton>
@@ -269,83 +263,52 @@ function ReservaCotxe() {
                   </>
                 )}
 
-                <button type="submit" className="btn btn-filled reservar-btn">
+                <button type="submit" className="btn btn-filled reservar-btn confirmar-reserva-btn">
                   Confirmar Reserva
                 </button>
+                <button type="button" className="btn btn-filled" style={{marginTop: 16}} onClick={handleVerReservas}>
+                  Ver mis reservas
+                </button>
+                {showReservas && (
+                  <div className="mis-reservas-modal">
+                    {loadingReservas ? (
+                      <p>Cargando reservas...</p>
+                    ) : misReservas.length === 0 ? (
+                      <p>No tienes reservas.</p>
+                    ) : (
+                      <ul>
+                        {misReservas.map((res, idx) => (
+                          <li key={idx}>
+                            <div className="reserva-info"><b>Origen:</b> {res.start_location}</div>
+                            <div className="reserva-info"><b>Destino:</b> {res.end_location}</div>
+                            <div className="reserva-info"><b>Fecha:</b> {res.scheduled_time}</div>
+                            <div className="reserva-info"><b>Estado:</b> {res.state}</div>
+                            <div className="valoracion-row">
+                              <label>Valoració: </label>
+                              <select className="valoracion-select" value={(valoracions[idx] && valoracions[idx].rating) || ''} onChange={e => handleValoracionChange(idx, 'rating', e.target.value)}>
+                                <option value="">Selecciona</option>
+                                {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                              </select>
+                              <input className="valoracion-input" type="text" placeholder="Comentario" value={(valoracions[idx] && valoracions[idx].comment) || ''} onChange={e => handleValoracionChange(idx, 'comment', e.target.value)} />
+                              <button type="button" className="valoracion-btn" onClick={() => handleEnviarValoracion(idx, res)}>Enviar valoración</button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <button className="btn cerrar-btn" onClick={() => setShowReservas(false)}>Cerrar</button>
+                  </div>
+                )}
               </form>
             </div>
           </div>
-
           <div className="mapa-container">
             <div className="mapa-wrapper">
               <IndoorMap startLocation={startLocation} endLocation={endLocation} />
             </div>
           </div>
         </div>
-
-        <button type="button" className="btn btn-filled" style={{marginTop: 16}} onClick={handleVerReservas}>
-          Ver mis reservas
-        </button>
-        {showReservas && (
-          <div className="mis-reservas-modal" style={{background: '#fff', border: '1px solid #ccc', padding: 20, marginTop: 20, borderRadius: 8}}>
-            <h2>Mis reservas</h2>
-            {loadingReservas ? (
-              <p>Cargando reservas...</p>
-            ) : misReservas.length === 0 ? (
-              <p>No tienes reservas.</p>
-            ) : (
-              <ul style={{listStyle: 'none', padding: 0}}>
-                {misReservas.map((res, idx) => (
-                  <li key={idx} style={{borderBottom: '1px solid #eee', marginBottom: 12, paddingBottom: 12}}>
-                    <div><b>Origen:</b> {res.start_location}</div>
-                    <div><b>Destino:</b> {res.end_location}</div>
-                    <div><b>Fecha:</b> {res.scheduled_time}</div>
-                    <div><b>Estado:</b> {res.state}</div>
-                    <div style={{marginTop: 8}}>
-                      <label>Valoració: </label>
-                      <select value={(valoracions[idx] && valoracions[idx].rating) || ''} onChange={e => handleValoracionChange(idx, 'rating', e.target.value)}>
-                        <option value="">Selecciona</option>
-                        {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
-                      </select>
-                      <input type="text" placeholder="Comentario" style={{marginLeft: 8}} value={(valoracions[idx] && valoracions[idx].comment) || ''} onChange={e => handleValoracionChange(idx, 'comment', e.target.value)} />
-                      <button style={{marginLeft: 8}} onClick={() => handleEnviarValoracion(idx, res)}>Enviar valoración</button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button className="btn" style={{marginTop: 10}} onClick={() => setShowReservas(false)}>Cerrar</button>
-          </div>
-        )}
       </div>
-
-      <footer className="main-footer lowered-footer"> 
-        <div className="footer-columns">
-          <div className="footer-col">
-            <h4>Serveis</h4>
-            <ul>
-              <li>Informació de vols</li>
-              <li>Botigues i restauració</li>
-              <li>Transport</li>
-              <li>Accessibilitat</li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Xarxes Socials</h4>
-            <div className="social-icons">
-              <span className="icon-placeholder">F</span>
-              <span className="icon-placeholder">G+</span>
-              <span className="icon-placeholder">T</span>
-              <span className="icon-placeholder">Y</span>
-            </div>
-          </div>
-          <div className="footer-col">
-            <h4>Contacte</h4>
-            <p>Necessites ajuda? Truca'ns ara</p>
-            <p className="footer-phone">+34 600 000 000</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
