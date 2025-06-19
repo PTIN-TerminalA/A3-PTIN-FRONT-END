@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '/src/pages/css/mainpage.css';
+import { useNavigate } from 'react-router-dom';
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import logo from "/src/pages/images/LogoBlanco.png";
 import coche from "/src/pages/images/coche.png";
 import avion from "/src/pages/images/avion.png";
 import perfil from "/src/pages/images/perfil.png";
-import campana from "/src/pages/images/campana.png";
-import mapaVirtual from "/src/pages/images/Plano.png";
 import chatbotIcon from "/src/pages/images/chatboticon.png";
 import ServiceRatings from "../components/ServiceRatings";
 import CreateRatings from "../components/CreateRatings";
@@ -44,10 +43,16 @@ function ChatWindow({ onClose }) {
           Asistente Virtual
         </div>
         <div className="chat-controls">
-          <button className="minimize-btn" onClick={() => setIsMinimized(!isMinimized)}>
-            {isMinimized ? '🗖' : '🗕'}
+          <button
+            className="minimize-btn"
+            aria-label={isMinimized ? "Restaurar" : "Minimizar"}
+            onClick={() => setIsMinimized(!isMinimized)}
+          >
+            {isMinimized ? '▢' : '—'}
           </button>
-          <button className="close-btn" onClick={onClose}>✕</button>
+          <br></br>
+          <br></br>
+          <button className="close-btn" aria-label="Cerrar" onClick={onClose}>✕</button>
         </div>
       </div>
       
@@ -83,6 +88,7 @@ import IndoorMap from "/src/components/MapaLeaflet.jsx"; // 👈 Importamos tu c
 // ===== Navbar/Header =====
 function Header() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="header">
@@ -93,10 +99,7 @@ function Header() {
         <button title="Chatbot" onClick={() => setIsChatOpen(!isChatOpen)}>
           <img src={chatbotIcon} alt="Chatbot" />
         </button>
-        <button title="Notificacions">
-          <img src={campana} alt="Notificacions" />
-        </button>
-        <button title="Perfil">
+        <button title="Perfil" onClick={() => navigate("/UserProfile")}>
           <img src={perfil} alt="Perfil" />
         </button>
         <LogOutButton />
@@ -155,13 +158,13 @@ function ShopsLeisureExtended() {
     { id: 1, name: "Haribo", description: "Venda de dolços i llaminadures", link: "https://www.haribo.com", ad_path: "https://seeklogo.com/images/H/haribo-logo-62279040B7-seeklogo.com.png", offer: "Enviament gratuit", status: "open" },
     { id: 2, name: "Starbucks", description: "Cafeteria internacional", link: "https://www.starbucks.com", ad_path: "https://images.icon-icons.com/2699/PNG/512/starbucks_logo_icon_170705.png", offer: "Oferta especial en begudes", status: "open" },
     { id: 3, name: "Chanel", description: "Botiga de luxe de cosmètics i moda", link: "https://www.chanel.com", ad_path: "https://1000logos.net/wp-content/uploads/2016/11/Chanel-logo.png", offer: "20% de descompte", status: "open" },
-    { id: 4, name: "Farmàcia 1", description: "Farmàcia amb servei 24h", link: "https://www.farmàcia_.com", ad_path: "https://centrocomerciallosangeles.es/wp-content/uploads/2017/06/logo-farmacia.jpg", offer: "Regal amb la teva compra", status: "open" },
+    { id: 4, name: "Farmàcia 1", description: "Farmàcia amb servei 24h", link: "https://www.promofarma.com/", ad_path: "https://centrocomerciallosangeles.es/wp-content/uploads/2017/06/logo-farmacia.jpg", offer: "Regal amb la teva compra", status: "open" },
     { id: 6, name: "Levis", description: "Botiga de roba texana", link: "https://www.levis.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Levi%27s_logo.svg/2560px-Levi%27s_logo.svg.png", offer: "2x1 en productes seleccionats", status: "open" },
-    { id: 7, name: "Massimo Dutti", description: "Botiga de moda elegant", link: "https://www.massimo_dutti.com", ad_path: "https://r.fashionunited.com/nWvxR2Z7vP9sJeVyII3dQCs_QwmFyLGPSgRzQ9qeHnI/resize:fill:1164:0:0/gravity:ce/quality:70/aHR0cHM6Ly9mYXNoaW9udW5pdGVkLmNvbS9pbWcvdXBsb2FkLzIwMjMvMDYvMDIvbG9nby1tYXNzaW1vLWR1dHRpLWZveXc1a25sLTIwMjMtMDYtMDIucG5n", offer: "Regal amb la teva compra", status: "open" },
-    { id: 8, name: "Coffee Pause", description: "Petita cafeteria", link: "https://www.coffee_pause.com", ad_path: "https://img.freepik.com/premium-vector/coffee-cup-icon-coffee-break-text_667176-307.jpg", offer: "2x1 en productes seleccionats", status: "open" },
+    { id: 7, name: "Massimo Dutti", description: "Botiga de moda elegant", link: "https://www.massimodutti.com", ad_path: "https://r.fashionunited.com/nWvxR2Z7vP9sJeVyII3dQCs_QwmFyLGPSgRzQ9qeHnI/resize:fill:1164:0:0/gravity:ce/quality:70/aHR0cHM6Ly9mYXNoaW9udW5pdGVkLmNvbS9pbWcvdXBsb2FkLzIwMjMvMDYvMDIvbG9nby1tYXNzaW1vLWR1dHRpLWZveXc1a25sLTIwMjMtMDYtMDIucG5n", offer: "Regal amb la teva compra", status: "open" },
+    { id: 8, name: "Coffee Pause", description: "Petita cafeteria", link: "https://www.barcelonacoffeeshop.com/", ad_path: "https://img.freepik.com/premium-vector/coffee-cup-icon-coffee-break-text_667176-307.jpg", offer: "2x1 en productes seleccionats", status: "open" },
     { id: 9, name: "Nike", description: "Botiga d'esport i roba esportiva", link: "https://www.nike.com", ad_path: "https://www.liderlogo.es/wp-content/uploads/2022/12/pasted-image-0.png", offer: "2x1 en productes seleccionats", status: "open" },
     { id: 10, name: "Sephora", description: "Perfumeria i cosmètics", link: "https://www.sephora.com", ad_path: "https://1000logos.net/wp-content/uploads/2018/08/Sephora-Logo.png", offer: "Oferta especial en begudes", status: "open" },
-    { id: 11, name: "Mc Donald's", description: "Restaurant de menjar ràpid", link: "https://www.mc_donalds.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png", offer: "Enviament gratuit", status: "open" },
+    { id: 11, name: "Mc Donald's", description: "Restaurant de menjar ràpid", link: "https://www.mcdonalds.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/McDonald%27s_logo.svg/2560px-McDonald%27s_logo.svg.png", offer: "Enviament gratuit", status: "open" },
     { id: 13, name: "Tous", description: "Joieria i accessoris", link: "https://www.tous.com", ad_path: "https://www.integratecnologia.es/sites/default/files/logo-tous_0.png", offer: "20% de descompte", status: "open" },
     { id: 14, name: "Lindt", description: "Xocolateria", link: "https://www.lindt.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/9/93/Lindt_logo.png", offer: "Regal amb la teva compra", status: "open" },
     { id: 16, name: "Adidas", description: "Botiga d'esport i roba esportiva", link: "https://www.adidas.com", ad_path: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg", offer: "Regal amb la teva compra", status: "open" },

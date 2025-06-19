@@ -95,6 +95,7 @@
 
 .input-numero {
   width: 100%;
+  height: fit-content;
 }
 
 .phone-wrapper {
@@ -178,6 +179,12 @@
   color: red;
   font-size: 0.8rem;
   margin-top: 0.2rem;
+}
+
+.register-form .error {
+  grid-column: 1 / -1;
+  text-align: center;
+  width: 100%;
 }
 
 /* RESPONSIVE */
@@ -282,6 +289,11 @@
 
 /* MODO OSCURO */
 @media (prefers-color-scheme: dark) {
+  .register-header {
+    background-color: #121212;
+    color: #e0e0e0;
+    border-bottom: 1px solid #444;
+  }
   .register-wrapper {
     background-color: #121212;
     color: #e0e0e0;

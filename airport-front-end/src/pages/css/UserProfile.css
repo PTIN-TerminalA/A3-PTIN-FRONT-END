@@ -85,12 +85,17 @@
     color: #003049;
 }
 
+.user-field-nom {
+    margin-right: 2rem;
+}
+
 .user-field input {
-    width: 100%;
+    margin-right: 2rem;
     padding: 0.8rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
+    width: 100%;
 }
 
 .user-field input:disabled {
@@ -98,31 +103,64 @@
 }
 
 .user-buttons {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 2rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+    font-size: 0.9rem;
 }
 
 .reserves-button {
-    background: linear-gradient(to right, #0077b6, #00b4d8);
-    color: white;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 0.8rem 1.8rem;
+    border: 2px solid #005187;
+    background-color: white;
+    color: #005187;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
-    flex: 1;
+    transition: all 0.3s;
+    margin-left: 2rem;
+}
+
+.reserves-button:hover {
+    background-color: #005187;
+    color: white;
 }
 
 .delete-account {
-    background-color: #d90429;
+    padding: 0.8rem 1.8rem;
+    background-color: #bc1515;
     color: white;
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
     cursor: pointer;
-    flex: 1;
+    transition: all 0.3s;
+    margin-left: 2rem;
+}
+
+.delete-account:hover {
+    background-color: #9a0c0c;
+    border-color: #9a0c0c;
+}
+
+.save-btn {
+    padding: 0.8rem 1.8rem;
+    background-color: #005187;
+    color: white;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 2rem;
+}
+.save-btn:hover {
+    background-color: #003049;
+    border-color: #003049;
 }
 
 /* FOOTER IDÉNTICO A RESERVACOTXE */
@@ -202,6 +240,85 @@
     transform: translateY(-3px);
 }
 
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  .user-page {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  .user-field label {
+    color: #e0e0e0;
+  }
+  .user-navbar {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  .user-navbar-buttons img {
+    filter: brightness(0) invert(1);
+  }
+  .user-card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 2px 15px rgba(255,255,255,0.04);
+  }
+  .user-field input {
+    background-color: #23272f;
+    color: white;
+    border: 1px solid #505050;
+  }
+  .user-field input:disabled {
+    background-color: #202020;
+    color: #56595d;
+  }
+  .user-buttons .save-btn,
+  .user-buttons .reserves-button,
+  .user-buttons .delete-account {
+    background-color: #121212;
+    color: white;
+    border: 2px solid white;
+  }
+  .user-buttons .save-btn:hover,
+  .user-buttons .reserves-button:hover,
+  .user-buttons .delete-account:hover {
+    background-color: white;
+    color: black;
+  }
+  .delete-account {
+    background-color: #bc1515;
+    color: #fff;
+    border: 2px solid #bc1515;
+  }
+  .delete-account:hover {
+    background-color: #ffd166;
+    color: #bc1515;
+    border: 2px solid #ffd166;
+  }
+  .user-main-footer {
+    background-color: #23272f;
+    color: #e0e0e0;
+  }
+  .user-footer-col h4 {
+    color: #ffd166;
+    border-bottom: 2px solid rgba(255,255,255,0.12);
+  }
+  .user-footer-col ul li {
+    color: #e0e0e0;
+  }
+  .user-footer-col ul li:hover {
+    color: #ffd166;
+  }
+  .user-footer-phone {
+    color: #ffd166;
+  }
+  .user-icon-placeholder {
+    background: rgba(255,255,255,0.08);
+    color: #ffd166;
+  }
+  .user-icon-placeholder:hover {
+    background: rgba(255,255,255,0.18);
+  }
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .user-info {
@@ -209,9 +326,18 @@
     }
 
     .user-buttons {
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
-
+    .user-buttons .save-btn,
+    .user-buttons .reserves-button,
+    .user-buttons .delete-account {
+        margin-left: 0;
+        width: 100%;
+        max-width: 300px;
+    }
     .user-footer-columns {
         flex-direction: column;
         gap: 2rem;
@@ -225,9 +351,16 @@
     .user-social-icons {
         justify-content: center;
     }
+
+    .user-logo {
+        width: 60px;
+    }
 }
 
 @media (max-width: 480px) {
+    .user-logo {
+        width: 60px;
+    }
     .user-navbar {
         flex-direction: row;
         padding: 1rem;
@@ -235,5 +368,19 @@
 
     .user-card {
         padding: 1.5rem;
+    }
+
+    .user-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .user-buttons .save-btn,
+    .user-buttons .reserves-button,
+    .user-buttons .delete-account {
+        margin-left: 0;
+        width: 100%;
+        max-width: 300px;
     }
 }

@@ -43,7 +43,7 @@
   }
   
   .reservacotxe-wrapper .navbar-center a:hover {
-    color: #ffb703;
+    color: white;
   }
   
   .reservacotxe-wrapper .navbar-right {
@@ -66,12 +66,12 @@
   
   .reservacotxe-wrapper .btn-outline {
     background: transparent;
-    border: 1px solid #ffb703;
-    color: #ffb703;
+    border: 1px solid white;
+    color: white;
   }
   
   .reservacotxe-wrapper .btn-outline:hover {
-    background-color: #ffb703;
+    background-color: white;
     color: #003049;
   }
   
@@ -100,6 +100,8 @@
     flex: 1;
     width: 100%;
     background: rgba(255, 255, 255, 0.9);
+    min-height: 100vh;
+    height: 100%;
   }
   
   .background-image-layer {
@@ -121,7 +123,8 @@
     max-width: 1600px;
     margin: 3rem auto;
     padding: 0 3rem;
-    min-height: 70vh;
+    min-height: 100vh;
+    height: 100%;
     width: 100%;
   }
   
@@ -173,6 +176,7 @@
     font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s;
+    width: 100%;
   }
   
   .reserva-btn.active,
@@ -251,10 +255,9 @@
   /* SECCIÓN DEL MAPA (GRANDE) */
   .mapa-container {
     flex: 2;
-    /*min-height: 800px;*/
+    height: 100%;
+
     min-height: fit-content;
-    max-width: 100%;
-    max-height: auto;
     display: flex;
     flex-direction: column;
     border-radius: 16px;
@@ -265,12 +268,12 @@
   
   .mapa-wrapper {
     flex: 1;
-    overflow: auto;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
+    height: 100%;
   }
   
   .mapa-imagen {
@@ -396,7 +399,7 @@
   }
   
   .navbar-right-reservas img {
-    height: 32px;
+    height: 28px;
     filter: brightness(0) invert(1);
     transition: transform 0.3s;
   }
@@ -427,23 +430,17 @@
       flex-direction: column;
       gap: 2rem;
       padding: 0 2rem;
+      /* Elimina min-height y height para que el contenido crezca según el formulario y el mapa */
+      min-height: auto;
+      height: auto;
     }
-    
-    .reserva-form-container {
-      min-width: auto;
+    .main-content-container {
+      min-height: auto;
+      height: auto;
     }
-    
-    .mapa-container {
-      min-height: 600px;
-      margin-top: 2rem;
-    }
-    
-    .section-title {
-      font-size: 2.4rem;
-    }
-    
-    .section-description {
-      font-size: 1.2rem;
+    .mapa-container, .mapa-wrapper {
+      min-height: 400px;
+      height: 400px;
     }
   }
   
@@ -463,6 +460,8 @@
     .reserva-main-container {
       padding: 0 1.5rem;
       margin: 2rem auto;
+      min-height: auto;
+      height: auto;
     }
     
     .reserva-section {
@@ -487,14 +486,93 @@
       min-width: 100%;
     }
 
+    .mapa-container, .mapa-wrapper {
+      min-height: 300px;
+      height: 300px;
+    }
+    
+    .confirmar-reserva-btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .reserva-main-container {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 0 0.5rem;
+      margin: 1rem auto;
+    }
+    .reserva-form-container {
+      min-width: 100%;
+      padding-right: 0;
+      padding-left: 0;
+    }
+    .reserva-section {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .section-description-reserva {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .reserva-selector {
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+    .reserva-btn {
+      width: 100%;
+      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .reserva-form label {
+      font-size: 1rem;
+    }
+    .ubicacio-select,
+    .reserva-form input {
+      font-size: 1rem;
+      padding: 0.7rem;
+    }
+    .reservar-btn {
+      font-size: 1rem;
+      padding: 0.8rem;
+    }
+    .mapa-container, .mapa-wrapper {
+      min-height: 220px !important;
+      height: 220px !important;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+    .main-content-container {
+      padding: 0;
+      min-height: auto;
+    }
+    .navbar {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.5rem 0.2rem;
+    }
+    .navbar-logo {
+      height: 50px;
+    }
   }
   
   @media (max-width: 480px) {
     .reserva-selector {
       flex-direction: column;
     }
-    
+
     .reserva-btn {
+      width: 100%;
+    }
+
+    .confirmar-reserva-btn {
       width: 100%;
     }
     
@@ -510,41 +588,65 @@
   }
 
   /* Estilo para la lista de reservas en el modal */
+.mis-reservas-modal {
+  background: #fff;
+  border: 1px solid #bbb;
+  padding: 16px;
+  margin: 20px auto;
+  border-radius: 8px;
+  max-width: 95vw;
+  width: 90%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 2000;
+  color: #111;
+}
+
+.mis-reservas-modal h2 {
+  font-size: 1.3rem;
+  color: #005f8a;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 .mis-reservas-modal ul {
   padding: 0;
   margin: 0;
 }
-
 .mis-reservas-modal li {
-  background: #f5f8fa;
+  background: #f8f8f8;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   margin-bottom: 18px;
-  padding: 18px 20px 12px 20px;
-  transition: box-shadow 0.2s;
-  border: 1px solid #e2e8f0;
+  padding: 14px 10px 10px 10px;
+  border: 1px solid #eee;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-
-.mis-reservas-modal li:last-child {
-  margin-bottom: 0;
-}
-
-.mis-reservas-modal b {
-  color: #005187;
-}
-
-.mis-reservas-modal select,
-.mis-reservas-modal input[type="text"] {
-  margin-top: 6px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #bfc9d1;
+.reserva-info {
   font-size: 1rem;
+  color: #111;
 }
-
-.mis-reservas-modal button {
-  margin-top: 6px;
-  background: #005187;
+.valoracion-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.valoracion-select, .valoracion-input {
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: #fff;
+  color: #111;
+  padding: 6px 10px;
+}
+.valoracion-input {
+  flex: 1 1 120px;
+}
+.valoracion-btn {
+  background: #005f8a;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -553,7 +655,242 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+.valoracion-btn:hover {
+  background: #111;
+  color: #fff;
+}
+.cerrar-btn {
+  width: 100%;
+  display: block;
+  margin: 18px auto 0 auto;
+  font-size: 1rem;
+  padding: 10px 0;
+  background: #005f8a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+}
+.cerrar-btn:hover {
+  background: #111;
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .mis-reservas-modal h2 {
+    font-size: 1.1rem;
+  }
+  .mis-reservas-modal li {
+    padding: 8px 4px 6px 4px;
+    font-size: 0.98rem;
+    border-radius: 6px;
+  }
+  .valoracion-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .valoracion-btn, .cerrar-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .mis-reservas-modal {
+    background: #111;
+    color: #fff;
+    border: 1px solid #333;
+  }
+  .mis-reservas-modal h2 {
+    color: #005f8a;
+  }
+  .mis-reservas-modal li {
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
+  }
+  .reserva-info {
+    color: #fff;
+  }
+  .valoracion-select, .valoracion-input {
+    background: #111;
+    color: #fff;
+    border: 1px solid #333;
+  }
+  .valoracion-btn, .cerrar-btn {
+    background: #005f8a;
+    color: #fff;
+  }
+  .valoracion-btn:hover, .cerrar-btn:hover {
+    background: #fff;
+    color: #005f8a;
+  }
+}
 
-.mis-reservas-modal button:hover {
-  background: #003d66;
+/* --- Modo oscuro --- */
+@media (prefers-color-scheme: dark) {
+
+  .reservacotxe-wrapper {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  .reservacotxe-wrapper .navbar {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  .reservacotxe-wrapper .navbar-center a {
+    color: #e0e0e0;
+  }
+  .reservacotxe-wrapper .navbar-center a:hover {
+    color: white;
+  }
+  .reservacotxe-wrapper .btn-outline {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+  }
+  .reservacotxe-wrapper .btn-outline:hover {
+    background-color: white;
+    color: #003049;
+  }
+  .reservacotxe-wrapper .btn-filled {
+    background-color: #1e1e1e;
+    color: white;
+    border-color: white;
+  }
+  .reservacotxe-wrapper .btn-filled:hover {
+    background-color: white;
+    color: #003049;
+  }
+  .main-content-container {
+    /*background: rgba(30, 30, 30, 0.95);*/
+    background-color: #121212;
+  }
+  .background-image-layer {
+    opacity: 0.18;
+  }
+  .reserva-section {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+  }
+  .section-title {
+    color: white;
+  }
+  .section-description-reserva {
+    color: #b0b8c1;
+  }
+  .reserva-selector {
+    /* sin cambios */
+  }
+  .reserva-btn {
+    background-color: #23272f;
+    color: white;
+    border-color: white;
+  }
+  .reserva-btn.active,
+  .reserva-btn:hover {
+    background-color: white;
+    color: #23272f;
+  }
+  .reserva-form label {
+    color: #e0e0e0;
+  }
+  .ubicacio-select,
+  .reserva-form input {
+    background-color: #23272f;
+    color: #e0e0e0;
+    border-color: #505050;
+  }
+  .ubicacio-select:focus,
+  .reserva-form input:focus {
+    border-color: white;
+    box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.12);
+  }
+  .reservar-btn {
+    background-color: white;
+    color: #23272f;
+  }
+  .reservar-btn:hover {
+    background-color: #ffd166;
+    color: #23272f;
+  }
+  .mapa-container {
+    background: #1e1e1e;
+    box-shadow: 0 6px 15px rgba(255,255,255,0.04);
+  }
+  .mapa-leyenda {
+    background: #1e1e1e;
+    border-top: 3px solid #23272f;
+  }
+  .mapa-leyenda h3 {
+    color: white;
+  }
+  .mapa-leyenda li {
+    color: #b0b8c1;
+  }
+  .main-footer {
+    background-color: #001f33;
+    color: #e0e0e0;
+  }
+  .footer-col h4 {
+    border-bottom: 2px solid rgba(255,255,255,0.12);
+    color: white;
+  }
+  .footer-col ul li {
+    color: #e0e0e0;
+  }
+  .footer-col ul li:hover {
+    color: white;
+  }
+  .footer-col p {
+    color: #b0b8c1;
+  }
+  .footer-phone {
+    color: white;
+  }
+  .icon-placeholder {
+    background: rgba(255,255,255,0.08);
+    color: white;
+  }
+  .icon-placeholder:hover {
+    background: rgba(255,255,255,0.18);
+  }
+  .mis-reservas-modal {
+    background: #23272f;
+    color: #e0e0e0;
+    border: 1px solid #505050;
+    box-shadow: 0 2px 8px rgba(255,255,255,0.04);
+  }
+  .mis-reservas-modal h2 {
+    color: white;
+  }
+  .mis-reservas-modal li {
+    background: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #505050;
+  }
+  .mis-reservas-modal b {
+    color: #ffd166;
+  }
+  .mis-reservas-modal select,
+  .mis-reservas-modal input[type="text"] {
+    background: #23272f;
+    color: #e0e0e0;
+    border: 1px solid #505050;
+  }
+  .mis-reservas-modal button {
+    background: #1e1e1e;
+    color: white;
+    border: 1px solid white;
+  }
+  .mis-reservas-modal button:hover {
+    color: #23272f;
+  }
+}
+
+.mapa-container, .mapa-wrapper {
+  display: block !important;
+  height: 100vh !important;
+  width: 100% !important;
+  overflow: visible !important;
 }

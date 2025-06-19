@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import "./css/gestioreserves.css";
 import logo from "../pages/images/LogoBlanco.png";
-import adminPhoto from "../pages/images/lewandowski.png";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import perfil from "/src/pages/images/perfil.png";
 import MapaLeafletGestioReservas from "/src/components/MapaLeafletGestioReservas.jsx";
@@ -125,16 +124,7 @@ export default function GestioReserves() {
       </header>
 
       <div className="admin-layout">
-        <aside className="admin-sidebar">
-          <div className="admin-profile">
-            <img src={adminPhoto} alt="Admin" className="admin-photo" />
-            <h2 className="admin-name">{userName}</h2>
-          </div>
-        </aside>
-
         <div className="full-width-content">
-          <h1 className="section-title">Reserves de {userName || "FlySy"}</h1>
-
           <div className="horizontal-section table-container">
             <table className="gestio-table">
               <thead>

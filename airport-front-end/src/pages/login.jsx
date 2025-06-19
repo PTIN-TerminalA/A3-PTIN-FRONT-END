@@ -24,6 +24,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
     try {
       const response = await fetch("https://flysy.software/api/login", {
         method: "POST",
@@ -38,7 +39,13 @@ function Login() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setErrorMessage(errorData.detail || "Error al iniciar sesión");
+        if (errorData.detail === "Usuari no trobat") {
+          setErrorMessage("Usuari no trobat");
+        } else if (errorData.detail === "Contrassenya incorrecta") {
+          setErrorMessage("Contrasenya incorrecta");
+        } else {
+          setErrorMessage(errorData.detail || "Error al iniciar sessió");
+        }
         return;
       }
 
