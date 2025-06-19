@@ -114,8 +114,14 @@ function Register() {
       newErrors.dniFormat = false;
     }
 
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]|\\:;,.<>?/-]).{8,}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]|\\:;,.<>?\/-])[A-Za-z\d!@#$%^&*()_+={}[\]|\\:;,.<>?\/-]{8,}$/;
     if (!passwordPattern.test(formData.password)) {
+      valid = false;
+      newErrors.passwordStrength = false;
+    }
+    // Nueva validación: solo permitir caracteres permitidos 
+    const allowedPasswordPattern = /^[A-Za-z\d!@#$%^&()_\-+=?\/,:;<>\[\]{}|\\]+$/;
+    if (formData.password && !allowedPasswordPattern.test(formData.password)) {
       valid = false;
       newErrors.passwordStrength = false;
     }
@@ -343,6 +349,7 @@ function Register() {
             </select>
             <input className="input-numero" type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
           </div>
+          {!errors.requiredFields && !formData.phoneNumber.trim() && <span className="error">Camp obligatori</span>}
         </div>
 
         <div className="input-group">
@@ -359,6 +366,8 @@ function Register() {
         <div className="input-group">
           <label>Data de naixement</label>
           <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} />
+          {!errors.requiredFields && !formData.birthDate.trim() && <span className="error">Camp obligatori</span>}
+          {!errors.isAdult && <span className="error">Has de ser major d'edat</span>}
         </div>
 
         <div className="input-group full-width">
@@ -369,7 +378,8 @@ function Register() {
               {showPassword ? "Amagar" : "Mostrar"}
             </button>
           </div>
-          {!errors.passwordStrength && <span className="error">La contrasenya ha de tenir mínim 8 caràcteres, una mayúscula, una minúscula, un número y un símbol</span>}
+          {!errors.passwordStrength && <span className="error">La contrasenya ha de tenir mínim 8 caràcters, una mayúscula, una minúscula, un número y un símbol</span>}
+          {!errors.requiredFields && !formData.password.trim() && <span className="error">Camp obligatori</span>}
         </div>
 
         <div className="input-group full-width">
@@ -380,17 +390,23 @@ function Register() {
               {showConfirmPassword ? "Amagar" : "Mostrar"}
             </button>
           </div>
+          {!errors.passwordMatch && <span className="error">Les contrasenyes no coincideixen</span>}
         </div>
 
-        <button type="submit" className="register-button">Registrar-se</button>
-        <button type="button" onClick={() => window.history.back()} className="register-button">Tornar enrere</button>
+        <button type="submit" className="register-button full-width">Registrar-se</button>
+        {(!errors.requiredFields || !errors.dniFormat || !errors.passwordMatch || !errors.isAdult || (errors.passwordStrength !== undefined && !errors.passwordStrength)) && (
+          <div className="error full-width" style={{ textAlign: 'center', marginTop: '10px' }}>
+            Falten camps per verificar
+          </div>
+        )}
+        <button type="button" onClick={() => window.history.back()} className="register-button full-width">Tornar enrere</button>
       </form>
 
       <div className="register-divider">
         <hr className="register-linea"/>
         <span>o</span>
         <hr className="register-linea"/>
-      </div>
+      </div>si
 
       <div className="googleDiv">
         <button className="google-custom-button" onClick={() => loginGoogle()}>

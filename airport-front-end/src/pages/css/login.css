@@ -64,6 +64,13 @@
   font-size: clamp(0.95rem, 1.2vw);
 }
 
+.login-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
 /* Botón principal */
 .btn-primary {
   background-color: #219ebc;
@@ -232,6 +239,12 @@
 @media (prefers-color-scheme: dark) {
   .login-terms {
     color: white;
+  }
+
+  .login-header {
+    background-color: #121212;
+    color: #e0e0e0;
+    border-bottom: 1px solid #444;
   }
 
   .google-custom-button {

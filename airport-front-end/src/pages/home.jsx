@@ -30,13 +30,6 @@ function Home() {
           <img src={logo} alt="Logo" className="navbar-logo" />
         </div>
 
-        <div className="navbar-center">
-          <a href="#inici">Inici</a>
-          <a href="#vols">Vols</a>
-          <a href="#serveis">Serveis</a>
-          <a href="#contacte">Contacte</a>
-        </div>
-
         <div className="navbar-right">
           <button className="btn btn-outline" onClick={() => navigate('/login')}>Iniciar Sessió</button>
           <button className="btn btn-filled" onClick={() => navigate('/register')}>Registrar-se</button>
