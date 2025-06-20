@@ -10,14 +10,16 @@ html, body {
 }
 
 /* NAVBAR */
-.navbar {
+.home-navbar {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background-color: #005187;
   color: white;
   padding: 0.5rem 1rem;
   margin-bottom: 0;
+  flex-wrap: nowrap;
 }
 
 .navbar-left {
@@ -314,8 +316,18 @@ html, body {
     height: fit-content;
   }
 
+  .home-navbar {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    justify-content: space-between;
+  }
+  .navbar-left {
+    flex-wrap: nowrap;
+  }
+
   .navbar-logo {
-    width: 80px;
+    width: 60px;
   }
 
   .navbar-center {
@@ -323,9 +335,10 @@ html, body {
   }
 
   .navbar-right {
-    margin-right: -2.5rem;
+    margin-right: -1.5rem;
     align-items: right;
     gap: 0.5rem;
+    flex-wrap: nowrap;
   }
 
   .btn {
