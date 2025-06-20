@@ -85,7 +85,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
-  margin: 40px auto; /* Centrado horizontal y margen arriba/abajo */
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -187,6 +186,114 @@
   font-size: 0.9em;
   top: 100%;
   left: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .admin-card {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+  }
+
+  .admin-card:hover {
+    background: #444;
+  }
+
+  .admin-searchbar input {
+    background: #555;
+    color: #fff;
+    border: 1px solid #666;
+  }
+
+  .admin-create-form {
+    background: #222;
+    color: #fff;
+  }
+
+  .admin-create-form input,
+  .admin-create-form button {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+  }
+
+  .admin-checkbox {
+    color: white;
+  }
+  .superadmin-profile h2 {
+    color: #fff;
+  }
+
+  .admin-buttons {
+    justify-content: center;
+    margin-top: 20px;
+    max-width: 20rem !important;
+    margin-bottom: 1.5rem;
+  }
+
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+  .superadmin-profile {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .admin-cards-container {
+    gap: 12px;
+  }
+  .admin-sidebar {
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+  }
+  .admin-buttons {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .admin-create-center-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-main-content {
+    padding: 8px;
+  }
+  .superadmin-profile {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-bottom: 10px;
+  }
+  .superadmin-photo {
+    width: 90px;
+    height: 90px;
+  }
+  .admin-cards-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .admin-card {
+    width: 95vw;
+    min-width: 0;
+    max-width: 400px;
+    padding: 10px;
+  }
+  .admin-create-form {
+    max-width: 98vw;
+    padding: 12px;
+    gap: 8px;
+  }
+  .admin-create-center-wrapper {
+    width: 100%;
+  }
+  .admin-searchbar input {
+    width: 90vw;
+    max-width: 300px;
+  }
 }
 
 

@@ -3,11 +3,39 @@ import { useNavigate }         from 'react-router-dom';
 import Cookies                 from 'js-cookie';
 import "./css/gestioreserves.css";
 import logo                    from "../pages/images/LogoBlanco.png";
-import adminPhoto              from "../pages/images/lewandowski.png";
+import adminPhoto              from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton            from "/src/components/LogOutButton.jsx";
 import perfil                  from "/src/pages/images/perfil.png";
 
 export default function GestioReserves() {
+  const _apiUrl = "https://flysy.software"
+
+  const [adminName, setAdminName] = useState("");
+  
+    useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          console.log("Fetching admin profile...");
+          const token = Cookies.get("token");
+          const response = await fetch(`${_apiUrl}/api/profile`, {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setAdminName(data.name);
+          } else {
+            setAdminName("Nom Admin");
+          }
+        } catch (error) {
+          setAdminName("Nom Admin");
+        }
+      };
+      fetchProfile();
+    }, []);
+
   const navigate = useNavigate();
 
   // filtros de lectura
@@ -131,13 +159,8 @@ export default function GestioReserves() {
           <img src={logo} alt="Logo" className="admin-logo light-mode" />
           <img src={logo} alt="Logo" className="admin-logo dark-mode" />
         </div>
-        <div className="admin-navbar-center">
-          <a href="#dashboard">Dashboard</a>
-          <a href="#estadistiques">Estadístiques</a>
-          <a href="#registres">Registres</a>
-        </div>
         <div className="admin-navbar-buttons">
-          <button onClick={() => navigate("/AdminProfile")}>
+          <button onClick={() => navigate("/UserProfile")}>
             <img src={perfil} alt="Perfil" />
           </button>
           <LogOutButton />
@@ -148,7 +171,7 @@ export default function GestioReserves() {
         <aside className="admin-sidebar">
           <div className="admin-profile">
             <img src={adminPhoto} alt="Admin" className="admin-photo" />
-            <h2 className="admin-name">Nom Admin</h2>
+            <h2 className="admin-name">{adminName || "Nom Admin"}</h2>
           </div>
           <div className="admin-buttons">
             <button onClick={() => navigate("/gestioUsuaris")}>Gestionar Usuaris</button>

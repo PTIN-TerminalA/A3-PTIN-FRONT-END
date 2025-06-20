@@ -188,6 +188,13 @@ html, body {
   background-color: #0077b6;
 }
 
+.admin-map-container {
+  display: block !important;
+  height: 90vh !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
 /* === MODO OSCURO === */
 @media (prefers-color-scheme: dark) {
   body {
@@ -225,6 +232,9 @@ html, body {
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
+  .admin-map-container {
+    width: 95% !important;
+  }
 
   .admin-layout {
     max-width: fit-content;

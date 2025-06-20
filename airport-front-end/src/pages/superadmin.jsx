@@ -187,7 +187,7 @@ function SuperAdmin() {
           <a href="#superadmin">Pàgina de super admin</a>
         </div>
         <div className="admin-navbar-buttons">
-          <button onClick={() => window.location.href = "/SuperAdminProfile"}>
+          <button onClick={() => window.location.href = "/UserProfile"}>
             <img src={perfil} alt="Perfil" />
           </button>
           <LogOutButton />
