@@ -84,13 +84,15 @@
 
 .admin-layout {
   display: flex;
-  flex: 1;
   background-color: #f8fafc;
+  overflow-y: hidden;
 }
 
 /* === SIDEBAR === */
 .admin-sidebar {
-  width: 280px;
+  width: fit-content;
+  max-width: 25vw;
+  max-height: 100vh;
   background-color: white;
   color: black;
   padding: 2rem;
@@ -153,6 +155,8 @@
 .full-width-content {
   flex: 1;
   padding: 2rem;
+  height: 100%;
+  min-height: 10vh;
   overflow-y: auto;
   width: calc(100% - 280px); /* Ancho total menos la sidebar */
 }
@@ -261,15 +265,33 @@
   color: #000;
 }
 
+@media (max-width: 900px) {
+  
+  .full-width-content {
+    width: calc(100% - 4rem); /* Ancho total menos la sidebar */
+    overflow-y: none !important;
+    overflow-x: hidden !important;
+  }
+  .admin-sidebar {
+    overflow-y: none !important;
+    max-width: 100%;
+    position: static;
+  }
+  .admin-layout {
+    overflow-y: scroll;
+  }
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .admin-layout {
-    flex-direction: column;
+    display: block;
     max-width: 100vw;
     min-width: 0;
     overflow-x: hidden;
   }
   .admin-sidebar {
+    max-height: none;
     width: 100%;
     flex-direction: row;
     justify-content: space-around;
@@ -277,6 +299,20 @@
     padding: 1rem 0.5rem 0 0.5rem;
     box-sizing: border-box;
     min-width: 0;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    z-index: auto !important;
+  }
+  .full-width-content {
+    width: 100vw;
+    padding: 1rem 0.2rem;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-y: visible;
+    height: auto;
   }
   .admin-profile {
     margin-bottom: 0;
@@ -291,13 +327,6 @@
   }
   .admin-navbar-center {
     display: none;
-  }
-  .full-width-content {
-    width: 100vw;
-    padding: 1rem 0.2rem;
-    min-width: 0;
-    box-sizing: border-box;
-    overflow-x: hidden;
   }
   .nova-reserva-form,
   .filters-form {
@@ -352,9 +381,7 @@
     padding-left: 0rem;
     margin-left: -1rem;
   }
-  .admin-sidebar {
-    padding: 0.5rem 0.2rem 0 0.2rem;
-  }
+
   .admin-photo {
     width: 70px;
     height: 70px;
@@ -404,12 +431,12 @@
     color: #fff;
   }
   .horizontal-section {
-    background-color: #23272f;
-    color: #e0e0e0;
+    background-color: #1e1e1e;
+    color: white;
     box-shadow: 0 2px 8px rgba(255,255,255,0.04);
   }
   .section-title, .horizontal-section h2 {
-    color: #ffd166;
+    color: white;
   }
   .nova-reserva-form input,
   .nova-reserva-form select,
@@ -421,14 +448,14 @@
   }
   .nova-reserva-form button,
   .filters-form button {
-    background-color: #ffd166;
+    background-color: white;
     color: #23272f;
     border: none;
   }
   .nova-reserva-form button:hover,
   .filters-form button:hover {
-    background-color: #fff;
-    color: #23272f;
+    background-color: black;
+    color: white;
   }
   .table-container {
     background: transparent;

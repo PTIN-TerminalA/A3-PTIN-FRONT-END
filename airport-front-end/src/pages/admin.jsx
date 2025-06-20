@@ -43,13 +43,8 @@ function Admin() {
         <div className="admin-logo-section">
           <img src={logoBlanco} alt="Logo" className="admin-logo" />
         </div>
-        <div className="admin-navbar-center">
-          <a href="#dashboard">Dashboard</a>
-          <a href="#estadistiques">Estadístiques</a>
-          <a href="#registres">Registres</a>
-        </div>
         <div className="admin-navbar-buttons">
-          <button onClick={() => window.location.href = "/AdminProfile"}>
+          <button onClick={() => window.location.href = "/UserProfile"}>
             <img src={perfil} alt="Perfil" />
           </button>
           <LogOutButton />

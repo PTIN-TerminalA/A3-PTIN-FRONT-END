@@ -80,7 +80,9 @@ function UserProfile() {
   if (loading) return <p className="user-loading">Carregant perfil...</p>;
   if (error)   return <p className="user-error">{error}</p>;
 
-  const [y, m, d] = birthDate.split("-");
+  // Ajuste: asegurar que birthDate nunca sea null o undefined
+  const safeBirthDate = birthDate || "1990-01-01";
+  const [y = "1990", m = "01", d = "01"] = safeBirthDate.split("-");
 
   return (
     <div className="user-page">
