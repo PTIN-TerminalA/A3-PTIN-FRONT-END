@@ -25,7 +25,7 @@ function Home() {
   const navigate = useNavigate();
   return (
     <div className="home-wrapper">
-      <header className="navbar">
+      <header className="home-navbar">
         <div className="navbar-left">
           <img src={logo} alt="Logo" className="navbar-logo" />
         </div>
