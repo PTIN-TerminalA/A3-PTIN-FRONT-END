@@ -3,7 +3,7 @@ import { useNavigate }         from 'react-router-dom';
 import Cookies                 from 'js-cookie';
 import "./css/gestioreserves.css";
 import logo                    from "../pages/images/LogoBlanco.png";
-import adminPhoto              from "../pages/images/lewandowski.png";
+import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton            from "/src/components/LogOutButton.jsx";
 import perfil                  from "/src/pages/images/perfil.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";

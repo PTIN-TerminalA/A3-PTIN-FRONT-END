@@ -1,223 +1,281 @@
-/* ───── 🌐 Globals ───── */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  color: #1a1a1a;
-}
-
-/* ───── 🧱 Contenedor principal ───── */
-.container-gestio {
-  background-color: #f0f2f5;
-  width: 100%;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-.container-gestio h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  color: #023047;
-}
-
-/* ───── 🔍 Filtro de búsqueda ───── */
-.filtre {
-  width: 100%;
-  padding: 0.6rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid #023047;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-/* ───── 📊 Tabla de usuarios ───── */
-.scroll-taula {
-  overflow-x: auto;
-}
-
-.taula-usuaris {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  font-size: 1rem;
-}
-
-.taula-usuaris th,
-.taula-usuaris td {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  color: #1a1a1a;
-  text-align: left;
-}
-
-.taula-usuaris th {
-  background-color: #023047;
-  color: white;
-}
-
-/* ───── ✏️ Botón Editar ───── */
-.boto-editar {
-  background-color: #023047;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
+/* === NAVBAR === */
+.admin-navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.3rem;
-  transition: background-color 0.3s;
-}
-
-.boto-editar:hover {
-  background-color: #023047;
-}
-
-.boto-editar .icona-edita {
-  font-size: 1rem;
+  background-color: #003049;
+  padding: 1rem 2rem;
   color: white;
-}
-
-/* ───── 🪟 Modal ───── */
-.modal-fons {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 }
-
-.modal {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 16px;
-  width: 500px;
-  max-width: 95%;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal h3 {
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #023047;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #023047;
-  padding-bottom: 0.5rem;
-}
-
-/* ───── 📝 Campos editables ───── */
-.camp-edicio {
-  margin-bottom: 1.2rem;
-  font-size: 1rem;
-  color: #1a1a1a;
+.admin-logo-section img { height: 80px; }
+.admin-navbar-center {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 1.5rem;
 }
+.admin-navbar-center button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.admin-navbar-center button:hover { color: #ffb703; }
+.admin-navbar-buttons { display: flex; gap: 1rem; }
 
-.camp-edicio strong {
+/* === PAGE LAYOUT === */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+.admin-layout {
+  display: flex;
   flex: 1;
-  color: #023047;
-  font-weight: 600;
+  background-color: #f8fafc;
 }
 
-.camp-edicio span {
-  flex: 2;
+/* === SIDEBAR === */
+.admin-sidebar {
+  width: 280px;
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.admin-profile { text-align: center; margin-bottom: 2rem; }
+.admin-photo {
+  width: 120px; height: 120px;
+  border-radius: 50%; object-fit: cover;
+  border: 3px solid #005187; margin-bottom: 1rem;
+}
+.admin-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 2rem; }
+.admin-buttons { display: flex; flex-direction: column; gap: 1rem; }
+.admin-buttons button {
+  background-color: #003049;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.4rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+.admin-buttons button:hover { background-color: #0077b6; }
+
+/* === MAIN CONTENT === */
+.full-width-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+.section-title {
+  font-size: 2rem;
+  color: #003049;
+  margin-bottom: 1.5rem;
 }
 
-.camp-edicio input {
-  padding: 0.4rem;
-  font-size: 1rem;
+/* ====== HORIZONTAL SECTIONS ====== */
+.horizontal-section {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
   width: 100%;
-  margin-top: 0.4rem;
-  border: 1px solid #023047;
-  border-radius: 6px;
-  outline: none;
+  box-sizing: border-box;
+}
+.horizontal-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #003049;
+  text-align: center;
 }
 
-/* Icono editar */
-.icona-edita {
-  font-size: 1rem;
-  color: #ff9800;
-}
-
-/* ───── ❌ Botón Tancar ───── */
-.tancar {
-  margin-top: 1.5rem;
-  background-color: #023047;
-  color: white;
-  padding: 0.5rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.tancar:hover {
-  background-color: #023047;
-}
-
-/* ───── ✨ Animación Modal ───── */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-
-/* Botón Guardar */
-.guardar {
-  background-color: #023047;
-  color: white;
-  padding: 0.5rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.guardar:hover {
-  background-color: #023047;
-}
-
-.boto-eliminar {
-  background-color: #dc3545;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
+/* === CREAR NOU USUARI FORM === */
+.nova-usuari-form {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   align-items: center;
-  gap: 0.3rem;
-  transition: background-color 0.3s;
+}
+.nova-usuari-form input {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.8rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+.nova-usuari-form button {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  margin-left: auto;
+  background-color: #5bc0de;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.nova-usuari-form button:hover { background-color: #31b0d5; }
+
+/* === BUSCAR USUARI === */
+.search-wrapper {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.search-wrapper input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+/* BOTÓN “X” ROJO Y MÁS BONITO */
+.clear-search {
+  position: absolute;
+  top: 50%; right: 0.5rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #d9534f;
+  cursor: pointer;
+  width: 1.6rem; height: 1.6rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s, background 0.2s;
+}
+.clear-search:hover {
+  background: rgba(217,83,79,0.1);
+  color: #c9302c;
 }
 
-.boto-eliminar:hover {
-  background-color: #c82333;
+/* === TABLA DE RESULTADOS === */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+.gestio-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.gestio-table th,
+.gestio-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+.gestio-table th {
+  background-color: #005187;
+  color: white;
+}
+.gestio-table tr:hover {
+  background-color: #f1f5f9;
+}
+.gestio-table td {
+  color: #000;
 }
 
+/* === TARJETA DE EDICIÓN === */
+.user-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: 1.5rem auto;
+}
+.user-card-avatar {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 60px; height: 60px;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid #005187;
+}
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.col { flex: 1; }
+.col.left { text-align: left; }
+.col.right { text-align: right; }
+.editable input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+input[disabled] {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.user-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.modify-btn,
+.delete-btn {
+  width: 48%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+.modify-btn {
+  background-color: #5bc0de;
+  color: white;
+}
+.modify-btn:hover {
+  background-color: #31b0d5;
+}
+.delete-btn {
+  background-color: #d9534f;
+  color: white;
+}
+.delete-btn:hover {
+  background-color: #c9302c;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+  .admin-sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .admin-navbar-center { display: none; }
+  .full-width-content { width: 100%; padding: 1rem; }
+  .user-card { width: 90%; margin: 1rem auto; }
+  .nova-usuari-form,
+  .search-wrapper { width: 100%; }
+  .gestio-table th,
+  .gestio-table td { padding: 0.5rem; font-size: 0.9rem; }
+} 
+.avatar-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+.table-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #005187;
+}
