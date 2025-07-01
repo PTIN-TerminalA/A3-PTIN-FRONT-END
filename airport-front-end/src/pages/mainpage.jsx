@@ -9,29 +9,45 @@ import perfil from "/src/pages/images/perfil.png";
 import chatbotIcon from "/src/pages/images/chatboticon.png";
 import ServiceRatings from "../components/ServiceRatings";
 import CreateRatings from "../components/CreateRatings";
+import Cookies from 'js-cookie';
 
-// ===== Componente ChatWindow =====
-function ChatWindow({ onClose }) {
+function ChatWindow({ onClose, userId, userLocationX, userLocationY }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Simular respuestas automáticas
-  useEffect(() => {
-    if (messages.length > 0 && messages[messages.length - 1].sender === 'user') {
-      setTimeout(() => {
-        setMessages(prev => [...prev, {
-          text: messages[messages.length - 1].text,
-          sender: 'bot'
-        }]);
-      }, 500);
-    }
-  }, [messages]);
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      setMessages([...messages, { text: newMessage, sender: 'user' }]);
-      setNewMessage('');
+    // Añadir mensaje del usuario al chat
+    setMessages(prev => [...prev, { text: newMessage, sender: 'user' }]);
+    const userText = newMessage;
+    setNewMessage('');
+    setIsLoading(true);
+
+    try {
+      // Llamada al backend IA
+      const res = await fetch('http://10.60.0.3:3333/ask_agent/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          user_message: userText,
+          user_location_x: userLocationX,
+          user_location_y: userLocationY
+        })
+      });
+
+      const botText = await res.text();
+
+      setMessages(prev => [...prev, { text: botText, sender: 'bot' }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { text: '❌ Error al conectar con el asistente.', sender: 'bot' }]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,8 +66,6 @@ function ChatWindow({ onClose }) {
           >
             {isMinimized ? '▢' : '—'}
           </button>
-          <br></br>
-          <br></br>
           <button className="close-btn" aria-label="Cerrar" onClick={onClose}>✕</button>
         </div>
       </div>
@@ -67,6 +81,12 @@ function ChatWindow({ onClose }) {
                 <div className="message-bubble">{message.text}</div>
               </div>
             ))}
+            {isLoading && (
+              <div className="message bot">
+                <img src={chatbotIcon} alt="Bot" className="message-icon" />
+                <div className="message-bubble">✍️ El asistente está escribiendo...</div>
+              </div>
+            )}
           </div>
           <div className="chat-input">
             <input
@@ -75,20 +95,54 @@ function ChatWindow({ onClose }) {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Escribe tu mensaje..."
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              disabled={isLoading}
             />
-            <button onClick={handleSendMessage}>➤</button>
+            <button onClick={handleSendMessage} disabled={isLoading}>➤</button>
           </div>
         </>
       )}
     </div>
   );
 }
+
 import IndoorMap from "/src/components/MapaLeaflet.jsx"; // 👈 Importamos tu componente Leaflet
 
 // ===== Navbar/Header =====
 function Header() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+
+  // Al iniciar, obtenemos el userId desde el backend
+  useEffect(() => {
+    async function fetchUserId() {
+      try {
+        const token = Cookies.get('token');
+        if (!token) {
+          console.warn("No se encontró el token en las cookies");
+          return;
+        }
+
+        const res = await fetch(`http://192.168.10.10:8000/api/get_user_id?token=${token}`);
+        if (!res.ok) {
+          console.error("Error al obtener user_id:", res.statusText);
+          return;
+        }
+
+        const data = await res.json();
+        setUserId(data.user_id);
+        console.log("✅ userId obtenido:", data.user_id);
+      } catch (error) {
+        console.error("❌ Error al obtener el userId:", error);
+      }
+    }
+
+    fetchUserId();
+  }, []);
+
+  // Coordenadas fijas para la demo
+  const userLocationX = 0;
+  const userLocationY = 0;
 
   return (
     <header className="header">
@@ -104,7 +158,21 @@ function Header() {
         </button>
         <LogOutButton />
       </div>
-      {isChatOpen && <ChatWindow onClose={() => setIsChatOpen(false)} />}
+
+      {isChatOpen && userId && (
+        <ChatWindow
+          onClose={() => setIsChatOpen(false)}
+          userId={userId}
+          userLocationX={userLocationX}
+          userLocationY={userLocationY}
+        />
+      )}
+
+      {isChatOpen && userId === null && (
+        <div className="chat-loading">
+          <p>Obtenint identificador d'usuari...</p>
+        </div>
+      )}
     </header>
   );
 }
