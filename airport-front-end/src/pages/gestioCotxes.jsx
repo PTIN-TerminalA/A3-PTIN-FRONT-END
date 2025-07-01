@@ -1,6 +1,7 @@
 // src/components/GestioCotxes.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies                 from 'js-cookie';
 import logo from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
 import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
@@ -12,13 +13,13 @@ const API_BASE_URL = "https://flysy.software";
 export default function GestioCotxes() {
   const navigate = useNavigate();
   const [adminName, setAdminName] = useState("");
-  
-    useEffect(() => {
+
+  useEffect(() => {
       const fetchProfile = async () => {
         try {
           console.log("Fetching admin profile...");
           const token = Cookies.get("token");
-          const response = await fetch(`${_apiUrl}/api/profile`, {
+          const response = await fetch(`${API_BASE_URL}/api/profile`, {
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token}`
@@ -71,7 +72,7 @@ export default function GestioCotxes() {
     }
 
     try {
-      await fetch(`${API_BASE_URL}/cotxe/${carId}/${newState}`, {
+      await fetch(`${API_BASE_URL}/api/cotxe/${carId}/${newState}`, {
         method: "PUT",
       });
       // Actualització local
@@ -98,7 +99,8 @@ export default function GestioCotxes() {
     <div className="admin-page">
       <header className="admin-navbar">
         <div className="admin-logo-section">
-          <img src={logo} alt="Logo" className="admin-logo" />
+          <img src={logo} alt="Logo" className="admin-logo light-mode" />
+          <img src={logo} alt="Logo" className="admin-logo dark-mode" />
         </div>
         <div className="admin-navbar-buttons">
           <button onClick={() => navigate("/UserProfile")}>
