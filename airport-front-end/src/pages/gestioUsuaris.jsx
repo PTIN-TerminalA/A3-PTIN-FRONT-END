@@ -8,12 +8,37 @@ import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import "./css/gestusersa.css";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://flysy.software";
 const PAGE_SIZE = 30;
 
 export default function GestioUsuaris() {
   const navigate = useNavigate();
+  const [adminName, setAdminName] = useState("");
 
+  useEffect(() => {
+      const fetchProfile = async () => {
+        try {
+          console.log("Fetching admin profile...");
+          const token = Cookies.get("token");
+          const response = await fetch(`${API_BASE_URL}/api/profile`, {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setAdminName(data.name);
+          } else {
+            setAdminName("Nom Admin");
+          }
+        } catch (error) {
+          setAdminName("Nom Admin");
+        }
+      };
+      fetchProfile();
+    }, []);
+  
   // ─── ESTATS CREACIÓ ───────────────────────────────────────────────────
   const [formData, setFormData] = useState({
     firstName: "",
@@ -65,7 +90,6 @@ export default function GestioUsuaris() {
       passwordStrength: true,
     };
 
-    // Camps obligatoris
     const required = [
       "firstName","lastName","secondLastName","dni",
       "email","phoneNumber","gender","birthDate",
@@ -76,13 +100,11 @@ export default function GestioUsuaris() {
       newErrors.requiredFields = false;
     }
 
-    // Match de passwords
     if (formData.password !== formData.confirmPassword) {
       valid = false;
       newErrors.passwordMatch = false;
     }
 
-    // Major d'edat
     if (formData.birthDate) {
       const bd = new Date(formData.birthDate);
       const now = new Date();
@@ -97,13 +119,11 @@ export default function GestioUsuaris() {
       }
     }
 
-    // Format DNI
     if (!/^\d{8}[A-Za-z]$/.test(formData.dni)) {
       valid = false;
       newErrors.dniFormat = false;
     }
 
-    // Força de la password
     const pw = formData.password;
     const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}[\]|\\:;,.<>?\/]).{8,}$/.test(pw);
     if (!strong) {
@@ -115,7 +135,7 @@ export default function GestioUsuaris() {
     return valid;
   };
 
-  // ─── MANEJADOR CREACIÓ ─────────────────────────────────────────────────
+  // ─── MANEJADORS CREACIÓ ───────────────────────────────────────────────
   const handleCreateChange = e => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -133,7 +153,6 @@ export default function GestioUsuaris() {
 
     try {
       const fullName = `${formData.firstName} ${formData.lastName} ${formData.secondLastName}`;
-      // 1) Crear user base
       const regRes = await fetch(`${API_BASE_URL}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -151,27 +170,26 @@ export default function GestioUsuaris() {
       }
       const { access_token: token } = await regRes.json();
 
-      // 2) Crear dades regular
       const regRegRes = await fetch(`${API_BASE_URL}/api/register-regular`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           token,
           birth_date: formData.birthDate,
-          phone_num: formData.prefix + formData.phoneNumber,  // <<< prefix + número
+          phone_num: formData.prefix + formData.phoneNumber,
           identity: formData.gender
         })
       });
       if (!regRegRes.ok) {
         const err2 = await regRegRes.json();
-        throw new Error(err2.detail || "Error dades addicionals");
+        throw new Error(err2.detail || "Error en dades addicionals");
       }
 
       setSuccessMessage("Usuari creat correctament");
       setFormData({
         firstName:"", lastName:"", secondLastName:"",
-        dni:"", email:"", prefix:"+34", phoneNumber:"", gender:"",
-        birthDate:"", password:"", confirmPassword:""
+        dni:"", email:"", prefix:"+34", phoneNumber:"",
+        gender:"", birthDate:"", password:"", confirmPassword:""
       });
       fetchUsers(0, false);
 
@@ -198,14 +216,31 @@ export default function GestioUsuaris() {
     }
   };
 
-  // ─── EDICIÓ INLINE ─────────────────────────────────────────────────────
-  const startEdit = u => { setEditingId(u.id); setEditedUser({ ...u }); };
-  const cancelEdit = () => { setEditingId(null); setEditedUser({}); };
+  // ─── EDICIÓ INLINE ────────────────────────────────────────────────────
   const handleEditChange = e => {
     const { name, value } = e.target;
     setEditedUser(prev => ({ ...prev, [name]: value }));
   };
+
+  const validateEdit = () => {
+    const { name, birth_date, phone_num } = editedUser;
+    if (!name?.trim()) { alert("El nom no pot quedar en blanc."); return false; }
+    if (!birth_date)     { alert("La data de naixement és obligatòria."); return false; }
+    const bd = new Date(birth_date);
+    const now = new Date();
+    let age = now.getFullYear() - bd.getFullYear();
+    if (
+      now.getMonth() < bd.getMonth() ||
+      (now.getMonth() === bd.getMonth() && now.getDate() < bd.getDate())
+    ) age--;
+    if (age < 18)        { alert("L'usuari ha de ser major d'edat."); return false; }
+    if (!phone_num?.trim()) { alert("El telèfon no pot quedar en blanc."); return false; }
+
+    return true;
+  };
+
   const saveEdit = async () => {
+    if (!validateEdit()) return;
     await fetch(`${API_BASE_URL}/api/users/${editingId}/full`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -213,20 +248,30 @@ export default function GestioUsuaris() {
         name: editedUser.name,
         birth_date: editedUser.birth_date,
         phone_num: editedUser.phone_num
-        // NO es modifica gender aquí
       })
     });
     cancelEdit();
     fetchUsers(0, false);
   };
+
+  const startEdit = u => {
+    setEditingId(u.id);
+    setEditedUser({ ...u });
+  };
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditedUser({});
+  };
   const deleteUser = id => {
-    if (!window.confirm("¿Eliminar este usuario?")) return;
+    if (!window.confirm("Eliminar aquest usuari?")) return;
     fetch(`${API_BASE_URL}/api/users/${id}/full`, { method: "DELETE" })
       .then(() => fetchUsers(0, false))
       .catch(console.error);
   };
 
-  useEffect(() => { fetchUsers(0, false); }, []);
+  useEffect(() => {
+    fetchUsers(0, false);
+  }, []);
 
   return (
     <div className="admin-page">
@@ -234,13 +279,8 @@ export default function GestioUsuaris() {
         <div className="admin-logo-section">
           <img src={logo} alt="Logo" className="admin-logo" />
         </div>
-        <div className="admin-navbar-center">
-          <button onClick={() => navigate("/dashboard")}>Dashboard</button>
-          <button onClick={() => navigate("/estadistiques")}>Estadístiques</button>
-          <button onClick={() => navigate("/registres")}>Registres</button>
-        </div>
         <div className="admin-navbar-buttons">
-          <button onClick={() => navigate("/AdminProfile")}>
+          <button onClick={() => navigate("/UserProfile")}>
             <img src={perfil} alt="Perfil" className="admin-icon" />
           </button>
           <LogOutButton />
@@ -251,7 +291,7 @@ export default function GestioUsuaris() {
         <aside className="admin-sidebar">
           <div className="admin-profile">
             <img src={adminPhoto} alt="Admin" className="admin-photo" />
-            <h2 className="admin-name">Nom Admin</h2>
+            <h2 className="admin-name">{adminName || "Nom Admin"}</h2>
           </div>
           <div className="admin-buttons">
             <button onClick={() => navigate("/gestioUsuaris")}>Gestionar Usuaris</button>
@@ -270,53 +310,167 @@ export default function GestioUsuaris() {
             {errorMessage   && <div className="error-message">{errorMessage}</div>}
 
             <form className="nova-usuari-form" onSubmit={handleCreateUser}>
-              <input name="firstName" placeholder="Nom" value={formData.firstName} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.firstName && <span className="error">Camp obligatori</span>}
+              <input
+                name="firstName"
+                placeholder="Nom"
+                value={formData.firstName}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.firstName && (
+                <span className="error">Camp obligatori</span>
+              )}
 
-              <input name="lastName" placeholder="Cognom" value={formData.lastName} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.lastName && <span className="error">Camp obligatori</span>}
+              <input
+                name="lastName"
+                placeholder="Cognom"
+                value={formData.lastName}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.lastName && (
+                <span className="error">Camp obligatori</span>
+              )}
 
-              <input name="secondLastName" placeholder="2n Cognom" value={formData.secondLastName} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.secondLastName && <span className="error">Camp obligatori</span>}
+              <input
+                name="secondLastName"
+                placeholder="Segon cognom"
+                value={formData.secondLastName}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.secondLastName && (
+                <span className="error">Camp obligatori</span>
+              )}
 
-              <input name="dni" placeholder="DNI" value={formData.dni} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.dni && <span className="error">Camp obligatori</span>}
-              {!errors.dniFormat && <span className="error">Format invàlid</span>}
+              <input
+                name="dni"
+                placeholder="DNI"
+                value={formData.dni}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.dni && (
+                <span className="error">Camp obligatori</span>
+              )}
+              {!errors.dniFormat && (
+                <span className="error">Format invàlid (8 dígits + lletra)</span>
+              )}
 
-              <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.email && <span className="error">Camp obligatori</span>}
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.email && (
+                <span className="error">Camp obligatori</span>
+              )}
 
               <div className="phone-wrapper">
-                <select name="prefix" value={formData.prefix} onChange={handleCreateChange} className="prefix-select">
+                <select
+                  name="prefix"
+                  value={formData.prefix}
+                  onChange={handleCreateChange}
+                  className="prefix-select"
+                >
+                  {/* Llista de prefixes */}
                   <option value="+34">+34 (Espanya)</option>
                   <option value="+376">+376 (Andorra)</option>
+                  <option value="+33">+33 (França)</option>
+                  <option value="+351">+351 (Portugal)</option>
+                  <option value="+49">+49 (Alemanya)</option>
+                  <option value="+39">+39 (Itàlia)</option>
+                  <option value="+44">+44 (Regne Unit)</option>
+                  <option value="+1">+1 (EEUU)</option>
+                  <option value="+52">+52 (Mèxic)</option>
+                  <option value="+54">+54 (Argentina)</option>
+                  <option value="+57">+57 (Colòmbia)</option>
+                  <option value="+56">+56 (Xile)</option>
+                  <option value="+51">+51 (Perú)</option>
+                  <option value="+55">+55 (Brasil)</option>
+                  <option value="+86">+86 (Xina)</option>
+                  <option value="+81">+81 (Japó)</option>
+                  <option value="+91">+91 (Índia)</option>
+                  <option value="+7">+7 (Rússia)</option>
+                  <option value="+61">+61 (Austràlia)</option>
+                  <option value="+27">+27 (Sud-àfrica)</option>
+                  <option value="+234">+234 (Nigèria)</option>
+                  <option value="+212">+212 (Marroc)</option>
+                  <option value="+213">+213 (Algèria)</option>
+                  <option value="+20">+20 (Egipte)</option>
+                  <option value="+974">+974 (Catar)</option>
+                  <option value="+971">+971 (Emirats Àrabs)</option>
                 </select>
-                <input name="phoneNumber" placeholder="Telèfon mòbil" value={formData.phoneNumber} onChange={handleCreateChange}/>
+                <input
+                  name="phoneNumber"
+                  placeholder="Telèfon mòbil"
+                  value={formData.phoneNumber}
+                  onChange={handleCreateChange}
+                />
               </div>
-              {!errors.requiredFields && !formData.phoneNumber && <span className="error">Camp obligatori</span>}
+              {!errors.requiredFields && !formData.phoneNumber && (
+                <span className="error">Camp obligatori</span>
+              )}
 
-              <select name="gender" value={formData.gender} onChange={handleCreateChange}>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleCreateChange}
+              >
                 <option value="">Gènere</option>
                 <option value="male">Home</option>
                 <option value="female">Dona</option>
-                <option value="other">Altre</option>
+                <option value="other">Altres</option>
                 <option value="rather_not_to_say">Prefereixo no dir-ho</option>
               </select>
-              {!errors.requiredFields && !formData.gender && <span className="error">Camp obligatori</span>}
+              {!errors.requiredFields && !formData.gender && (
+                <span className="error">Camp obligatori</span>
+              )}
 
-              <input name="birthDate" type="date" value={formData.birthDate} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.birthDate && <span className="error">Camp obligatori</span>}
-              {!errors.isAdult && <span className="error">Has de ser major d'edat</span>}
+              <input
+                name="birthDate"
+                type="date"
+                value={formData.birthDate}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.birthDate && (
+                <span className="error">Camp obligatori</span>
+              )}
+              {!errors.isAdult && (
+                <span className="error">Has de ser major d'edat</span>
+              )}
 
-              <input name="password" type="password" placeholder="Contrasenya" value={formData.password} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.password && <span className="error">Camp obligatori</span>}
-              {!errors.passwordStrength && <span className="error">Contrasenya feble</span>}
+              <input
+                name="password"
+                type="password"
+                placeholder="Contrasenya"
+                value={formData.password}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.password && (
+                <span className="error">Camp obligatori</span>
+              )}
+              {!errors.passwordStrength && (
+                <span className="error">
+                  La contrasenya ha de tenir mínim 8 caràcters, una majúscula, una minúscula, un nombre i un símbol
+                </span>
+              )}
 
-              <input name="confirmPassword" type="password" placeholder="Confirma contrasenya" value={formData.confirmPassword} onChange={handleCreateChange}/>
-              {!errors.requiredFields && !formData.confirmPassword && <span className="error">Camp obligatori</span>}
-              {!errors.passwordMatch && <span className="error">Les contrasenyes no coincideixen</span>}
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirma contrasenya"
+                value={formData.confirmPassword}
+                onChange={handleCreateChange}
+              />
+              {!errors.requiredFields && !formData.confirmPassword && (
+                <span className="error">Camp obligatori</span>
+              )}
+              {!errors.passwordMatch && (
+                <span className="error">Les contrasenyes no coincideixen</span>
+              )}
 
-              <button type="submit" className="btn btn-filled">Crear Usuari</button>
+              <button type="submit" className="btn btn-filled">
+                Crear Usuari
+              </button>
             </form>
           </div>
 
@@ -331,7 +485,12 @@ export default function GestioUsuaris() {
                 onChange={e => setSearchTerm(e.target.value)}
               />
               {searchTerm && (
-                <button className="clear-search" onClick={() => setSearchTerm("")}>✕</button>
+                <button
+                  className="clear-search"
+                  onClick={() => setSearchTerm("")}
+                >
+                  ✕
+                </button>
               )}
             </div>
           </div>
@@ -357,38 +516,87 @@ export default function GestioUsuaris() {
                     <tr key={u.id}>
                       <td className="avatar-cell">
                         <img
-                          src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(u.name)}`}
+                          src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
+                            u.name
+                          )}`}
                           className="table-avatar"
                           alt="Avatar"
                         />
                       </td>
                       <td>
-                        {isEdit
-                          ? <input className="inline-input" name="name" value={editedUser.name} onChange={handleEditChange}/>
-                          : u.name}
+                        {isEdit ? (
+                          <input
+                            className="inline-input"
+                            name="name"
+                            value={editedUser.name}
+                            onChange={handleEditChange}
+                          />
+                        ) : (
+                          u.name
+                        )}
                       </td>
                       <td>{u.email}</td>
                       <td>
-                        {isEdit
-                          ? <input type="date" className="inline-input" name="birth_date" value={editedUser.birth_date?.split("T")[0]||""} onChange={handleEditChange}/>
-                          : (u.birth_date?.split("T")[0] || "-")}
+                        {isEdit ? (
+                          <input
+                            type="date"
+                            className="inline-input"
+                            name="birth_date"
+                            value={
+                              editedUser.birth_date
+                                ?.split("T")[0] || ""
+                            }
+                            onChange={handleEditChange}
+                          />
+                        ) : (
+                          u.birth_date?.split("T")[0] || "-"
+                        )}
                       </td>
                       <td>
-                        {isEdit
-                          ? <input className="inline-input" name="phone_num" value={editedUser.phone_num} onChange={handleEditChange}/>
-                          : (u.phone_num || "-")}
+                        {isEdit ? (
+                          <input
+                            className="inline-input"
+                            name="phone_num"
+                            value={editedUser.phone_num}
+                            onChange={handleEditChange}
+                          />
+                        ) : (
+                          u.phone_num || "-"
+                        )}
                       </td>
                       <td>{u.gender || "-"}</td>
                       <td className="action-cell">
-                        {isEdit
-                          ? <>
-                              <button className="btn-outline small" onClick={saveEdit}>Guardar</button>
-                              <button className="btn-filled small" onClick={cancelEdit}>Cancel·lar</button>
-                            </>
-                          : <>
-                              <button className="btn-outline small" onClick={() => startEdit(u)}>Editar</button>
-                              <button className="btn-filled small" onClick={() => deleteUser(u.id)}>El·liminar</button>
-                            </>}
+                        {isEdit ? (
+                          <>
+                            <button
+                              className="btn-outline small"
+                              onClick={saveEdit}
+                            >
+                              Guardar
+                            </button>
+                            <button
+                              className="btn-filled small"
+                              onClick={cancelEdit}
+                            >
+                              Cancel·lar
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className="btn-outline small"
+                              onClick={() => startEdit(u)}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="btn-filled small"
+                              onClick={() => deleteUser(u.id)}
+                            >
+                              El·liminar
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   );
@@ -397,10 +605,14 @@ export default function GestioUsuaris() {
             </table>
           </div>
 
-          {/* BOTÓ CARREGAR MÉS */}
+          {/* CARREGAR MÉS */}
           {offset < total && (
             <div style={{ textAlign: "center", margin: "1rem 0" }}>
-              <button className="btn btn-filled" disabled={loading} onClick={() => fetchUsers(offset, true)}>
+              <button
+                className="btn btn-filled"
+                disabled={loading}
+                onClick={() => fetchUsers(offset, true)}
+              >
                 {loading ? "Carregant..." : "Carregar més"}
               </button>
             </div>
