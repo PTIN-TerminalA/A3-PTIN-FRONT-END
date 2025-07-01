@@ -7,7 +7,7 @@ import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import "./css/gestusersa.css";
 
-const API_BASE_URL = "https://flysy.software";
+const API_BASE_URL = "http://127.0.0.1:8000";
 
 export default function GestioCotxes() {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ export default function GestioCotxes() {
     }
 
     try {
-      await fetch(`${API_BASE_URL}/cotxe/${carId}/${newState}`, {
+      await fetch(`${API_BASE_URL}/api/cotxe/${carId}/${newState}`, {
         method: "PUT",
       });
       // Actualització local

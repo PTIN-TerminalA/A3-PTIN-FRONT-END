@@ -8,7 +8,7 @@ import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import "./css/gestusersa.css";
 
-const API_BASE_URL = "https://flysy.software";
+const API_BASE_URL = "http://127.0.0.1:8000";
 const PAGE_SIZE = 30;
 
 export default function GestioUsuaris() {
@@ -234,9 +234,14 @@ export default function GestioUsuaris() {
         <div className="admin-logo-section">
           <img src={logo} alt="Logo" className="admin-logo" />
         </div>
+        <div className="admin-navbar-center">
+          <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+          <button onClick={() => navigate("/estadistiques")}>Estadístiques</button>
+          <button onClick={() => navigate("/registres")}>Registres</button>
+        </div>
         <div className="admin-navbar-buttons">
-          <button onClick={() => navigate("/UserProfile")}>
-            <img src={perfil} alt="Perfil" />
+          <button onClick={() => navigate("/AdminProfile")}>
+            <img src={perfil} alt="Perfil" className="admin-icon" />
           </button>
           <LogOutButton />
         </div>
@@ -246,7 +251,7 @@ export default function GestioUsuaris() {
         <aside className="admin-sidebar">
           <div className="admin-profile">
             <img src={adminPhoto} alt="Admin" className="admin-photo" />
-            <h2 className="admin-name">{adminName || "Nom Admin"}</h2>
+            <h2 className="admin-name">Nom Admin</h2>
           </div>
           <div className="admin-buttons">
             <button onClick={() => navigate("/gestioUsuaris")}>Gestionar Usuaris</button>
