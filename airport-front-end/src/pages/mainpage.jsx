@@ -26,7 +26,7 @@ const handleSendMessage = async () => {
   setIsLoading(true);
 
   try {
-    const res = await fetch('https://flysy.software/api/chat_agent', {
+    const res = await fetch('https://flysy.software/api/chat-with-ia', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
