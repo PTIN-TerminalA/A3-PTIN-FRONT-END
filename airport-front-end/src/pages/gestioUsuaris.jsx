@@ -199,22 +199,44 @@ export default function GestioUsuaris() {
   };
 
   // ─── CARREGAR USUARIS ──────────────────────────────────────────────────
-  const fetchUsers = async (newOffset = 0, append = false) => {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/users?limit=${PAGE_SIZE}&offset=${newOffset}`
-      );
-      const data = await res.json();
-      setTotal(data.total);
-      setUsers(prev => append ? [...prev, ...data.users] : data.users);
-      setOffset(newOffset + PAGE_SIZE);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
+const fetchUsers = async (newOffset = 0, append = false) => {
+  setLoading(true);
+  try {
+    const token = Cookies.get("token");
+    const res = await fetch(
+      `${API_BASE_URL}/api/users?limit=${PAGE_SIZE}&offset=${newOffset}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      }
+    );
+
+    if (res.status === 401 || res.status === 403) {
+      console.error("No tienes permisos para ver esta sección o sesión expirada");
+      // Aquí podrías redirigir al login, mostrar mensaje, etc.
+      setUsers([]);
+      setTotal(0);
+      return;
     }
-  };
+
+    if (!res.ok) {
+      throw new Error(`Error al cargar usuarios: ${res.status}`);
+    }
+
+    const data = await res.json();
+    setTotal(data.total);
+    setUsers(prev => append ? [...prev, ...data.users] : data.users);
+    setOffset(newOffset + PAGE_SIZE);
+
+  } catch (e) {
+    console.error("Error en fetchUsers:", e);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // ─── EDICIÓ INLINE ────────────────────────────────────────────────────
   const handleEditChange = e => {
