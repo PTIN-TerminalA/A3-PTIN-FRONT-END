@@ -300,8 +300,8 @@ export default function GestioUsuaris() {
           </div>
         </aside>
 
-        <main className="full-width-content">
-          <h1 className="section-title">Gestió d'Usuaris</h1>
+        <main className="full-width-content" style={{ position: 'relative' }}>
+          <h1 className="section-title-admin">Gestió d'Usuaris</h1>
 
           {/* CREACIÓ NOU USUARI */}
           <div className="horizontal-section nova-usuari-container">
@@ -400,6 +400,7 @@ export default function GestioUsuaris() {
                   <option value="+971">+971 (Emirats Àrabs)</option>
                 </select>
                 <input
+                  className="phone-input"
                   name="phoneNumber"
                   placeholder="Telèfon mòbil"
                   value={formData.phoneNumber}
