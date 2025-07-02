@@ -16,28 +16,50 @@ export default function GestioReserves() {
   const [adminName, setAdminName] = useState("");
   
   useEffect(() => {
-      const fetchProfile = async () => {
-        try {
-          console.log("Fetching admin profile...");
-          const token = Cookies.get("token");
-          const response = await fetch(`${_url}/api/profile`, {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setAdminName(data.name);
-          } else {
-            setAdminName("Nom Admin");
+    const checkAdmin = async () => {
+      try {
+        const token = Cookies.get("token");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        const res = await fetch(`${_url}/api/get-user-type`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           }
-        } catch (error) {
+        });
+        if (!res.ok) {
+          navigate("/login");
+          return;
+        }
+        const data = await res.json();
+        if (data.user_type !== "admin" && data.user_type !== "superadmin") {
+          navigate("/login");
+          return;
+        }
+
+        const profileRes = await fetch(`${_url}/api/profile`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (profileRes.ok) {
+          const profileData = await profileRes.json();
+          setAdminName(profileData.name);
+        } else {
           setAdminName("Nom Admin");
         }
-      };
-      fetchProfile();
-    }, []);
+      } catch {
+        setAdminName("Nom Admin");
+        navigate("/login");
+      }
+    };
+
+    checkAdmin();
+  }, [navigate]);
 
   // filtros de lectura
   const [filters, setFilters] = useState({
