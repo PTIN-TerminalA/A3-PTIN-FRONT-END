@@ -136,6 +136,7 @@
   
   /* SECCIÓN DE FORMULARIO */
   .reserva-section {
+    position: relative;
     background-color: #f9fafb;
     padding: 3rem;
     border-radius: 16px;
@@ -465,7 +466,7 @@
     }
     
     .reserva-section {
-      padding: 2rem;
+      padding: 3rem;
     }
     
     .section-title {
@@ -488,11 +489,13 @@
 
     .mapa-container, .mapa-wrapper {
       min-height: 300px;
-      height: 300px;
+      height: fit-content;
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
     }
     
     .confirmar-reserva-btn {
-      width: 100%;
+      width: 89%;
     }
   }
   
@@ -509,7 +512,7 @@
       padding-left: 0;
     }
     .reserva-section {
-      padding: 1rem;
+      padding-top: 3rem;
       border-radius: 10px;
     }
     .section-title {
@@ -545,9 +548,11 @@
     }
     .mapa-container, .mapa-wrapper {
       min-height: 220px !important;
-      height: 220px !important;
+      height: fit-content !important;
       border-radius: 10px;
       margin-top: 1rem;
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
     }
     .main-content-container {
       padding: 0;
@@ -573,7 +578,7 @@
     }
 
     .confirmar-reserva-btn {
-      width: 100%;
+      width: 75%;
     }
     
     .reservacotxe-wrapper .navbar-right {
