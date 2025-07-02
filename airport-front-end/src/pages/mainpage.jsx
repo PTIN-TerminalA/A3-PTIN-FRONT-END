@@ -29,7 +29,7 @@ const handleSendMessage = async () => {
     try {
       // Llamada al backend IA
 //http      const res = await fetch('http://10.60.0.3:3333/ask_agent/', {
-      const res = await fetch('https://flysy.software/api/chat-with-ia', {
+      const res = await fetch('https://flysy.software/api/chat_agent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
