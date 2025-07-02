@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import perfil from "/src/pages/images/perfil.png";
 import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
+import { useNavigate } from "react-router-dom";
 
 function SuperAdmin() {
   const [admins, setAdmins] = useState([]);
@@ -33,30 +34,61 @@ function SuperAdmin() {
   const _apiUrlLocal = "http://127.0.0.1:8000";
 
 
-  useEffect(() => {
-    fetchAdmins();
-    const fetchProfile = async () => {
-          try {
-            console.log("Fetching admin profile...");
-            const token = Cookies.get("token");
-            const response = await fetch(`${API_BASE_URL}/api/profile`, {
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-              },
-            });
-            if (response.ok) {
-              const data = await response.json();
-              setAdminName(data.name);
-            } else {
-              setAdminName("Nom Admin");
-            }
-          } catch (error) {
-            setAdminName("Nom Admin");
-          }
-        };
-    fetchProfile();
-  }, []);
+useEffect(() => {
+  fetchAdmins();
+
+  const checkSuperAdmin = async () => {
+    try {
+      const token = Cookies.get("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      // Consultamos el tipo de usuario
+      const res = await fetch(`${API_BASE_URL}/api/get-user-type`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+
+      if (!res.ok) {
+        navigate("/login");
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.user_type !== "superadmin") {
+        // Si no es superadmin, redirigimos
+        navigate("/login");
+        return;
+      }
+
+      // Si es superadmin, seguimos y cargamos perfil
+      const profileRes = await fetch(`${API_BASE_URL}/api/profile`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+      });
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        setAdminName(profileData.name);
+      } else {
+        setAdminName("Nom Admin");
+      }
+
+    } catch (error) {
+      setAdminName("Nom Admin");
+      navigate("/login");
+    }
+  };
+
+  checkSuperAdmin();
+}, []);
 
   const fetchAdmins = async () => {
     try {
