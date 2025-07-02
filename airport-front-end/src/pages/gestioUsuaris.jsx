@@ -8,7 +8,7 @@ import adminPhoto from "/src/pages/images/Portrait_Placeholder.png";
 import LogOutButton from "/src/components/LogOutButton.jsx";
 import "./css/gestusersa.css";
 
-const API_BASE_URL = "https://flysy.software";
+const API_BASE_URL = "http://localhost:8000";
 const PAGE_SIZE = 30;
 
 export default function GestioUsuaris() {
