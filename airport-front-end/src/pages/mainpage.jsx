@@ -122,8 +122,8 @@ function Header() {
           console.warn("No se encontró el token en las cookies");
           return;
         }
-
-        const res = await fetch(`http://192.168.10.10:8000/api/get_user_id?token=${token}`);
+        const res = await fetch(`https://flysy.software/api/get_user_id?token=${token}`);
+//        const res = await fetch(`http://192.168.10.10:8000/api/get_user_id?token=${token}`);
         if (!res.ok) {
           console.error("Error al obtener user_id:", res.statusText);
           return;
