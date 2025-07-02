@@ -138,6 +138,7 @@ const fetchCars = async () => {
             <button onClick={() => navigate("/gestioUsuaris")}>Gestionar Usuaris</button>
             <button onClick={() => navigate("/gestioReserves")}>Gestionar Reserves</button>
             <button onClick={() => navigate("/gestioCotxes")}>Gestionar Cotxes</button>
+            <button onClick={() => navigate("/admin")}>Mapa Admin</button>
           </div>
         </aside>
 
