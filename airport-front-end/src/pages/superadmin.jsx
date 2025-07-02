@@ -32,7 +32,7 @@ function SuperAdmin() {
 
   const API_BASE_URL = "https://flysy.software";
   const _apiUrlLocal = "http://127.0.0.1:8000";
-
+  const navigate = useNavigate();
 
 useEffect(() => {
   fetchAdmins();
