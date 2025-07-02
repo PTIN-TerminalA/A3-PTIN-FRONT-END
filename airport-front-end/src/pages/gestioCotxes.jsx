@@ -124,7 +124,7 @@ export default function GestioCotxes() {
         </aside>
 
         <main className="full-width-content">
-          <h1 className="section-title">Gestió de Cotxes</h1>
+          <h1 className="section-title-admin">Gestió de Cotxes</h1>
 
           <div className="table-container">
             <table className="gestio-table">

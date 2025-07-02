@@ -226,7 +226,7 @@ export default function GestioReserves() {
         </aside>
 
         <div className="full-width-content">
-          <h1 className="section-title">Gestió de reserves FlySy</h1>
+          <h1 className="section-title-admin">Gestió de reserves FlySy</h1>
 
           <div className="horizontal-section nova-reserva-container">
             <h2>Crear nova reserva</h2>

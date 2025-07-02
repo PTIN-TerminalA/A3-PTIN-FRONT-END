@@ -161,7 +161,7 @@
   width: calc(100% - 280px); /* Ancho total menos la sidebar */
 }
 
-.section-title {
+.section-title-admin {
   font-size: 2rem;
   color: #003049;
   margin-bottom: 1.5rem;
@@ -346,7 +346,7 @@
     width: 100%;
     margin-left: 0;
   }
-  .section-title {
+  .section-title-admin {
     font-size: 1.3rem;
     margin-bottom: 1rem;
   }
@@ -386,7 +386,7 @@
     width: 70px;
     height: 70px;
   }
-  .section-title {
+  .section-title-admin {
     font-size: 1.1rem;
   }
   .horizontal-section {
@@ -435,7 +435,7 @@
     color: white;
     box-shadow: 0 2px 8px rgba(255,255,255,0.04);
   }
-  .section-title, .horizontal-section h2 {
+  .section-title-admin, .horizontal-section h2 {
     color: white;
   }
   .nova-reserva-form input,
