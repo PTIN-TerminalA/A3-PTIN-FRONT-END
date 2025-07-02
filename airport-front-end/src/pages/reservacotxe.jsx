@@ -9,6 +9,7 @@ import "./css/reservacotxe.css";
 import logo from "../pages/images/LogoBlanco.png";
 import mapa from "../pages/images/Plano.png";
 import IndoorMap from "/src/components/MapaLeafletRutaReserva.jsx";
+import BackButton from "/src/components/BackButton.jsx";
 
 const _apiUrl = "https://flysy.software" 
 
@@ -197,7 +198,10 @@ function ReservaCotxe() {
         <div className="reserva-main-container">
           <div className="reserva-form-container">
             <div className="reserva-section">
-              <h1 className="section-title">Reserva de Vehicle</h1>
+              <div className="back-btn-row">
+                <BackButton label="Enrere" />
+                <h1 className="section-title">Reserva de Vehicle</h1>
+              </div>
               <p className="section-description-reserva">
                 Selecciona el tipus de reserva i introdueix la informació necessària per fer la teva sol·licitud.
               </p>

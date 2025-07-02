@@ -291,10 +291,10 @@ function MainPage() {
       <MapSection />
       <CarReservation />
       <ShopsLeisureExtended />
-      <FlightInfo />
     </div>
   );
 }
+//    <FlightInfo /> 
 
 export default MainPage;
 

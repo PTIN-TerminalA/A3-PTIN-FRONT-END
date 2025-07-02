@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import "/src/pages/css/UserProfile.css";
 import LogOutButton from "/src/components/LogOutButton.jsx";
+import BackButton from "/src/components/BackButton.jsx";
 import logoBlanco from "/src/pages/images/LogoBlanco.png";
 import userPhoto from "/src/pages/images/Portrait_Placeholder.png";
 
@@ -96,7 +97,8 @@ function UserProfile() {
       </header>
 
       <main className="user-content">
-        <div className="user-card">
+        <div className="user-card" style={{ position: 'relative' }}>
+          <BackButton label="Enrere" />
           <img src={userPhoto} alt="Usuari" className="user-photo" />
 
           <div className="user-info">

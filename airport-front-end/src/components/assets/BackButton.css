@@ -1,0 +1,75 @@
+/* Botón BackButton adaptable, modo claro/oscuro y responsive */
+.back-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.2rem;
+  background-color: #f9fafb;
+  color: #005187;
+  border: 2px solid #005187;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,81,135,0.07);
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  z-index: 2;
+}
+.back-button:hover {
+  background-color: #005187;
+  color: #fff;
+  border: 2px solid #005187;
+}
+
+@media (max-width: 900px) {
+  .back-button {
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    top: 0.7rem;
+    left: 0.7rem;
+  }
+  .back-btn-row {
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .back-button {
+    font-size: 0.95rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+  .back-btn-row {
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+  }
+}
+@media (max-width: 400px) {
+  .back-button {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.6rem;
+    top: 0.3rem;
+    left: 0.3rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .back-button {
+    background-color: #1e1e1e;
+    color: white;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(255,214,102,0.07);
+  }
+  .back-button:hover {
+    background-color: white;
+    color: #1e1e1e;
+    border: 2px solid white;
+  }
+}
