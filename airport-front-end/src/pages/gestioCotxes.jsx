@@ -41,18 +41,36 @@ export default function GestioCotxes() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchCars = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/cars`);
-      const data = await res.json();
-      setCars(data);
-    } catch (err) {
-      console.error("Error fetching cars:", err);
-    } finally {
-      setLoading(false);
+const fetchCars = async () => {
+  setLoading(true);
+  try {
+    const token = Cookies.get("token");
+    const res = await fetch(`${API_BASE_URL}/api/cars`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (res.status === 401 || res.status === 403) {
+      console.error("No tienes permisos para ver los coches o sesión expirada");
+      setCars([]);
+      return;
     }
-  };
+
+    if (!res.ok) {
+      throw new Error(`Error al cargar coches: ${res.status}`);
+    }
+
+    const data = await res.json();
+    setCars(data);
+  } catch (err) {
+    console.error("Error fetching cars:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchCars();
