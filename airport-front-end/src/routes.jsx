@@ -19,7 +19,7 @@ function ProtectedRoute({ children }) {
 
 function AppRoutes() {
   // Definimos rutas públicas que no necesitan token
-  const publicRoutes = ["/", "/login", "/register"];
+  const publicRoutes = ["/", "/login", "/register", "/psswdrecov"];
 
   return (
     <Routes>
