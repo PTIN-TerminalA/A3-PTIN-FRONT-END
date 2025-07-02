@@ -57,13 +57,14 @@ function Login() {
         sameSite: "strict"
       })
 
-      const usertyperes = await fetch(`https://flysy.software/api/get-user-type?token=${data.access_token}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          // No hace falta Authorization aquí porque el backend no lo lee
+      const usertyperes = await fetch("https://flysy.software/api/get-user-type", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${data.access_token}`
         },
-      });
+});
+
 
       const jonsonData = await usertyperes.json();
       console.log("El tipo de usuario es: ", jonsonData.user_type);
