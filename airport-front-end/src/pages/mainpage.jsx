@@ -18,35 +18,39 @@ function ChatWindow({ onClose, userId, userLocationX, userLocationY }) {
   const [isLoading, setIsLoading] = useState(false);
 
 const handleSendMessage = async () => {
-  if (!newMessage.trim()) return;
+    if (!newMessage.trim()) return;
 
-  setMessages(prev => [...prev, { text: newMessage, sender: 'user' }]);
-  const userText = newMessage;
-  setNewMessage('');
-  setIsLoading(true);
+    // Añadir mensaje del usuario al chat
+    setMessages(prev => [...prev, { text: newMessage, sender: 'user' }]);
+    const userText = newMessage;
+    setNewMessage('');
+    setIsLoading(true);
 
-  try {
-    const res = await fetch('https://flysy.software/api/chat-with-ia', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        user_message: userText,
-        user_location_x: userLocationX,
-        user_location_y: userLocationY
-      })
-    });
+    try {
+      // Llamada al backend IA
+//http      const res = await fetch('http://10.60.0.3:3333/ask_agent/', {
+      const res = await fetch('https://flysy.software/api/chat-with-ia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          user_message: userText,
+          user_location_x: userLocationX,
+          user_location_y: userLocationY
+        })
+      });
 
-    const result = await res.json();
-    setMessages(prev => [...prev, { text: result.response, sender: 'bot' }]);
-  } catch (error) {
-    setMessages(prev => [...prev, { text: '❌ Error al conectar con el asistente.', sender: 'bot' }]);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      const botText = await res.text();
+
+      setMessages(prev => [...prev, { text: botText, sender: 'bot' }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { text: '❌ Error al conectar con el asistente.', sender: 'bot' }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={`chat-window ${isMinimized ? 'minimized' : ''}`}>
