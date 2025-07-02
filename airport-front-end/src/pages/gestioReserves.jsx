@@ -135,7 +135,20 @@ export default function GestioReserves() {
     const newStart = prompt("Nova ubicació origen:", "");
     const newEnd   = prompt("Nova ubicació destí:", "");
     const newTime  = prompt("Nova data (YYYY-MM-DDTHH:mm):", "");
-    const newState = prompt("Nou estat:", "");
+    
+    // Para el estado, usamos una lista de opciones válidas
+    const validStates = ["Programada", "En curs", "Finalitzada"];
+    const stateOptions = validStates.map((state, index) => `${index + 1}. ${state}`).join('\n');
+    const stateChoice = prompt(`Nou estat (escull un número):\n${stateOptions}`, "");
+    
+    let newState = "";
+    if (stateChoice) {
+      const choiceNum = parseInt(stateChoice);
+      if (choiceNum >= 1 && choiceNum <= 3) {
+        newState = validStates[choiceNum - 1];
+      }
+    }
+
     const update = {};
     if (newStart) update.start_location = newStart;
     if (newEnd)   update.end_location   = newEnd;
